@@ -1,18 +1,15 @@
 package io.kotest.assertions
 
 import io.kotest.assertions.throwables.shouldThrowExactly
-import io.kotest.core.annotation.EnabledIf
-import io.kotest.core.annotation.enabledif.LinuxCondition
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.collections.shouldHaveSize
 import io.kotest.matchers.shouldBe
-import io.kotest.matchers.string.shouldContain
 import io.kotest.matchers.string.shouldContainInOrder
+import io.kotest.matchers.string.shouldNotContain
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
 
-@EnabledIf(LinuxCondition::class)
 class AssertSoftlyTests : FunSpec({
    test("assertSoftly should collect errors across multiple coroutine threads") {
       withContext(Dispatchers.Unconfined) {
@@ -37,25 +34,24 @@ class AssertSoftlyTests : FunSpec({
       val thrown = shouldThrowExactly<MultiAssertionError> {
          assertSoftly {
             "first assertion" shouldBe "First Assertion"
-            bespokeDivision(1, 0) shouldBe 1
+            0 shouldBe 1
          }
       }
       thrown.message.shouldContainInOrder(
-         """1) expected:<"First Assertion"> but was:<"first assertion">""",
-         "2) / by zero"
+         """expected:<"First Assertion"> but was:<"first assertion">""",
+         """expected:<1> but was:<0>""",
       )
    }
    test("adds an Exception to an empty collection of assertion failures") {
-      val thrown = shouldThrowExactly<AssertionError> {
+      val thrown = shouldThrowExactly<MultiAssertionError> {
          assertSoftly {
-            bespokeDivision(1, 0) shouldBe 1
+            0 shouldBe 1
             "first assertion" shouldBe "First Assertion"
          }
       }
-      thrown.message.shouldContain(
-         "/ by zero"
+      thrown.message.shouldContainInOrder(
+         """expected:<1> but was:<0>""",
+         """expected:<"First Assertion"> but was:<"first assertion">"""
       )
    }
 })
-
-private fun bespokeDivision(a: Int, b: Int) = a / b

@@ -31,10 +31,10 @@ class KotestJunitPlatformTestEngine : TestEngine {
    private val logger = Logger(KotestJunitPlatformTestEngine::class)
 
    companion object {
-      internal const val EngineId = "kotest"
+      internal const val ENGINE_ID = "kotest"
    }
 
-   override fun getId(): String = EngineId
+   override fun getId(): String = ENGINE_ID
 
    override fun getGroupId(): Optional<String> = Optional.of("io.kotest")
 
@@ -96,6 +96,7 @@ class KotestJunitPlatformTestEngine : TestEngine {
       logger.log { request.string() }
 
       val configuration = ConfigManager.initialize(ProjectConfiguration()) {
+         @Suppress("DEPRECATION")
          detectAbstractProjectConfigsJVM() +
             loadProjectConfigsJVM()
       }

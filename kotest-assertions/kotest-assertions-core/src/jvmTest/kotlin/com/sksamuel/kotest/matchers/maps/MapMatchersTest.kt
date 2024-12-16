@@ -295,8 +295,8 @@ class MapMatchersTest : WordSpec() {
             map.shouldNotContainAll(mapOf(1 to "a", 3 to "h"))
          }
          "test empty map" {
-            emptyMap<Any, Any>() should containAll(emptyMap<Any, Any>())
-            emptyMap<Any, Any>().shouldContainAll(emptyMap<Any, Any>())
+            emptyMap<Any, Any>() should containAll(emptyMap())
+            emptyMap<Any, Any>().shouldContainAll(emptyMap())
          }
          "test assertion that map does not contain entries from the given map" {
             val e = shouldThrow<AssertionError> {
@@ -381,8 +381,8 @@ class MapMatchersTest : WordSpec() {
 
       "containExactly" should {
          "test empty map" {
-            emptyMap<Any, Any>() should containExactly(emptyMap<Any, Any>())
-            emptyMap<Any, Any>().shouldContainExactly(emptyMap<Any, Any>())
+            emptyMap<Any, Any>() should containExactly(emptyMap())
+            emptyMap<Any, Any>().shouldContainExactly(emptyMap())
          }
          "test assertion that a map contains extra keys" {
             val e = shouldThrow<AssertionError> {
@@ -431,8 +431,8 @@ class MapMatchersTest : WordSpec() {
                val arrayList: List<Int> = arrayListOf(1)
                val linkedList = LinkedList<Int>()
                linkedList.push(1)
-               mapOf("a" to arrayList) shouldNot containExactly<String, List<Int>>(mapOf("a" to linkedList))
-               mapOf("a" to arrayList) shouldNot containExactly<String, List<Int>>("a" to linkedList)
+               mapOf("a" to arrayList) shouldNot containExactly(mapOf("a" to linkedList))
+               mapOf("a" to arrayList) shouldNot containExactly("a" to linkedList)
             }
             e.message shouldBe """
           |
@@ -591,13 +591,12 @@ private fun matchMapTests(contextName: String) = wordSpec {
       }
 
       "works correctly within assertSoftly" {
-         shouldFail {
+         val message = shouldFail {
             assertSoftly {
                mapOf("key" to "hi") should matcher("key" to { it shouldHaveLength 4 })
             }
-         }.also {
-            it.message shouldBe """Expected map to match all assertions. Missing keys were=[], Mismatched values were=[(key, "hi" should have length 4, but instead was 2)], Unexpected keys were []."""
-         }
+         }.message
+         message shouldBe "Expected map to match all assertions. Missing keys were=[], Mismatched values were=[(key, \"hi\" should have length 4, but instead was 2)], Unexpected keys were []."
       }
 
       "empty map is not matched by matcher" {
