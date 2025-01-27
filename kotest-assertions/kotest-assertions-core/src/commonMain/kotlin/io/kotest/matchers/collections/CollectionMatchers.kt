@@ -28,7 +28,7 @@ fun <T> existInOrder(predicates: List<(T) -> Boolean>): Matcher<Collection<T>?> 
 
    val passed = subsequenceIndex == predicates.size
 
-   val predicateMatchedOutOfOrderDescription = run {
+   val predicateMatchedOutOfOrderDescription = {
       val predicateMatchedOutOfOrderIndexes = if (passed) emptyList() else {
          actual.mapIndexedNotNull { index, element ->
             if (predicates[subsequenceIndex](element)) index else null
@@ -40,7 +40,7 @@ fun <T> existInOrder(predicates: List<(T) -> Boolean>): Matcher<Collection<T>?> 
 
    MatcherResult(
       passed,
-      { "${actual.print().value} did not match the predicates in order. Predicate at index $subsequenceIndex did not match.$predicateMatchedOutOfOrderDescription" },
+      { "${actual.print().value} did not match the predicates in order. Predicate at index $subsequenceIndex did not match.${predicateMatchedOutOfOrderDescription()}" },
       { "${actual.print().value} should not match the predicates in order" }
    )
 }

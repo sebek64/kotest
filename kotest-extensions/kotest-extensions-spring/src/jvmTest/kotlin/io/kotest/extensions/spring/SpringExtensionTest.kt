@@ -1,12 +1,11 @@
 package io.kotest.extensions.spring
 
-import io.kotest.core.descriptors.append
-import io.kotest.engine.descriptors.toDescriptor
-import io.kotest.core.names.TestName
-import io.kotest.core.source.sourceRef
+import io.kotest.core.names.TestNameBuilder
+import io.kotest.core.source.SourceRef
 import io.kotest.core.spec.style.WordSpec
 import io.kotest.core.test.TestCase
 import io.kotest.core.test.TestType
+import io.kotest.engine.descriptors.toDescriptor
 import io.kotest.matchers.nulls.shouldNotBeNull
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.string.shouldStartWith
@@ -16,7 +15,7 @@ import org.springframework.test.context.ContextConfiguration
 @ContextConfiguration(classes = [Components::class])
 class SpringExtensionTest : WordSpec() {
 
-   override fun extensions() = listOf(SpringExtension())
+   override val extensions = listOf(SpringExtension())
 
    @Autowired
    private lateinit var service: UserService
@@ -34,10 +33,10 @@ class SpringExtensionTest : WordSpec() {
                TestCase(
                   descriptor = SpringExtensionTest::class.toDescriptor()
                      .append("0foo__!!55@#woo"),
-                  name = TestName("0foo__!!55@#woo"),
+                  name = TestNameBuilder.builder("0foo__!!55@#woo").build(),
                   spec = this@SpringExtensionTest,
                   test = {},
-                  source = sourceRef(),
+                  source = SourceRef.None,
                   type = TestType.Test
                )
             ) shouldStartWith "_0foo____55__woo"
@@ -48,10 +47,10 @@ class SpringExtensionTest : WordSpec() {
                   descriptor = SpringExtensionTest::class.toDescriptor()
                      .append("0foo__!!55@#woo")
                      .append("wibble%%wobble"),
-                  name = TestName("wibble%%wobble"),
+                  name = TestNameBuilder.builder("wibble%%wobble").build(),
                   spec = this@SpringExtensionTest,
                   test = {},
-                  source = sourceRef(),
+                  source = SourceRef.None,
                   type = TestType.Test
                )
             ) shouldStartWith "wibble__wobble"

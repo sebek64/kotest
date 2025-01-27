@@ -1,9 +1,9 @@
 package com.sksamuel.kotest.engine.test.timeout
 
 import io.kotest.assertions.asClue
-import io.kotest.core.config.ProjectConfiguration
 import io.kotest.core.annotation.EnabledIf
 import io.kotest.core.annotation.enabledif.LinuxCondition
+import io.kotest.core.config.AbstractProjectConfig
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.datatest.withData
 import io.kotest.engine.TestEngineLauncher
@@ -21,15 +21,14 @@ class ContainerTimeoutTest : FunSpec() {
          withData(
             nameFn = { (coroutineTestScope, message) -> "coroutineTestScope = $coroutineTestScope -> $message" },
             false to "Test 'a' did not complete within 100ms",
-            true to "After waiting for 100ms, the test coroutine is not completing, there were active child jobs",
+            true to "After waiting for 100ms, the test body did not run to completion",
          ) { (enableCoroutineTestScope, message) ->
             val collector = CollectingTestEngineListener()
-            val config = ProjectConfiguration().apply {
-               coroutineTestScope = enableCoroutineTestScope
+            val c = object : AbstractProjectConfig() {
+               override val coroutineTestScope = enableCoroutineTestScope
             }
-
             TestEngineLauncher(collector)
-               .withConfiguration(config)
+               .withProjectConfig(c)
                .withClasses(NestedTimeout::class)
                .launch()
 

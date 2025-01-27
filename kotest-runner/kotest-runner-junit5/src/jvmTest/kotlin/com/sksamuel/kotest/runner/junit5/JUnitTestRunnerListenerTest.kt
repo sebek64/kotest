@@ -2,19 +2,18 @@ package com.sksamuel.kotest.runner.junit5
 
 import io.kotest.core.annotation.EnabledIf
 import io.kotest.core.annotation.enabledif.LinuxCondition
-import io.kotest.core.config.ProjectConfiguration
-import io.kotest.core.descriptors.append
-import io.kotest.engine.descriptors.toDescriptor
-import io.kotest.core.names.TestName
-import io.kotest.core.source.sourceRef
+import io.kotest.core.names.TestNameBuilder
+import io.kotest.core.source.SourceRef
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.core.test.TestCase
 import io.kotest.core.test.TestResult
 import io.kotest.core.test.TestType
+import io.kotest.engine.descriptors.toDescriptor
 import io.kotest.engine.test.createTestResult
 import io.kotest.engine.test.names.FallbackDisplayNameFormatter
 import io.kotest.matchers.shouldBe
 import io.kotest.runner.junit.platform.JUnitTestEngineListener
+import io.kotest.runner.junit.platform.KotestJunitPlatformTestEngine
 import io.kotest.runner.junit.platform.createEngineDescriptor
 import org.junit.platform.engine.EngineExecutionListener
 import org.junit.platform.engine.TestDescriptor
@@ -31,11 +30,11 @@ class JUnitTestRunnerListenerTest : DescribeSpec({
       it("a failing test should not fail the parent test or parent spec") {
 
          val root = createEngineDescriptor(
-            UniqueId.forEngine("kotest"),
-            ProjectConfiguration(),
+            UniqueId.forEngine(KotestJunitPlatformTestEngine.ENGINE_ID),
             listOf(JUnitTestRunnerListenerTest::class),
             null,
             null,
+            emptyList(),
          )
 
          val finished = mutableMapOf<String, TestExecutionResult.Status>()
@@ -53,20 +52,20 @@ class JUnitTestRunnerListenerTest : DescribeSpec({
 
          val test1 = TestCase(
             JUnitTestRunnerListenerTest::class.toDescriptor().append("test1"),
-            TestName("test1"),
+            TestNameBuilder.builder("test1").build(),
             JUnitTestRunnerListenerTest(),
             { },
-            sourceRef(),
+            SourceRef.None,
             TestType.Container,
             parent = null,
          )
 
          val test2 = TestCase(
             test1.descriptor.append("test2"),
-            TestName("test2"),
+            TestNameBuilder.builder("test2").build(),
             JUnitTestRunnerListenerTest(),
             { },
-            sourceRef(),
+            SourceRef.None,
             TestType.Test,
             parent = test1,
          )
@@ -86,7 +85,7 @@ class JUnitTestRunnerListenerTest : DescribeSpec({
             "test2" to TestExecutionResult.Status.FAILED,
             "test1" to TestExecutionResult.Status.SUCCESSFUL,
             "com.sksamuel.kotest.runner.junit5.JUnitTestRunnerListenerTest" to TestExecutionResult.Status.SUCCESSFUL,
-            "Kotest" to TestExecutionResult.Status.SUCCESSFUL
+            KotestJunitPlatformTestEngine.ENGINE_NAME to TestExecutionResult.Status.SUCCESSFUL
          )
       }
    }

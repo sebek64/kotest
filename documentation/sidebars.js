@@ -50,6 +50,7 @@ module.exports = {
     "assertions/custom_matchers",
     "assertions/composed_matchers",
     "assertions/exceptions",
+    "assertions/similarity",
     "assertions/clues",
     "assertions/soft_assertions",
     {
@@ -199,6 +200,7 @@ module.exports = {
       ]
     },
     "framework/test_factories",
+    "framework/fake_functions",
     "framework/test_output",
     {
       "type": "category",

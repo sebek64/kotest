@@ -75,6 +75,9 @@ suspend fun <T> eventually(
       // since the step function is not invoked when terminating early
       control.iterations++
    } catch (e: Throwable) {
+      if(e is Error && e !is AssertionError) {
+         throw e
+      }
       control.iterations++
    } finally {
       errorCollector.setCollectionMode(originalAssertionMode)
@@ -236,6 +239,11 @@ private class EventuallyControl(
 
       // cannot ignore any control exceptions
       if (ShortCircuitControlException::class.isInstance(e)) {
+         return true
+      }
+
+      // do not intercept Error unless it's an AssertionError
+      if (e is Error && e !is AssertionError) {
          return true
       }
 

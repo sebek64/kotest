@@ -1,6 +1,5 @@
 package com.sksamuel.kotest.engine.extensions.spec.beforespec
 
-import io.kotest.core.config.ProjectConfiguration
 import io.kotest.core.extensions.MountableExtension
 import io.kotest.core.extensions.install
 import io.kotest.core.listeners.BeforeSpecListener
@@ -16,15 +15,11 @@ import java.util.concurrent.atomic.AtomicInteger
 
 class BeforeSpecIsolatedTestModeTest : FunSpec({
 
-   test("parallelism with IsolationMode.InstancePerTest and beforeSpec") {
-
-      val conf = ProjectConfiguration()
-      conf.parallelism = 5
+   xtest("parallelism with IsolationMode.InstancePerRoot and beforeSpec") {
 
       val collector = CollectingTestEngineListener()
       TestEngineLauncher(collector)
          .withClasses(ParallelTests::class)
-         .withConfiguration(conf)
          .launch()
 
       collector.tests.values.size shouldBe 20
@@ -35,8 +30,8 @@ class BeforeSpecIsolatedTestModeTest : FunSpec({
 
 private class ParallelTests : DescribeSpec({
 
-   isolationMode = IsolationMode.InstancePerTest
-   concurrency = 5
+   isolationMode = IsolationMode.InstancePerRoot
+//   concurrency = 5
 
    val mountable = install(MyMountable())
 

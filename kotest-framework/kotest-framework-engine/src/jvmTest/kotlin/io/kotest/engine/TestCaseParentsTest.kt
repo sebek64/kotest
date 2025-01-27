@@ -1,13 +1,12 @@
 package io.kotest.engine
 
-import io.kotest.core.descriptors.append
-import io.kotest.engine.descriptors.toDescriptor
-import io.kotest.core.names.TestName
-import io.kotest.core.source.sourceRef
+import io.kotest.core.names.TestNameBuilder
+import io.kotest.core.source.SourceRef
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.core.test.TestCase
 import io.kotest.core.test.TestType
 import io.kotest.core.test.parents
+import io.kotest.engine.descriptors.toDescriptor
 import io.kotest.matchers.collections.shouldBeEmpty
 import io.kotest.matchers.shouldBe
 
@@ -17,29 +16,29 @@ class TestCaseParentsTest : FunSpec() {
 
          val tc1 = TestCase(
             TestCaseParentsTest::class.toDescriptor().append("foo"),
-            TestName("foo"),
+            TestNameBuilder.builder("foo").build(),
             TestCaseParentsTest(),
             {},
-            sourceRef(),
+            SourceRef.None,
             TestType.Test
          )
 
          val tc2 = TestCase(
             TestCaseParentsTest::class.toDescriptor().append("foo").append("bar"),
-            TestName("bar"),
+            TestNameBuilder.builder("bar").build(),
             TestCaseParentsTest(),
             {},
-            sourceRef(),
+            SourceRef.None,
             TestType.Test,
             parent = tc1
          )
 
          val tc3 = TestCase(
             TestCaseParentsTest::class.toDescriptor().append("foo").append("bar").append("baz"),
-            TestName("baz"),
+            TestNameBuilder.builder("baz").build(),
             TestCaseParentsTest(),
             {},
-            sourceRef(),
+            SourceRef.None,
             TestType.Test,
             parent = tc2
          )

@@ -1,7 +1,7 @@
 package io.kotest.core.spec.style.scopes
 
 import io.kotest.common.ExperimentalKotest
-import io.kotest.core.names.TestName
+import io.kotest.core.names.TestNameBuilder
 import io.kotest.core.spec.KotestTestScope
 import io.kotest.core.test.TestScope
 
@@ -36,42 +36,71 @@ class DescribeSpecContainerScope(
     * Registers a container test.
     */
    suspend fun context(name: String, test: suspend DescribeSpecContainerScope.() -> Unit) {
-      registerContainer(TestName("Context: ", name, false), false, null) { DescribeSpecContainerScope(this).test() }
+      context(name = name, disabled = false, test = test)
    }
-
-   @ExperimentalKotest
-   fun context(name: String): ContainerWithConfigBuilder<DescribeSpecContainerScope> =
-      ContainerWithConfigBuilder(TestName(name), this, false) { DescribeSpecContainerScope(it) }
 
    /**
     * Registers a disabled container test.
     */
    suspend fun xcontext(name: String, test: suspend DescribeSpecContainerScope.() -> Unit) {
-      registerContainer(TestName("Context: ", name, false), true, null) { DescribeSpecContainerScope(this).test() }
+      context(name = name, disabled = true, test = test)
+   }
+
+   private suspend fun context(
+      name: String,
+      disabled: Boolean,
+      test: suspend DescribeSpecContainerScope.() -> Unit
+   ) {
+      registerContainer(
+         name = TestNameBuilder.builder(name).withPrefix("Context: ").build(),
+         disabled = disabled,
+         config = null
+      ) { DescribeSpecContainerScope(this).test() }
    }
 
    @ExperimentalKotest
+   fun context(name: String): ContainerWithConfigBuilder<DescribeSpecContainerScope> =
+      ContainerWithConfigBuilder(TestNameBuilder.builder(name).build(), this, false) { DescribeSpecContainerScope(it) }
+
+   @ExperimentalKotest
    fun xcontext(name: String): ContainerWithConfigBuilder<DescribeSpecContainerScope> =
-      ContainerWithConfigBuilder(TestName("Context: ", name, false), this, true) { DescribeSpecContainerScope(it) }
+      ContainerWithConfigBuilder(
+         TestNameBuilder.builder(name).withPrefix("Context: ").build(),
+         this,
+         true
+      ) { DescribeSpecContainerScope(it) }
 
    /**
     * Registers a container test.
     */
    suspend fun describe(name: String, test: suspend DescribeSpecContainerScope.() -> Unit) {
-      registerContainer(TestName("Describe: ", name, false), false, null) { DescribeSpecContainerScope(this).test() }
+      describe(name = name, xdisabled = false, test = test)
    }
 
    /**
     * Registers a container test.
     */
    suspend fun xdescribe(name: String, test: suspend DescribeSpecContainerScope.() -> Unit) {
-      registerContainer(TestName("Describe: ", name, false), true, null) { DescribeSpecContainerScope(this).test() }
+      describe(name = name, xdisabled = true, test = test)
    }
+
+   private suspend fun describe(
+      name: String,
+      xdisabled: Boolean,
+      test: suspend DescribeSpecContainerScope.() -> Unit
+   ) {
+      registerContainer(
+         name = TestNameBuilder.builder(name).withPrefix("Describe: ").build(),
+         disabled = xdisabled,
+         config = null,
+      ) { DescribeSpecContainerScope(this).test() }
+   }
+
 
    @ExperimentalKotest
    fun describe(name: String): ContainerWithConfigBuilder<DescribeSpecContainerScope> =
       ContainerWithConfigBuilder(
-         TestName("Describe: ", name, false),
+         TestNameBuilder.builder(name).withPrefix("Describe: ").build(),
          this,
          false
       ) { DescribeSpecContainerScope(it) }
@@ -79,34 +108,44 @@ class DescribeSpecContainerScope(
    @ExperimentalKotest
    fun xdescribe(name: String): ContainerWithConfigBuilder<DescribeSpecContainerScope> =
       ContainerWithConfigBuilder(
-         TestName("Describe: ", name, false),
+         TestNameBuilder.builder(name).withPrefix("Describe: ").build(),
          this,
          true
       ) { DescribeSpecContainerScope(it) }
 
    suspend fun it(name: String): TestWithConfigBuilder {
-     TestDslState.startTest(name)
+      val testName = TestNameBuilder.builder(name).withPrefix("It: ").build()
+      TestDslState.startTest(testName)
       return TestWithConfigBuilder(
-         TestName("It: ", name, false),
-         this,
+         name = testName,
+         context = this,
          xdisabled = false,
       )
    }
 
    suspend fun xit(name: String): TestWithConfigBuilder {
-     TestDslState.startTest(name)
+      val testName = TestNameBuilder.builder(name).withPrefix("It: ").build()
+      TestDslState.startTest(testName)
       return TestWithConfigBuilder(
-         TestName("It: ", name, false),
+         testName,
          this,
          xdisabled = true,
       )
    }
 
    suspend fun it(name: String, test: suspend TestScope.() -> Unit) {
-      registerTest(TestName(name), false, null) { DescribeSpecContainerScope(this).test() }
+      registerTest(
+         name = TestNameBuilder.builder(name).build(),
+         disabled = false,
+         config = null
+      ) { DescribeSpecContainerScope(this).test() }
    }
 
    suspend fun xit(name: String, test: suspend TestScope.() -> Unit) {
-      registerTest(TestName(name), true, null) { DescribeSpecContainerScope(this).test() }
+      registerTest(
+         name = TestNameBuilder.builder(name).build(),
+         disabled = true,
+         config = null
+      ) { DescribeSpecContainerScope(this).test() }
    }
 }

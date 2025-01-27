@@ -15,22 +15,22 @@ class IgnoredTestListenerTest : FunSpec({
 
    val ignoredTestListener = object : IgnoredTestListener {
       override suspend fun ignoredTest(testCase: TestCase, reason: String?) {
-         ignoredTests.add(testCase.name.originalName)
+         ignoredTests.add(testCase.name.name)
       }
    }
 
-   register(ignoredTestListener)
+   extension(ignoredTestListener)
 
    test("ignored listener should be fired for all combinations of ingored tests") {
       TestEngineLauncher()
          .withClasses(IgnoredTests::class)
-         .withExtensions(ignoredTestListener)
+         .addExtensions(ignoredTestListener)
          .launch()
       ignoredTests shouldBe setOf(
+         "should be ignored by failfast strategy",
          "should be disabled by enabled flag in config",
-         "!should be disabled by bang",
          "should be disabled by xmethod",
-         "should be ignored by failfast strategy"
+         "should be disabled by bang",
       )
    }
 })

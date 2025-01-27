@@ -1,14 +1,15 @@
 package com.sksamuel.kotest.parallelism
 
+import com.sksamuel.kotest.parallelism.ProjectConfig.beforeProject
 import com.sksamuel.kotest.parallelism.ProjectConfig.startOfTest
 import com.sksamuel.kotest.parallelism.TestStatus.Status.Finished
 import com.sksamuel.kotest.parallelism.TestStatus.Status.Started
 import com.sksamuel.kotest.parallelism.TestStatus.Status.TimedOut
 import io.kotest.assertions.withClue
 import io.kotest.core.config.AbstractProjectConfig
-import io.kotest.core.config.ProjectConfiguration
 import io.kotest.core.log
 import io.kotest.core.test.TestScope
+import io.kotest.engine.concurrency.SpecExecutionMode
 import io.kotest.inspectors.shouldForAll
 import io.kotest.inspectors.shouldForNone
 import io.kotest.matchers.collections.shouldBeSingleton
@@ -40,10 +41,8 @@ import kotlin.time.TimeSource
 private val linux = System.getProperty("os.name").lowercase().contains("linux")
 
 object ProjectConfig : AbstractProjectConfig() {
-   // set the number of threads so that each test runs in its own thread
-   override val parallelism = 10
 
-   override val concurrentSpecs: Int = ProjectConfiguration.MaxConcurrency
+   override val specExecutionMode = SpecExecutionMode.Concurrent
 
    /** The expected number of test cases. All should be launched simultaneously. */
    private const val EXPECTED_TEST_COUNT = 8
@@ -138,15 +137,15 @@ object ProjectConfig : AbstractProjectConfig() {
  * and the test is permitted to finish.
  */
 internal suspend fun TestScope.startAndLockTest() {
-   testStatuses.emit(TestStatus(testCase.name.testName, Started))
+   testStatuses.emit(TestStatus(testCase.name.name, Started))
    try {
       withTimeout(10.seconds) {
          testCompletionLock.withLock {
-            testStatuses.emit(TestStatus(testCase.name.testName, Finished))
+            testStatuses.emit(TestStatus(testCase.name.name, Finished))
          }
       }
    } catch (ex: TimeoutCancellationException) {
-      testStatuses.emit(TestStatus(testCase.name.testName, TimedOut))
+      testStatuses.emit(TestStatus(testCase.name.name, TimedOut))
    }
 }
 

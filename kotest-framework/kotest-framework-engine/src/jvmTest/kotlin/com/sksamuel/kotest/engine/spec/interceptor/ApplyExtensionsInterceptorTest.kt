@@ -2,8 +2,6 @@ package com.sksamuel.kotest.engine.spec.interceptor
 
 import io.kotest.core.annotation.EnabledIf
 import io.kotest.core.annotation.enabledif.LinuxCondition
-import io.kotest.core.config.DefaultExtensionRegistry
-import io.kotest.core.config.ProjectConfiguration
 import io.kotest.core.extensions.ApplyExtension
 import io.kotest.core.extensions.Extension
 import io.kotest.core.extensions.TestCaseExtension
@@ -12,6 +10,7 @@ import io.kotest.core.spec.style.FunSpec
 import io.kotest.core.test.TestCase
 import io.kotest.core.test.TestResult
 import io.kotest.engine.TestEngineLauncher
+import io.kotest.engine.extensions.DefaultExtensionRegistry
 import io.kotest.engine.extensions.SpecWrapperExtension
 import io.kotest.engine.listener.CollectingTestEngineListener
 import io.kotest.engine.spec.interceptor.NextSpecRefInterceptor
@@ -53,11 +52,10 @@ class ApplyExtensionsInterceptorTest : FunSpec() {
          val collector = CollectingTestEngineListener()
          TestEngineLauncher(collector)
             .withClasses(MyAnnotatedSpec3::class)
-            .withConfiguration(ProjectConfiguration())
             .launch()
 
          // if apply extension was not applied, it would fail to intercept the failing test
-         collector.tests.keys.single().name.testName shouldBe "foo"
+         collector.tests.keys.single().name.name shouldBe "foo"
          collector.tests.values.single().isSuccess shouldBe true
       }
    }

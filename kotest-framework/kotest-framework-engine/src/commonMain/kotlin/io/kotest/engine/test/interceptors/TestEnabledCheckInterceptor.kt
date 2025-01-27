@@ -1,10 +1,12 @@
 package io.kotest.engine.test.interceptors
 
 import io.kotest.core.Logger
-import io.kotest.core.config.ProjectConfiguration
 import io.kotest.core.test.TestCase
 import io.kotest.core.test.TestResult
 import io.kotest.core.test.TestScope
+import io.kotest.engine.config.ProjectConfigResolver
+import io.kotest.engine.config.SpecConfigResolver
+import io.kotest.engine.config.TestConfigResolver
 import io.kotest.engine.test.status.isEnabled
 
 /**
@@ -12,10 +14,14 @@ import io.kotest.engine.test.status.isEnabled
  *
  * If the test is disabled, then a [TestResult.Ignored] is returned.
  *
- * Note: This extension must execute before any other extension that invokes methods
- * on the listener, as in runners like junit, ignored cannot happen after "started".
+ * Note: This extension must execute before any other extension that invokes lifecycle callbacks
+ * on the test engine listener, because in reporters like TeamCity or junit, ignored cannot happen after started.
  */
-internal class TestEnabledCheckInterceptor(private val configuration: ProjectConfiguration) : TestExecutionInterceptor {
+internal class TestEnabledCheckInterceptor(
+   private val projectConfigResolver: ProjectConfigResolver,
+   private val specConfigResolver: SpecConfigResolver,
+   private val testConfigResolver: TestConfigResolver,
+) : TestExecutionInterceptor {
 
    private val logger = Logger(TestEnabledCheckInterceptor::class)
 
@@ -24,14 +30,15 @@ internal class TestEnabledCheckInterceptor(private val configuration: ProjectCon
       scope: TestScope,
       test: NextTestExecutionInterceptor
    ): TestResult {
-      val enabled = testCase.isEnabled(configuration)
+      val enabled = testCase.isEnabled(projectConfigResolver, specConfigResolver, testConfigResolver)
       return when (enabled.isEnabled) {
          true -> {
-            logger.log { Pair(testCase.name.testName, "Test is enabled") }
+            logger.log { Pair(testCase.name.name, "Test is enabled") }
             test(testCase, scope)
          }
+
          false -> {
-            logger.log { Pair(testCase.name.testName, "Test is disabled: ${enabled.reason}") }
+            logger.log { Pair(testCase.name.name, "Test is disabled: ${enabled.reason}") }
             TestResult.Ignored(enabled)
          }
       }

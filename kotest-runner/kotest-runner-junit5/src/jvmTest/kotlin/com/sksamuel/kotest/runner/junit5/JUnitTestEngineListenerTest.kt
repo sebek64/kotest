@@ -1,25 +1,22 @@
 package com.sksamuel.kotest.runner.junit5
 
 import io.kotest.core.Platform
-import io.kotest.core.TagExpression
 import io.kotest.core.annotation.EnabledIf
 import io.kotest.core.annotation.Ignored
 import io.kotest.core.annotation.enabledif.LinuxCondition
-import io.kotest.core.config.ProjectConfiguration
-import io.kotest.core.descriptors.append
-import io.kotest.engine.descriptors.toDescriptor
-import io.kotest.core.names.TestName
-import io.kotest.core.project.TestSuite
-import io.kotest.core.source.sourceRef
+import io.kotest.core.config.AbstractProjectConfig
+import io.kotest.core.names.TestNameBuilder
+import io.kotest.core.source.SourceRef
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.core.test.TestCase
 import io.kotest.core.test.TestResult
 import io.kotest.core.test.TestType
+import io.kotest.engine.descriptors.toDescriptor
 import io.kotest.engine.interceptors.EngineContext
-import io.kotest.engine.listener.NoopTestEngineListener
 import io.kotest.engine.test.names.FallbackDisplayNameFormatter
 import io.kotest.matchers.shouldBe
 import io.kotest.runner.junit.platform.JUnitTestEngineListener
+import io.kotest.runner.junit.platform.KotestJunitPlatformTestEngine
 import io.kotest.runner.junit.platform.createEngineDescriptor
 import org.junit.platform.engine.EngineExecutionListener
 import org.junit.platform.engine.TestDescriptor
@@ -33,34 +30,39 @@ import kotlin.time.Duration.Companion.seconds
 @EnabledIf(LinuxCondition::class)
 class JUnitTestEngineListenerTest : FunSpec({
 
-   val root =
-      createEngineDescriptor(UniqueId.forEngine("kotest"), ProjectConfiguration(), listOf(MySpec::class), null, null)
+   val root = createEngineDescriptor(
+      uniqueId = UniqueId.forEngine(KotestJunitPlatformTestEngine.ENGINE_ID),
+      specs = listOf(MySpec::class),
+      gradleClassMethodTestFilter = null,
+      error = null,
+      extensions = emptyList()
+   )
 
    val tc1 = TestCase(
       MySpec::class.toDescriptor().append("foo"),
-      TestName("foo"),
+      TestNameBuilder.builder("foo").build(),
       MySpec(),
       {},
-      sourceRef(),
+      SourceRef.None,
       TestType.Container,
    )
 
    val tc2 = TestCase(
       tc1.descriptor.append("bar"),
-      TestName("bar"),
+      TestNameBuilder.builder("bar").build(),
       tc1.spec,
       {},
-      sourceRef(),
+      SourceRef.None,
       TestType.Test,
       parent = tc1,
    )
 
    val tc3 = TestCase(
       MySpec2::class.toDescriptor().append("baz"),
-      TestName("baz"),
+      TestNameBuilder.builder("baz").build(),
       MySpec2(),
       {},
-      sourceRef(),
+      SourceRef.None,
       TestType.Container,
    )
 
@@ -281,11 +283,11 @@ class JUnitTestEngineListenerTest : FunSpec({
    test("state should be reset after spec") {
 
       val root2 = createEngineDescriptor(
-         UniqueId.forEngine("kotest"),
-         ProjectConfiguration(),
+         UniqueId.forEngine(KotestJunitPlatformTestEngine.ENGINE_ID),
          listOf(MySpec::class, MySpec2::class),
          null,
-         null
+         null,
+         emptyList(),
       )
 
       val track = EventTrackingEngineExecutionListener()
@@ -332,11 +334,11 @@ class JUnitTestEngineListenerTest : FunSpec({
    test("state should be reset after ignored spec") {
 
       val root2 = createEngineDescriptor(
-         UniqueId.forEngine("kotest"),
-         ProjectConfiguration(),
+         UniqueId.forEngine(KotestJunitPlatformTestEngine.ENGINE_ID),
          listOf(MySpec::class, MySpec2::class),
          null,
-         null
+         null,
+         emptyList(),
       )
 
       val track = EventTrackingEngineExecutionListener()
@@ -368,20 +370,12 @@ class JUnitTestEngineListenerTest : FunSpec({
 
    test("listener should support full test paths") {
       val track = EventTrackingEngineExecutionListener()
-      val conf = ProjectConfiguration()
-      conf.displayFullTestPath = true
+      val c = object : AbstractProjectConfig() {
+         override val displayFullTestPath: Boolean = true
+      }
 
-      val listener = JUnitTestEngineListener(track, root, FallbackDisplayNameFormatter.default(conf))
-      listener.engineInitialized(
-         EngineContext(
-            TestSuite.empty,
-            NoopTestEngineListener,
-            TagExpression.Empty,
-            conf,
-            Platform.JVM,
-            mutableMapOf()
-         )
-      )
+      val listener = JUnitTestEngineListener(track, root, FallbackDisplayNameFormatter.default(c))
+      listener.engineInitialized(EngineContext.invoke(null, Platform.JVM))
       listener.specStarted(MySpec::class)
       listener.testStarted(tc1)
       listener.testStarted(tc2)

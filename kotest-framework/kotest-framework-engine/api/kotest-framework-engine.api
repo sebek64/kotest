@@ -47,30 +47,6 @@ public final class io/kotest/core/Tag$Companion {
 	public final fun invoke (Ljava/lang/String;)Lio/kotest/core/NamedTag;
 }
 
-public final class io/kotest/core/TagExpression {
-	public static final field Companion Lio/kotest/core/TagExpression$Companion;
-	public fun <init> (Ljava/lang/String;)V
-	public final fun combine (Lio/kotest/core/TagExpression;)Lio/kotest/core/TagExpression;
-	public final fun component1 ()Ljava/lang/String;
-	public final fun copy (Ljava/lang/String;)Lio/kotest/core/TagExpression;
-	public static synthetic fun copy$default (Lio/kotest/core/TagExpression;Ljava/lang/String;ILjava/lang/Object;)Lio/kotest/core/TagExpression;
-	public fun equals (Ljava/lang/Object;)Z
-	public final fun exclude (Lio/kotest/core/Tag;)Lio/kotest/core/TagExpression;
-	public final fun exclude (Ljava/lang/String;)Lio/kotest/core/TagExpression;
-	public final fun getExpression ()Ljava/lang/String;
-	public fun hashCode ()I
-	public final fun include (Lio/kotest/core/Tag;)Lio/kotest/core/TagExpression;
-	public final fun include (Ljava/lang/String;)Lio/kotest/core/TagExpression;
-	public fun toString ()Ljava/lang/String;
-}
-
-public final class io/kotest/core/TagExpression$Companion {
-	public final fun exclude (Lio/kotest/core/Tag;)Lio/kotest/core/TagExpression;
-	public final fun getEmpty ()Lio/kotest/core/TagExpression;
-	public final fun include (Lio/kotest/core/Tag;)Lio/kotest/core/TagExpression;
-	public final fun invoke (Ljava/util/Set;Ljava/util/Set;)Lio/kotest/core/TagExpression;
-}
-
 public abstract class io/kotest/core/TestConfiguration {
 	public fun <init> ()V
 	public final fun afterAny (Lkotlin/jvm/functions/Function2;)V
@@ -79,7 +55,6 @@ public abstract class io/kotest/core/TestConfiguration {
 	public final fun afterInvocation (Lkotlin/jvm/functions/Function3;)V
 	public fun afterSpec (Lkotlin/jvm/functions/Function2;)V
 	public fun afterTest (Lkotlin/jvm/functions/Function2;)V
-	public final fun appliedTags ()Ljava/util/Set;
 	public final fun aroundTest (Lkotlin/jvm/functions/Function2;)V
 	public final fun autoClose (Ljava/lang/AutoCloseable;)Ljava/lang/AutoCloseable;
 	public final fun autoClose (Lkotlin/Lazy;)Lkotlin/Lazy;
@@ -96,17 +71,10 @@ public abstract class io/kotest/core/TestConfiguration {
 	public final fun getAssertSoftly ()Ljava/lang/Boolean;
 	public final fun getAssertions ()Lio/kotest/core/test/AssertionMode;
 	public final fun getDefaultTestConfig ()Lio/kotest/core/test/config/DefaultTestConfig;
-	public final fun prependExtension (Lio/kotest/core/extensions/Extension;)V
-	public final fun prependExtensions (Ljava/util/List;)V
-	public final fun register (Lio/kotest/core/extensions/Extension;)Lio/kotest/core/extensions/Extension;
-	public final fun register (Ljava/util/List;)V
-	public final fun register ([Lio/kotest/core/extensions/Extension;)V
 	public final fun registeredAutoCloseables ()Ljava/util/List;
-	public final fun registeredExtensions ()Ljava/util/List;
 	public final fun setAssertSoftly (Ljava/lang/Boolean;)V
 	public final fun setAssertions (Lio/kotest/core/test/AssertionMode;)V
 	public final fun setDefaultTestConfig (Lio/kotest/core/test/config/DefaultTestConfig;)V
-	public final fun setParentConfiguration (Lio/kotest/core/TestConfiguration;)V
 	public fun tags ([Lio/kotest/core/Tag;)V
 }
 
@@ -867,6 +835,9 @@ public final class io/kotest/core/annotation/NeverEnabled : io/kotest/core/annot
 	public fun enabled (Lkotlin/reflect/KClass;)Z
 }
 
+public abstract interface annotation class io/kotest/core/annotation/Parallel : java/lang/annotation/Annotation {
+}
+
 public abstract interface annotation class io/kotest/core/annotation/RequiresPlatform : java/lang/annotation/Annotation {
 	public abstract fun values ()[Lio/kotest/core/Platform;
 }
@@ -909,151 +880,75 @@ public final class io/kotest/core/annotation/enabledif/WindowsCondition : io/kot
 	public fun enabled (Lkotlin/reflect/KClass;)Z
 }
 
-public abstract interface class io/kotest/core/concurrency/CoroutineDispatcherFactory {
-	public abstract fun close ()V
-	public abstract fun withDispatcher (Lio/kotest/core/test/TestCase;Lkotlin/jvm/functions/Function1;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
-}
-
-public final class io/kotest/core/concurrency/CoroutineDispatcherFactory$DefaultImpls {
-	public static fun close (Lio/kotest/core/concurrency/CoroutineDispatcherFactory;)V
-}
-
-public final class io/kotest/core/concurrency/CoroutineDispatcherFactoryKt {
-	public static final fun use (Lio/kotest/core/concurrency/CoroutineDispatcherFactory;Lkotlin/jvm/functions/Function1;)Ljava/lang/Object;
+public abstract class io/kotest/core/config/AbstractPackageConfig {
+	public fun <init> ()V
+	public fun getAssertSoftly ()Ljava/lang/Boolean;
+	public fun getAssertionMode ()Lio/kotest/core/test/AssertionMode;
+	public fun getCoroutineDebugProbes ()Ljava/lang/Boolean;
+	public fun getCoroutineTestScope ()Ljava/lang/Boolean;
+	public fun getDuplicateTestNameMode ()Lio/kotest/core/names/DuplicateTestNameMode;
+	public fun getExtensions ()Ljava/util/List;
+	public fun getFailfast ()Ljava/lang/Boolean;
+	public fun getInvocationTimeout-FghU774 ()Lkotlin/time/Duration;
+	public fun getIsolationMode ()Lio/kotest/core/spec/IsolationMode;
+	public fun getRetries ()Ljava/lang/Integer;
+	public fun getTestCaseOrder ()Lio/kotest/core/test/TestCaseOrder;
+	public fun getTestExecutionMode ()Lio/kotest/engine/concurrency/TestExecutionMode;
+	public fun getTimeout-FghU774 ()Lkotlin/time/Duration;
 }
 
 public abstract class io/kotest/core/config/AbstractProjectConfig {
 	public fun <init> ()V
 	public fun afterProject (Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 	public fun beforeProject (Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
-	public fun extensions ()Ljava/util/List;
 	public fun getAllowOutOfOrderCallbacks ()Ljava/lang/Boolean;
 	public fun getAssertionMode ()Lio/kotest/core/test/AssertionMode;
-	public fun getConcurrentSpecs ()Ljava/lang/Integer;
-	public fun getConcurrentTests ()Ljava/lang/Integer;
 	public fun getCoroutineDebugProbes ()Ljava/lang/Boolean;
+	public fun getCoroutineDispatcherFactory ()Lio/kotest/engine/coroutines/CoroutineDispatcherFactory;
 	public fun getCoroutineTestScope ()Ljava/lang/Boolean;
-	public fun getDisableTestNestedJarScanning ()Ljava/lang/Boolean;
-	public fun getDiscoveryClasspathFallbackEnabled ()Ljava/lang/Boolean;
-	public fun getDispatcherAffinity ()Ljava/lang/Boolean;
 	public fun getDisplayFullTestPath ()Ljava/lang/Boolean;
 	public fun getDisplaySpecIfNoActiveTests ()Ljava/lang/Boolean;
+	public fun getDumpConfig ()Ljava/lang/Boolean;
 	public fun getDuplicateTestNameMode ()Lio/kotest/core/names/DuplicateTestNameMode;
+	public fun getEnabledIf ()Lkotlin/jvm/functions/Function1;
+	public fun getEnabledOrReasonIf ()Lkotlin/jvm/functions/Function1;
+	public fun getExtensions ()Ljava/util/List;
 	public fun getFailOnEmptyTestSuite ()Ljava/lang/Boolean;
 	public fun getFailOnIgnoredTests ()Ljava/lang/Boolean;
+	public fun getFailfast ()Z
 	public fun getGlobalAssertSoftly ()Ljava/lang/Boolean;
 	public fun getIgnorePrivateClasses ()Ljava/lang/Boolean;
-	public fun getIncludeTestScopePrefixes ()Ljava/lang/Boolean;
-	public fun getInvocationTimeout ()Ljava/lang/Long;
+	public fun getIncludeTestScopeAffixes ()Lio/kotest/engine/config/IncludeTestScopeAffixes;
+	public fun getInvocationTimeout-FghU774 ()Lkotlin/time/Duration;
+	public fun getInvocations ()Ljava/lang/Integer;
 	public fun getIsolationMode ()Lio/kotest/core/spec/IsolationMode;
 	public fun getLogLevel ()Lio/kotest/core/config/LogLevel;
-	public fun getParallelism ()Ljava/lang/Integer;
+	public fun getMinimumRuntimeTestCaseSeverityLevel ()Lio/kotest/core/test/TestCaseSeverityLevel;
 	public fun getProjectTimeout-FghU774 ()Lkotlin/time/Duration;
 	public fun getProjectWideFailFast ()Ljava/lang/Boolean;
 	public fun getRandomOrderSeed ()Ljava/lang/Long;
+	public fun getRemoveTestNameWhitespace ()Ljava/lang/Boolean;
 	public fun getRetries ()Ljava/lang/Integer;
 	public fun getRetryDelay-FghU774 ()Lkotlin/time/Duration;
-	public fun getRetryDelayFn ()Lkotlin/jvm/functions/Function2;
-	public fun getRetryFn ()Lkotlin/jvm/functions/Function1;
+	public fun getSeverity ()Lio/kotest/core/test/TestCaseSeverityLevel;
+	public fun getSpecExecutionMode ()Lio/kotest/engine/concurrency/SpecExecutionMode;
 	public fun getSpecExecutionOrder ()Lio/kotest/core/spec/SpecExecutionOrder;
+	public fun getSpecFailureFilePath ()Ljava/lang/String;
 	public fun getTagInheritance ()Ljava/lang/Boolean;
 	public fun getTestCaseOrder ()Lio/kotest/core/test/TestCaseOrder;
+	public fun getTestExecutionMode ()Lio/kotest/engine/concurrency/TestExecutionMode;
 	public fun getTestNameAppendTags ()Ljava/lang/Boolean;
 	public fun getTestNameCase ()Lio/kotest/core/names/TestNameCase;
 	public fun getTestNameRemoveWhitespace ()Ljava/lang/Boolean;
 	public fun getTimeout-FghU774 ()Lkotlin/time/Duration;
 	public fun getWriteSpecFailureFile ()Ljava/lang/Boolean;
 	public fun setAllowOutOfOrderCallbacks (Ljava/lang/Boolean;)V
-	public fun setDisableTestNestedJarScanning (Ljava/lang/Boolean;)V
-	public fun setDiscoveryClasspathFallbackEnabled (Ljava/lang/Boolean;)V
-	public fun setDispatcherAffinity (Ljava/lang/Boolean;)V
-	public fun setDisplayFullTestPath (Ljava/lang/Boolean;)V
-	public fun setIgnorePrivateClasses (Ljava/lang/Boolean;)V
-	public fun setProjectWideFailFast (Ljava/lang/Boolean;)V
-	public fun setRandomOrderSeed (Ljava/lang/Long;)V
 	public fun setRetries (Ljava/lang/Integer;)V
 	public fun setRetryDelay-BwNAW2A (Lkotlin/time/Duration;)V
-	public fun setRetryDelayFn (Lkotlin/jvm/functions/Function2;)V
-	public fun setRetryFn (Lkotlin/jvm/functions/Function1;)V
 }
 
-public final class io/kotest/core/config/DefaultExtensionRegistry : io/kotest/core/config/ExtensionRegistry {
-	public fun <init> ()V
-	public fun add (Lio/kotest/core/extensions/Extension;)V
-	public fun all ()Ljava/util/List;
-	public fun clear ()V
-	public fun isEmpty ()Z
-	public fun isNotEmpty ()Z
-	public fun remove (Lio/kotest/core/extensions/Extension;)V
-}
-
-public final class io/kotest/core/config/Defaults {
-	public static final field INSTANCE Lio/kotest/core/config/Defaults;
-	public static final field allowOutOfOrderCallbacks Z
-	public static final field blockingTest Z
-	public static final field concurrentTests I
-	public static final field coroutineDebugProbes Z
-	public static final field coroutineTestScope Z
-	public static final field defaultInvocationTimeoutMillis J
-	public static final field defaultTimeoutMillis J
-	public static final field disableTestNestedJarScanning Z
-	public static final field discoveryClasspathFallbackEnabled Z
-	public static final field dispatcherAffinity Z
-	public static final field displayFullTestPath Z
-	public static final field displaySpecIfNoActiveTests Z
-	public static final field failOnEmptyTestSuite Z
-	public static final field failOnIgnoredTests Z
-	public static final field failfast Z
-	public static final field globalAssertSoftly Z
-	public static final field ignorePrivateClasses Z
-	public static final field invocations I
-	public static final field parallelism I
-	public static final field projectWideFailFast Z
-	public static final field specFailureFilePath Ljava/lang/String;
-	public static final field testCoroutineDispatcher Z
-	public static final field threads I
-	public static final field writeSpecFailureFile Z
-	public final fun getAssertionMode ()Lio/kotest/core/test/AssertionMode;
-	public final fun getDefaultIncludeTestScopeAffixes ()Ljava/lang/Boolean;
-	public final fun getDefaultRetries ()Ljava/lang/Integer;
-	public final fun getDefaultRetriesFn ()Lkotlin/jvm/functions/Function1;
-	public final fun getDefaultRetryDelay-FghU774 ()Lkotlin/time/Duration;
-	public final fun getDefaultRetryDelayFn ()Lkotlin/jvm/functions/Function2;
-	public final fun getDefaultTestNameCase ()Lio/kotest/core/names/TestNameCase;
-	public final fun getDuplicateTestNameMode ()Lio/kotest/core/names/DuplicateTestNameMode;
-	public final fun getIsolationMode ()Lio/kotest/core/spec/IsolationMode;
-	public final fun getSeverity ()Lio/kotest/core/test/TestCaseSeverityLevel;
-	public final fun getSpecExecutionOrder ()Lio/kotest/core/spec/SpecExecutionOrder;
-	public final fun getTestCaseOrder ()Lio/kotest/core/test/TestCaseOrder;
-}
-
-public final class io/kotest/core/config/EmptyExtensionRegistry : io/kotest/core/config/ExtensionRegistry {
-	public static final field INSTANCE Lio/kotest/core/config/EmptyExtensionRegistry;
-	public fun add (Lio/kotest/core/extensions/Extension;)V
-	public fun all ()Ljava/util/List;
-	public fun clear ()V
-	public fun isEmpty ()Z
-	public fun isNotEmpty ()Z
-	public fun remove (Lio/kotest/core/extensions/Extension;)V
-}
-
-public abstract interface class io/kotest/core/config/ExtensionRegistry {
-	public abstract fun add (Lio/kotest/core/extensions/Extension;)V
-	public abstract fun all ()Ljava/util/List;
-	public abstract fun clear ()V
-	public abstract fun isEmpty ()Z
-	public abstract fun isNotEmpty ()Z
-	public abstract fun remove (Lio/kotest/core/extensions/Extension;)V
-}
-
-public final class io/kotest/core/config/FixedExtensionRegistry : io/kotest/core/config/ExtensionRegistry {
-	public fun <init> ([Lio/kotest/core/extensions/Extension;)V
-	public fun add (Lio/kotest/core/extensions/Extension;)V
-	public fun all ()Ljava/util/List;
-	public fun clear ()V
-	public fun isEmpty ()Z
-	public fun isNotEmpty ()Z
-	public fun remove (Lio/kotest/core/extensions/Extension;)V
+public final class io/kotest/core/config/AbstractProjectConfigKt {
+	public static final fun asProjectExtension (Lio/kotest/core/config/AbstractProjectConfig;)Lio/kotest/core/listeners/ProjectListener;
 }
 
 public abstract class io/kotest/core/config/LogLevel {
@@ -1093,113 +988,12 @@ public final class io/kotest/core/config/LogLevel$Warn : io/kotest/core/config/L
 	public static final field INSTANCE Lio/kotest/core/config/LogLevel$Warn;
 }
 
-public final class io/kotest/core/config/ProjectConfiguration {
-	public static final field Companion Lio/kotest/core/config/ProjectConfiguration$Companion;
-	public static final field MaxConcurrency I
-	public static final field Sequential I
-	public fun <init> ()V
-	public final fun getAllowOutOfOrderCallbacks ()Z
-	public final fun getAssertionMode ()Lio/kotest/core/test/AssertionMode;
-	public final fun getBlockingTest ()Z
-	public final fun getConcurrentSpecs ()Ljava/lang/Integer;
-	public final fun getConcurrentTests ()I
-	public final fun getCoroutineDebugProbes ()Z
-	public final fun getCoroutineTestScope ()Z
-	public final fun getDisableTestNestedJarScanning ()Z
-	public final fun getDiscoveryClasspathFallbackEnabled ()Z
-	public final fun getDispatcherAffinity ()Z
-	public final fun getDisplayFullTestPath ()Z
-	public final fun getDisplaySpecIfNoActiveTests ()Z
-	public final fun getDuplicateTestNameMode ()Lio/kotest/core/names/DuplicateTestNameMode;
-	public final fun getEnabledIf ()Lkotlin/jvm/functions/Function1;
-	public final fun getEnabledOrReasonIf ()Lkotlin/jvm/functions/Function1;
-	public final fun getFailOnEmptyTestSuite ()Z
-	public final fun getFailOnIgnoredTests ()Z
-	public final fun getFailfast ()Z
-	public final fun getGlobalAssertSoftly ()Z
-	public final fun getIgnorePrivateClasses ()Z
-	public final fun getIncludeTestScopeAffixes ()Ljava/lang/Boolean;
-	public final fun getInvocationTimeout ()J
-	public final fun getInvocations ()I
-	public final fun getIsolationMode ()Lio/kotest/core/spec/IsolationMode;
-	public final fun getLogLevel ()Lio/kotest/core/config/LogLevel;
-	public final fun getParallelism ()I
-	public final fun getProjectTimeout-FghU774 ()Lkotlin/time/Duration;
-	public final fun getProjectWideFailFast ()Z
-	public final fun getRandomOrderSeed ()Ljava/lang/Long;
-	public final fun getRegistry ()Lio/kotest/core/config/ExtensionRegistry;
-	public final fun getRemoveTestNameWhitespace ()Z
-	public final fun getRetries ()Ljava/lang/Integer;
-	public final fun getRetryDelay-FghU774 ()Lkotlin/time/Duration;
-	public final fun getRetryDelayFn ()Lkotlin/jvm/functions/Function2;
-	public final fun getRetryFn ()Lkotlin/jvm/functions/Function1;
-	public final fun getSeverity ()Lio/kotest/core/test/TestCaseSeverityLevel;
-	public final fun getSpecExecutionOrder ()Lio/kotest/core/spec/SpecExecutionOrder;
-	public final fun getSpecFailureFilePath ()Ljava/lang/String;
-	public final fun getTagInheritance ()Z
-	public final fun getTestCaseOrder ()Lio/kotest/core/test/TestCaseOrder;
-	public final fun getTestNameAppendTags ()Z
-	public final fun getTestNameCase ()Lio/kotest/core/names/TestNameCase;
-	public final fun getThreads ()I
-	public final fun getTimeout ()J
-	public final fun getWriteSpecFailureFile ()Z
-	public final fun setAllowOutOfOrderCallbacks (Z)V
-	public final fun setAssertionMode (Lio/kotest/core/test/AssertionMode;)V
-	public final fun setBlockingTest (Z)V
-	public final fun setConcurrentSpecs (Ljava/lang/Integer;)V
-	public final fun setConcurrentTests (I)V
-	public final fun setCoroutineDebugProbes (Z)V
-	public final fun setCoroutineTestScope (Z)V
-	public final fun setDisableTestNestedJarScanning (Z)V
-	public final fun setDiscoveryClasspathFallbackEnabled (Z)V
-	public final fun setDispatcherAffinity (Z)V
-	public final fun setDisplayFullTestPath (Z)V
-	public final fun setDisplaySpecIfNoActiveTests (Z)V
-	public final fun setDuplicateTestNameMode (Lio/kotest/core/names/DuplicateTestNameMode;)V
-	public final fun setEnabledIf (Lkotlin/jvm/functions/Function1;)V
-	public final fun setEnabledOrReasonIf (Lkotlin/jvm/functions/Function1;)V
-	public final fun setFailOnEmptyTestSuite (Z)V
-	public final fun setFailOnIgnoredTests (Z)V
-	public final fun setFailfast (Z)V
-	public final fun setGlobalAssertSoftly (Z)V
-	public final fun setIgnorePrivateClasses (Z)V
-	public final fun setIncludeTestScopeAffixes (Ljava/lang/Boolean;)V
-	public final fun setInvocationTimeout (J)V
-	public final fun setInvocations (I)V
-	public final fun setIsolationMode (Lio/kotest/core/spec/IsolationMode;)V
-	public final fun setLogLevel (Lio/kotest/core/config/LogLevel;)V
-	public final fun setParallelism (I)V
-	public final fun setProjectTimeout-BwNAW2A (Lkotlin/time/Duration;)V
-	public final fun setProjectWideFailFast (Z)V
-	public final fun setRandomOrderSeed (Ljava/lang/Long;)V
-	public final fun setRemoveTestNameWhitespace (Z)V
-	public final fun setRetries (Ljava/lang/Integer;)V
-	public final fun setRetryDelay-BwNAW2A (Lkotlin/time/Duration;)V
-	public final fun setRetryDelayFn (Lkotlin/jvm/functions/Function2;)V
-	public final fun setRetryFn (Lkotlin/jvm/functions/Function1;)V
-	public final fun setSeverity (Lio/kotest/core/test/TestCaseSeverityLevel;)V
-	public final fun setSpecExecutionOrder (Lio/kotest/core/spec/SpecExecutionOrder;)V
-	public final fun setSpecFailureFilePath (Ljava/lang/String;)V
-	public final fun setTagInheritance (Z)V
-	public final fun setTestCaseOrder (Lio/kotest/core/test/TestCaseOrder;)V
-	public final fun setTestNameAppendTags (Z)V
-	public final fun setTestNameCase (Lio/kotest/core/names/TestNameCase;)V
-	public final fun setThreads (I)V
-	public final fun setTimeout (J)V
-	public final fun setWriteSpecFailureFile (Z)V
-}
-
-public final class io/kotest/core/config/ProjectConfiguration$Companion {
-}
-
 public abstract interface class io/kotest/core/descriptors/Descriptor {
-	public static final field Companion Lio/kotest/core/descriptors/Descriptor$Companion;
-	public static final field SpecDelimiter Ljava/lang/String;
-	public static final field TestDelimiter Ljava/lang/String;
-	public abstract fun chain ()Ljava/util/List;
+	public abstract fun append (Ljava/lang/String;)Lio/kotest/core/descriptors/Descriptor$TestDescriptor;
 	public abstract fun depth ()I
 	public abstract fun getId ()Lio/kotest/core/descriptors/DescriptorId;
 	public abstract fun getTreePrefix ()Ljava/util/List;
+	public abstract fun hasSharedPath (Lio/kotest/core/descriptors/Descriptor;)Z
 	public abstract fun ids ()Ljava/util/List;
 	public abstract fun isAncestorOf (Lio/kotest/core/descriptors/Descriptor;)Z
 	public abstract fun isChildOf (Lio/kotest/core/descriptors/Descriptor;)Z
@@ -1207,24 +1001,22 @@ public abstract interface class io/kotest/core/descriptors/Descriptor {
 	public abstract fun isEqualType (Lio/kotest/core/descriptors/Descriptor;)Z
 	public abstract fun isOnPath (Lio/kotest/core/descriptors/Descriptor;)Z
 	public abstract fun isParentOf (Lio/kotest/core/descriptors/Descriptor;)Z
+	public abstract fun isPrefixOf (Lio/kotest/core/descriptors/Descriptor;)Z
 	public abstract fun isRootTest ()Z
 	public abstract fun isSpec ()Z
 	public abstract fun isTestCase ()Z
 	public abstract fun parents ()Ljava/util/List;
 	public abstract fun parts ()Ljava/util/List;
-	public abstract fun path (Z)Lio/kotest/common/TestPath;
+	public abstract fun path ()Lio/kotest/common/DescriptorPath;
+	public abstract fun path (Z)Lio/kotest/common/DescriptorPath;
 	public abstract fun spec ()Lio/kotest/core/descriptors/Descriptor$SpecDescriptor;
 }
 
-public final class io/kotest/core/descriptors/Descriptor$Companion {
-	public static final field SpecDelimiter Ljava/lang/String;
-	public static final field TestDelimiter Ljava/lang/String;
-}
-
 public final class io/kotest/core/descriptors/Descriptor$DefaultImpls {
-	public static fun chain (Lio/kotest/core/descriptors/Descriptor;)Ljava/util/List;
+	public static fun append (Lio/kotest/core/descriptors/Descriptor;Ljava/lang/String;)Lio/kotest/core/descriptors/Descriptor$TestDescriptor;
 	public static fun depth (Lio/kotest/core/descriptors/Descriptor;)I
 	public static fun getTreePrefix (Lio/kotest/core/descriptors/Descriptor;)Ljava/util/List;
+	public static fun hasSharedPath (Lio/kotest/core/descriptors/Descriptor;Lio/kotest/core/descriptors/Descriptor;)Z
 	public static fun ids (Lio/kotest/core/descriptors/Descriptor;)Ljava/util/List;
 	public static fun isAncestorOf (Lio/kotest/core/descriptors/Descriptor;Lio/kotest/core/descriptors/Descriptor;)Z
 	public static fun isChildOf (Lio/kotest/core/descriptors/Descriptor;Lio/kotest/core/descriptors/Descriptor;)Z
@@ -1232,28 +1024,29 @@ public final class io/kotest/core/descriptors/Descriptor$DefaultImpls {
 	public static fun isEqualType (Lio/kotest/core/descriptors/Descriptor;Lio/kotest/core/descriptors/Descriptor;)Z
 	public static fun isOnPath (Lio/kotest/core/descriptors/Descriptor;Lio/kotest/core/descriptors/Descriptor;)Z
 	public static fun isParentOf (Lio/kotest/core/descriptors/Descriptor;Lio/kotest/core/descriptors/Descriptor;)Z
+	public static fun isPrefixOf (Lio/kotest/core/descriptors/Descriptor;Lio/kotest/core/descriptors/Descriptor;)Z
 	public static fun isRootTest (Lio/kotest/core/descriptors/Descriptor;)Z
 	public static fun isSpec (Lio/kotest/core/descriptors/Descriptor;)Z
 	public static fun isTestCase (Lio/kotest/core/descriptors/Descriptor;)Z
 	public static fun parents (Lio/kotest/core/descriptors/Descriptor;)Ljava/util/List;
 	public static fun parts (Lio/kotest/core/descriptors/Descriptor;)Ljava/util/List;
-	public static fun path (Lio/kotest/core/descriptors/Descriptor;Z)Lio/kotest/common/TestPath;
-	public static synthetic fun path$default (Lio/kotest/core/descriptors/Descriptor;ZILjava/lang/Object;)Lio/kotest/common/TestPath;
+	public static fun path (Lio/kotest/core/descriptors/Descriptor;)Lio/kotest/common/DescriptorPath;
+	public static fun path (Lio/kotest/core/descriptors/Descriptor;Z)Lio/kotest/common/DescriptorPath;
+	public static synthetic fun path$default (Lio/kotest/core/descriptors/Descriptor;ZILjava/lang/Object;)Lio/kotest/common/DescriptorPath;
 	public static fun spec (Lio/kotest/core/descriptors/Descriptor;)Lio/kotest/core/descriptors/Descriptor$SpecDescriptor;
 }
 
 public final class io/kotest/core/descriptors/Descriptor$SpecDescriptor : io/kotest/core/descriptors/Descriptor {
-	public fun <init> (Lio/kotest/core/descriptors/DescriptorId;Lkotlin/reflect/KClass;)V
-	public fun chain ()Ljava/util/List;
+	public fun <init> (Lio/kotest/core/descriptors/DescriptorId;)V
+	public fun append (Ljava/lang/String;)Lio/kotest/core/descriptors/Descriptor$TestDescriptor;
 	public final fun component1 ()Lio/kotest/core/descriptors/DescriptorId;
-	public final fun component2 ()Lkotlin/reflect/KClass;
-	public final fun copy (Lio/kotest/core/descriptors/DescriptorId;Lkotlin/reflect/KClass;)Lio/kotest/core/descriptors/Descriptor$SpecDescriptor;
-	public static synthetic fun copy$default (Lio/kotest/core/descriptors/Descriptor$SpecDescriptor;Lio/kotest/core/descriptors/DescriptorId;Lkotlin/reflect/KClass;ILjava/lang/Object;)Lio/kotest/core/descriptors/Descriptor$SpecDescriptor;
+	public final fun copy (Lio/kotest/core/descriptors/DescriptorId;)Lio/kotest/core/descriptors/Descriptor$SpecDescriptor;
+	public static synthetic fun copy$default (Lio/kotest/core/descriptors/Descriptor$SpecDescriptor;Lio/kotest/core/descriptors/DescriptorId;ILjava/lang/Object;)Lio/kotest/core/descriptors/Descriptor$SpecDescriptor;
 	public fun depth ()I
 	public fun equals (Ljava/lang/Object;)Z
 	public fun getId ()Lio/kotest/core/descriptors/DescriptorId;
-	public final fun getKclass ()Lkotlin/reflect/KClass;
 	public fun getTreePrefix ()Ljava/util/List;
+	public fun hasSharedPath (Lio/kotest/core/descriptors/Descriptor;)Z
 	public fun hashCode ()I
 	public fun ids ()Ljava/util/List;
 	public fun isAncestorOf (Lio/kotest/core/descriptors/Descriptor;)Z
@@ -1262,19 +1055,21 @@ public final class io/kotest/core/descriptors/Descriptor$SpecDescriptor : io/kot
 	public fun isEqualType (Lio/kotest/core/descriptors/Descriptor;)Z
 	public fun isOnPath (Lio/kotest/core/descriptors/Descriptor;)Z
 	public fun isParentOf (Lio/kotest/core/descriptors/Descriptor;)Z
+	public fun isPrefixOf (Lio/kotest/core/descriptors/Descriptor;)Z
 	public fun isRootTest ()Z
 	public fun isSpec ()Z
 	public fun isTestCase ()Z
 	public fun parents ()Ljava/util/List;
 	public fun parts ()Ljava/util/List;
-	public fun path (Z)Lio/kotest/common/TestPath;
+	public fun path ()Lio/kotest/common/DescriptorPath;
+	public fun path (Z)Lio/kotest/common/DescriptorPath;
 	public fun spec ()Lio/kotest/core/descriptors/Descriptor$SpecDescriptor;
 	public fun toString ()Ljava/lang/String;
 }
 
 public final class io/kotest/core/descriptors/Descriptor$TestDescriptor : io/kotest/core/descriptors/Descriptor {
 	public fun <init> (Lio/kotest/core/descriptors/Descriptor;Lio/kotest/core/descriptors/DescriptorId;)V
-	public fun chain ()Ljava/util/List;
+	public fun append (Ljava/lang/String;)Lio/kotest/core/descriptors/Descriptor$TestDescriptor;
 	public final fun component1 ()Lio/kotest/core/descriptors/Descriptor;
 	public final fun component2 ()Lio/kotest/core/descriptors/DescriptorId;
 	public final fun copy (Lio/kotest/core/descriptors/Descriptor;Lio/kotest/core/descriptors/DescriptorId;)Lio/kotest/core/descriptors/Descriptor$TestDescriptor;
@@ -1284,6 +1079,7 @@ public final class io/kotest/core/descriptors/Descriptor$TestDescriptor : io/kot
 	public fun getId ()Lio/kotest/core/descriptors/DescriptorId;
 	public final fun getParent ()Lio/kotest/core/descriptors/Descriptor;
 	public fun getTreePrefix ()Ljava/util/List;
+	public fun hasSharedPath (Lio/kotest/core/descriptors/Descriptor;)Z
 	public fun hashCode ()I
 	public fun ids ()Ljava/util/List;
 	public fun isAncestorOf (Lio/kotest/core/descriptors/Descriptor;)Z
@@ -1292,12 +1088,14 @@ public final class io/kotest/core/descriptors/Descriptor$TestDescriptor : io/kot
 	public fun isEqualType (Lio/kotest/core/descriptors/Descriptor;)Z
 	public fun isOnPath (Lio/kotest/core/descriptors/Descriptor;)Z
 	public fun isParentOf (Lio/kotest/core/descriptors/Descriptor;)Z
+	public fun isPrefixOf (Lio/kotest/core/descriptors/Descriptor;)Z
 	public fun isRootTest ()Z
 	public fun isSpec ()Z
 	public fun isTestCase ()Z
 	public fun parents ()Ljava/util/List;
 	public fun parts ()Ljava/util/List;
-	public fun path (Z)Lio/kotest/common/TestPath;
+	public fun path ()Lio/kotest/common/DescriptorPath;
+	public fun path (Z)Lio/kotest/common/DescriptorPath;
 	public fun spec ()Lio/kotest/core/descriptors/Descriptor$SpecDescriptor;
 	public fun toString ()Ljava/lang/String;
 }
@@ -1314,11 +1112,12 @@ public final class io/kotest/core/descriptors/DescriptorId {
 	public final fun wildCardMatch (Lio/kotest/core/descriptors/DescriptorId;)Z
 }
 
-public final class io/kotest/core/descriptors/DescriptorKt {
-	public static final fun append (Lio/kotest/core/descriptors/Descriptor$SpecDescriptor;Lio/kotest/core/names/TestName;)Lio/kotest/core/descriptors/Descriptor$TestDescriptor;
-	public static final fun append (Lio/kotest/core/descriptors/Descriptor$TestDescriptor;Lio/kotest/core/names/TestName;)Lio/kotest/core/descriptors/Descriptor$TestDescriptor;
-	public static final fun append (Lio/kotest/core/descriptors/Descriptor;Ljava/lang/String;)Lio/kotest/core/descriptors/Descriptor$TestDescriptor;
-	public static final fun root (Lio/kotest/core/descriptors/Descriptor$TestDescriptor;)Lio/kotest/core/descriptors/Descriptor$TestDescriptor;
+public final class io/kotest/core/descriptors/DescriptorPaths {
+	public static final field INSTANCE Lio/kotest/core/descriptors/DescriptorPaths;
+	public static final field SPEC_DELIMITER Ljava/lang/String;
+	public static final field TEST_DELIMITER Ljava/lang/String;
+	public final fun parse (Ljava/lang/String;)Lio/kotest/core/descriptors/Descriptor;
+	public final fun render (Lio/kotest/core/descriptors/Descriptor;)Lio/kotest/common/DescriptorPath;
 }
 
 public abstract interface annotation class io/kotest/core/extensions/ApplyExtension : java/lang/annotation/Annotation {
@@ -1373,12 +1172,12 @@ public abstract interface class io/kotest/core/extensions/ProjectExtension : io/
 
 public final class io/kotest/core/extensions/RuntimeTagExpressionExtension : io/kotest/core/extensions/TagExtension {
 	public fun <init> (Ljava/lang/String;)V
-	public fun tags ()Lio/kotest/core/TagExpression;
+	public fun tags ()Lio/kotest/engine/tags/TagExpression;
 }
 
 public final class io/kotest/core/extensions/RuntimeTagExtension : io/kotest/core/extensions/TagExtension {
 	public fun <init> (Ljava/util/Set;Ljava/util/Set;)V
-	public fun tags ()Lio/kotest/core/TagExpression;
+	public fun tags ()Lio/kotest/engine/tags/TagExpression;
 }
 
 public abstract interface class io/kotest/core/extensions/SpecExecutionOrderExtension {
@@ -1398,7 +1197,7 @@ public abstract interface class io/kotest/core/extensions/SpecRefExtension {
 }
 
 public abstract interface class io/kotest/core/extensions/TagExtension : io/kotest/core/extensions/Extension {
-	public abstract fun tags ()Lio/kotest/core/TagExpression;
+	public abstract fun tags ()Lio/kotest/engine/tags/TagExpression;
 }
 
 public abstract interface class io/kotest/core/extensions/TestCaseExtension : io/kotest/core/extensions/Extension {
@@ -1406,17 +1205,17 @@ public abstract interface class io/kotest/core/extensions/TestCaseExtension : io
 }
 
 public final class io/kotest/core/factory/DynamicRootTest {
-	public fun <init> (Lio/kotest/core/names/TestName;Lkotlin/jvm/functions/Function2;Lio/kotest/core/test/config/ResolvedTestConfig;Lio/kotest/core/test/TestType;Lio/kotest/core/source/SourceRef;Lio/kotest/core/factory/FactoryId;)V
+	public fun <init> (Lio/kotest/core/names/TestName;Lkotlin/jvm/functions/Function2;Lio/kotest/core/test/config/TestConfig;Lio/kotest/core/test/TestType;Lio/kotest/core/source/SourceRef;Lio/kotest/core/factory/FactoryId;)V
 	public final fun component1 ()Lio/kotest/core/names/TestName;
 	public final fun component2 ()Lkotlin/jvm/functions/Function2;
-	public final fun component3 ()Lio/kotest/core/test/config/ResolvedTestConfig;
+	public final fun component3 ()Lio/kotest/core/test/config/TestConfig;
 	public final fun component4 ()Lio/kotest/core/test/TestType;
 	public final fun component5 ()Lio/kotest/core/source/SourceRef;
 	public final fun component6 ()Lio/kotest/core/factory/FactoryId;
-	public final fun copy (Lio/kotest/core/names/TestName;Lkotlin/jvm/functions/Function2;Lio/kotest/core/test/config/ResolvedTestConfig;Lio/kotest/core/test/TestType;Lio/kotest/core/source/SourceRef;Lio/kotest/core/factory/FactoryId;)Lio/kotest/core/factory/DynamicRootTest;
-	public static synthetic fun copy$default (Lio/kotest/core/factory/DynamicRootTest;Lio/kotest/core/names/TestName;Lkotlin/jvm/functions/Function2;Lio/kotest/core/test/config/ResolvedTestConfig;Lio/kotest/core/test/TestType;Lio/kotest/core/source/SourceRef;Lio/kotest/core/factory/FactoryId;ILjava/lang/Object;)Lio/kotest/core/factory/DynamicRootTest;
+	public final fun copy (Lio/kotest/core/names/TestName;Lkotlin/jvm/functions/Function2;Lio/kotest/core/test/config/TestConfig;Lio/kotest/core/test/TestType;Lio/kotest/core/source/SourceRef;Lio/kotest/core/factory/FactoryId;)Lio/kotest/core/factory/DynamicRootTest;
+	public static synthetic fun copy$default (Lio/kotest/core/factory/DynamicRootTest;Lio/kotest/core/names/TestName;Lkotlin/jvm/functions/Function2;Lio/kotest/core/test/config/TestConfig;Lio/kotest/core/test/TestType;Lio/kotest/core/source/SourceRef;Lio/kotest/core/factory/FactoryId;ILjava/lang/Object;)Lio/kotest/core/factory/DynamicRootTest;
 	public fun equals (Ljava/lang/Object;)Z
-	public final fun getConfig ()Lio/kotest/core/test/config/ResolvedTestConfig;
+	public final fun getConfig ()Lio/kotest/core/test/config/TestConfig;
 	public final fun getFactoryId ()Lio/kotest/core/factory/FactoryId;
 	public final fun getName ()Lio/kotest/core/names/TestName;
 	public final fun getSource ()Lio/kotest/core/source/SourceRef;
@@ -1424,10 +1223,6 @@ public final class io/kotest/core/factory/DynamicRootTest {
 	public final fun getType ()Lio/kotest/core/test/TestType;
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
-}
-
-public final class io/kotest/core/factory/DynamicRootTestKt {
-	public static final fun addPrefix (Lio/kotest/core/factory/DynamicRootTest;Ljava/lang/String;)Lio/kotest/core/factory/DynamicRootTest;
 }
 
 public final class io/kotest/core/factory/FactoryConstrainedAfterContainerListener : io/kotest/core/listeners/AfterContainerListener {
@@ -1504,55 +1299,6 @@ public abstract class io/kotest/core/factory/TestFactoryConfiguration : io/kotes
 	public fun add (Lio/kotest/core/spec/RootTest;)V
 	public final fun getFactoryId ()Lio/kotest/core/factory/FactoryId;
 	public final fun include (Lio/kotest/core/factory/TestFactory;)V
-}
-
-public abstract interface class io/kotest/core/filter/SpecFilter : io/kotest/core/extensions/Extension {
-	public abstract fun filter (Lkotlin/reflect/KClass;)Lio/kotest/core/filter/SpecFilterResult;
-}
-
-public abstract interface class io/kotest/core/filter/SpecFilterResult {
-}
-
-public final class io/kotest/core/filter/SpecFilterResult$Exclude : io/kotest/core/filter/SpecFilterResult {
-	public fun <init> (Ljava/lang/String;)V
-	public final fun component1 ()Ljava/lang/String;
-	public final fun copy (Ljava/lang/String;)Lio/kotest/core/filter/SpecFilterResult$Exclude;
-	public static synthetic fun copy$default (Lio/kotest/core/filter/SpecFilterResult$Exclude;Ljava/lang/String;ILjava/lang/Object;)Lio/kotest/core/filter/SpecFilterResult$Exclude;
-	public fun equals (Ljava/lang/Object;)Z
-	public final fun getReason ()Ljava/lang/String;
-	public fun hashCode ()I
-	public fun toString ()Ljava/lang/String;
-}
-
-public final class io/kotest/core/filter/SpecFilterResult$Include : io/kotest/core/filter/SpecFilterResult {
-	public static final field INSTANCE Lio/kotest/core/filter/SpecFilterResult$Include;
-}
-
-public abstract interface class io/kotest/core/filter/TestFilter : io/kotest/core/extensions/Extension {
-	public abstract fun filter (Lio/kotest/core/descriptors/Descriptor;)Lio/kotest/core/filter/TestFilterResult;
-}
-
-public final class io/kotest/core/filter/TestFilterKt {
-	public static final fun toTestFilterResult (ZLjava/lang/String;)Lio/kotest/core/filter/TestFilterResult;
-}
-
-public abstract interface class io/kotest/core/filter/TestFilterResult {
-}
-
-public final class io/kotest/core/filter/TestFilterResult$Exclude : io/kotest/core/filter/TestFilterResult {
-	public fun <init> (Ljava/lang/String;)V
-	public final fun component1 ()Ljava/lang/String;
-	public final fun copy (Ljava/lang/String;)Lio/kotest/core/filter/TestFilterResult$Exclude;
-	public static synthetic fun copy$default (Lio/kotest/core/filter/TestFilterResult$Exclude;Ljava/lang/String;ILjava/lang/Object;)Lio/kotest/core/filter/TestFilterResult$Exclude;
-	public fun equals (Ljava/lang/Object;)Z
-	public final fun getReason ()Ljava/lang/String;
-	public fun hashCode ()I
-	public fun toString ()Ljava/lang/String;
-}
-
-public final class io/kotest/core/filter/TestFilterResult$Include : io/kotest/core/filter/TestFilterResult {
-	public static final field INSTANCE Lio/kotest/core/filter/TestFilterResult$Include;
-	public fun toString ()Ljava/lang/String;
 }
 
 public abstract interface class io/kotest/core/listeners/AfterContainerListener : io/kotest/core/extensions/Extension {
@@ -1729,33 +1475,51 @@ public final class io/kotest/core/names/DuplicateTestNameMode : java/lang/Enum {
 }
 
 public final class io/kotest/core/names/TestName {
-	public static final field Companion Lio/kotest/core/names/TestName$Companion;
-	public fun <init> (Ljava/lang/String;ZZLjava/lang/String;Ljava/lang/String;ZLjava/lang/String;)V
+	public fun <init> (Ljava/lang/String;ZZLjava/lang/String;Ljava/lang/String;Z)V
 	public final fun component1 ()Ljava/lang/String;
 	public final fun component2 ()Z
 	public final fun component3 ()Z
 	public final fun component4 ()Ljava/lang/String;
 	public final fun component5 ()Ljava/lang/String;
 	public final fun component6 ()Z
-	public final fun component7 ()Ljava/lang/String;
-	public final fun copy (Ljava/lang/String;ZZLjava/lang/String;Ljava/lang/String;ZLjava/lang/String;)Lio/kotest/core/names/TestName;
-	public static synthetic fun copy$default (Lio/kotest/core/names/TestName;Ljava/lang/String;ZZLjava/lang/String;Ljava/lang/String;ZLjava/lang/String;ILjava/lang/Object;)Lio/kotest/core/names/TestName;
+	public final fun copy (Ljava/lang/String;ZZLjava/lang/String;Ljava/lang/String;Z)Lio/kotest/core/names/TestName;
+	public static synthetic fun copy$default (Lio/kotest/core/names/TestName;Ljava/lang/String;ZZLjava/lang/String;Ljava/lang/String;ZILjava/lang/Object;)Lio/kotest/core/names/TestName;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getBang ()Z
 	public final fun getDefaultAffixes ()Z
 	public final fun getFocus ()Z
-	public final fun getOriginalName ()Ljava/lang/String;
+	public final fun getName ()Ljava/lang/String;
 	public final fun getPrefix ()Ljava/lang/String;
 	public final fun getSuffix ()Ljava/lang/String;
-	public final fun getTestName ()Ljava/lang/String;
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class io/kotest/core/names/TestName$Companion {
-	public final fun invoke (Ljava/lang/String;)Lio/kotest/core/names/TestName;
-	public final fun invoke (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Z)Lio/kotest/core/names/TestName;
-	public final fun invoke (Ljava/lang/String;Ljava/lang/String;Z)Lio/kotest/core/names/TestName;
+public final class io/kotest/core/names/TestNameBuilder {
+	public static final field Companion Lio/kotest/core/names/TestNameBuilder$Companion;
+	public fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Z)V
+	public final fun build ()Lio/kotest/core/names/TestName;
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()Ljava/lang/String;
+	public final fun component3 ()Ljava/lang/String;
+	public final fun component4 ()Z
+	public final fun copy (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Z)Lio/kotest/core/names/TestNameBuilder;
+	public static synthetic fun copy$default (Lio/kotest/core/names/TestNameBuilder;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;ZILjava/lang/Object;)Lio/kotest/core/names/TestNameBuilder;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getDefaultAffixes ()Z
+	public final fun getPrefix ()Ljava/lang/String;
+	public final fun getRawname ()Ljava/lang/String;
+	public final fun getSuffix ()Ljava/lang/String;
+	public fun hashCode ()I
+	public final fun removeAllExtraWhitespaces (Ljava/lang/String;)Ljava/lang/String;
+	public fun toString ()Ljava/lang/String;
+	public final fun withDefaultAffixes ()Lio/kotest/core/names/TestNameBuilder;
+	public final fun withPrefix (Ljava/lang/String;)Lio/kotest/core/names/TestNameBuilder;
+	public final fun withSuffix (Ljava/lang/String;)Lio/kotest/core/names/TestNameBuilder;
+}
+
+public final class io/kotest/core/names/TestNameBuilder$Companion {
+	public final fun builder (Ljava/lang/String;)Lio/kotest/core/names/TestNameBuilder;
 }
 
 public final class io/kotest/core/names/TestNameCase : java/lang/Enum {
@@ -1769,17 +1533,17 @@ public final class io/kotest/core/names/TestNameCase : java/lang/Enum {
 }
 
 public final class io/kotest/core/project/ProjectContext {
-	public fun <init> (Lio/kotest/core/config/ProjectConfiguration;)V
-	public fun <init> (Lio/kotest/core/project/TestSuite;Lio/kotest/core/TagExpression;Lio/kotest/core/config/ProjectConfiguration;)V
+	public fun <init> (Lio/kotest/core/config/AbstractProjectConfig;)V
+	public fun <init> (Lio/kotest/core/project/TestSuite;Lio/kotest/engine/tags/TagExpression;Lio/kotest/core/config/AbstractProjectConfig;)V
 	public final fun component1 ()Lio/kotest/core/project/TestSuite;
-	public final fun component2 ()Lio/kotest/core/TagExpression;
-	public final fun component3 ()Lio/kotest/core/config/ProjectConfiguration;
-	public final fun copy (Lio/kotest/core/project/TestSuite;Lio/kotest/core/TagExpression;Lio/kotest/core/config/ProjectConfiguration;)Lio/kotest/core/project/ProjectContext;
-	public static synthetic fun copy$default (Lio/kotest/core/project/ProjectContext;Lio/kotest/core/project/TestSuite;Lio/kotest/core/TagExpression;Lio/kotest/core/config/ProjectConfiguration;ILjava/lang/Object;)Lio/kotest/core/project/ProjectContext;
+	public final fun component2 ()Lio/kotest/engine/tags/TagExpression;
+	public final fun component3 ()Lio/kotest/core/config/AbstractProjectConfig;
+	public final fun copy (Lio/kotest/core/project/TestSuite;Lio/kotest/engine/tags/TagExpression;Lio/kotest/core/config/AbstractProjectConfig;)Lio/kotest/core/project/ProjectContext;
+	public static synthetic fun copy$default (Lio/kotest/core/project/ProjectContext;Lio/kotest/core/project/TestSuite;Lio/kotest/engine/tags/TagExpression;Lio/kotest/core/config/AbstractProjectConfig;ILjava/lang/Object;)Lio/kotest/core/project/ProjectContext;
 	public fun equals (Ljava/lang/Object;)Z
-	public final fun getConfiguration ()Lio/kotest/core/config/ProjectConfiguration;
+	public final fun getProjectConfig ()Lio/kotest/core/config/AbstractProjectConfig;
 	public final fun getSuite ()Lio/kotest/core/project/TestSuite;
-	public final fun getTags ()Lio/kotest/core/TagExpression;
+	public final fun getTags ()Lio/kotest/engine/tags/TagExpression;
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
 }
@@ -1836,25 +1600,8 @@ public final class io/kotest/core/source/SourceRef$ClassSource : io/kotest/core/
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class io/kotest/core/source/SourceRef$FileSource : io/kotest/core/source/SourceRef {
-	public fun <init> (Ljava/lang/String;Ljava/lang/Integer;)V
-	public final fun component1 ()Ljava/lang/String;
-	public final fun component2 ()Ljava/lang/Integer;
-	public final fun copy (Ljava/lang/String;Ljava/lang/Integer;)Lio/kotest/core/source/SourceRef$FileSource;
-	public static synthetic fun copy$default (Lio/kotest/core/source/SourceRef$FileSource;Ljava/lang/String;Ljava/lang/Integer;ILjava/lang/Object;)Lio/kotest/core/source/SourceRef$FileSource;
-	public fun equals (Ljava/lang/Object;)Z
-	public final fun getFileName ()Ljava/lang/String;
-	public final fun getLineNumber ()Ljava/lang/Integer;
-	public fun hashCode ()I
-	public fun toString ()Ljava/lang/String;
-}
-
 public final class io/kotest/core/source/SourceRef$None : io/kotest/core/source/SourceRef {
 	public static final field INSTANCE Lio/kotest/core/source/SourceRef$None;
-}
-
-public final class io/kotest/core/source/SourceRefKt {
-	public static final fun sourceRef ()Lio/kotest/core/source/SourceRef;
 }
 
 public abstract class io/kotest/core/spec/CompositeSpec : io/kotest/core/spec/Spec {
@@ -1865,8 +1612,7 @@ public abstract class io/kotest/core/spec/CompositeSpec : io/kotest/core/spec/Sp
 public abstract class io/kotest/core/spec/DslDrivenSpec : io/kotest/core/spec/Spec, io/kotest/core/spec/style/scopes/RootScope {
 	public fun <init> ()V
 	public fun add (Lio/kotest/core/spec/RootTest;)V
-	public final fun afterProject (Lkotlin/jvm/functions/Function0;)V
-	public fun globalExtensions ()Ljava/util/List;
+	public final fun afterProject (Lkotlin/jvm/functions/Function1;)V
 	public final fun include (Lio/kotest/core/factory/TestFactory;)V
 	public final fun include (Ljava/lang/String;Lio/kotest/core/factory/TestFactory;)V
 	public fun rootTests ()Ljava/util/List;
@@ -1879,8 +1625,7 @@ public final class io/kotest/core/spec/InvalidDslException : java/lang/Exception
 }
 
 public final class io/kotest/core/spec/IsolationMode : java/lang/Enum {
-	public static final field InstancePerLeaf Lio/kotest/core/spec/IsolationMode;
-	public static final field InstancePerTest Lio/kotest/core/spec/IsolationMode;
+	public static final field InstancePerRoot Lio/kotest/core/spec/IsolationMode;
 	public static final field SingleInstance Lio/kotest/core/spec/IsolationMode;
 	public static fun getEntries ()Lkotlin/enums/EnumEntries;
 	public static fun valueOf (Ljava/lang/String;)Lio/kotest/core/spec/IsolationMode;
@@ -1937,17 +1682,16 @@ public abstract class io/kotest/core/spec/Spec : io/kotest/core/TestConfiguratio
 	public fun beforeSpec (Lio/kotest/core/spec/Spec;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 	public fun beforeTest (Lio/kotest/core/test/TestCase;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 	public fun beforeTest (Lkotlin/jvm/functions/Function2;)V
-	public fun concurrency ()Ljava/lang/Integer;
-	public fun coroutineDispatcherFactory ()Lio/kotest/core/concurrency/CoroutineDispatcherFactory;
-	public fun dispatcherAffinity ()Ljava/lang/Boolean;
-	public fun extensions ()Ljava/util/List;
+	public fun coroutineDispatcherFactory ()Lio/kotest/engine/coroutines/CoroutineDispatcherFactory;
+	public fun duplicateTestNameMode ()Lio/kotest/core/names/DuplicateTestNameMode;
+	protected final fun getAfterProjectListeners ()Ljava/util/List;
+	public final fun getAssertionMode ()Lio/kotest/core/test/AssertionMode;
 	public final fun getBlockingTest ()Ljava/lang/Boolean;
-	public final fun getConcurrency ()Ljava/lang/Integer;
 	public final fun getCoroutineDebugProbes ()Ljava/lang/Boolean;
-	public final fun getCoroutineDispatcherFactory ()Lio/kotest/core/concurrency/CoroutineDispatcherFactory;
+	public final fun getCoroutineDispatcherFactory ()Lio/kotest/engine/coroutines/CoroutineDispatcherFactory;
 	public final fun getCoroutineTestScope ()Ljava/lang/Boolean;
-	public final fun getDispatcherAffinity ()Ljava/lang/Boolean;
 	public final fun getDuplicateTestNameMode ()Lio/kotest/core/names/DuplicateTestNameMode;
+	public fun getExtensions ()Ljava/util/List;
 	public final fun getFailfast ()Ljava/lang/Boolean;
 	public final fun getInvocationTimeout ()Ljava/lang/Long;
 	public final fun getIsolationMode ()Lio/kotest/core/spec/IsolationMode;
@@ -1955,19 +1699,17 @@ public abstract class io/kotest/core/spec/Spec : io/kotest/core/TestConfiguratio
 	public final fun getRetries ()Ljava/lang/Integer;
 	public final fun getRetryDelay-FghU774 ()Lkotlin/time/Duration;
 	public final fun getSeverity ()Lio/kotest/core/test/TestCaseSeverityLevel;
+	public final fun getTestExecutionMode ()Lio/kotest/engine/concurrency/TestExecutionMode;
 	public final fun getTestOrder ()Lio/kotest/core/test/TestCaseOrder;
-	public final fun getThreads ()Ljava/lang/Integer;
 	public final fun getTimeout ()Ljava/lang/Long;
-	public abstract fun globalExtensions ()Ljava/util/List;
 	public fun invocationTimeout ()Ljava/lang/Long;
 	public fun isolationMode ()Lio/kotest/core/spec/IsolationMode;
 	public abstract fun rootTests ()Ljava/util/List;
+	public final fun setAssertionMode (Lio/kotest/core/test/AssertionMode;)V
 	public final fun setBlockingTest (Ljava/lang/Boolean;)V
-	public final fun setConcurrency (Ljava/lang/Integer;)V
 	public final fun setCoroutineDebugProbes (Ljava/lang/Boolean;)V
-	public final fun setCoroutineDispatcherFactory (Lio/kotest/core/concurrency/CoroutineDispatcherFactory;)V
+	public final fun setCoroutineDispatcherFactory (Lio/kotest/engine/coroutines/CoroutineDispatcherFactory;)V
 	public final fun setCoroutineTestScope (Ljava/lang/Boolean;)V
-	public final fun setDispatcherAffinity (Ljava/lang/Boolean;)V
 	public final fun setDuplicateTestNameMode (Lio/kotest/core/names/DuplicateTestNameMode;)V
 	public final fun setFailfast (Ljava/lang/Boolean;)V
 	public final fun setInvocationTimeout (Ljava/lang/Long;)V
@@ -1976,12 +1718,12 @@ public abstract class io/kotest/core/spec/Spec : io/kotest/core/TestConfiguratio
 	public final fun setRetries (Ljava/lang/Integer;)V
 	public final fun setRetryDelay-BwNAW2A (Lkotlin/time/Duration;)V
 	public final fun setSeverity (Lio/kotest/core/test/TestCaseSeverityLevel;)V
+	public final fun setTestExecutionMode (Lio/kotest/engine/concurrency/TestExecutionMode;)V
 	public final fun setTestOrder (Lio/kotest/core/test/TestCaseOrder;)V
-	public final fun setThreads (Ljava/lang/Integer;)V
 	public final fun setTimeout (Ljava/lang/Long;)V
 	public fun tags ()Ljava/util/Set;
 	public fun testCaseOrder ()Lio/kotest/core/test/TestCaseOrder;
-	public fun threads ()Ljava/lang/Integer;
+	public fun testExecutionMode ()Lio/kotest/engine/concurrency/TestExecutionMode;
 	public fun timeout ()Ljava/lang/Long;
 }
 
@@ -2042,7 +1784,6 @@ public abstract class io/kotest/core/spec/style/AnnotationSpec : io/kotest/core/
 	public fun afterTest (Lio/kotest/core/test/TestCase;Lio/kotest/core/test/TestResult;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 	public fun beforeSpec (Lio/kotest/core/spec/Spec;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 	public fun beforeTest (Lio/kotest/core/test/TestCase;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
-	public fun globalExtensions ()Ljava/util/List;
 	public fun rootTests ()Ljava/util/List;
 }
 
@@ -2166,6 +1907,7 @@ public abstract class io/kotest/core/spec/style/ExpectSpec : io/kotest/core/spec
 	public fun context (Ljava/lang/String;Lkotlin/jvm/functions/Function2;)V
 	public fun expect (Ljava/lang/String;)Lio/kotest/core/spec/style/scopes/RootTestWithConfigBuilder;
 	public fun expect (Ljava/lang/String;Lkotlin/jvm/functions/Function2;)V
+	public fun xcontext (Ljava/lang/String;)Lio/kotest/core/spec/style/scopes/RootContainerWithConfigBuilder;
 	public fun xcontext (Ljava/lang/String;Lkotlin/jvm/functions/Function2;)V
 	public fun xexpect (Ljava/lang/String;)Lio/kotest/core/spec/style/scopes/RootTestWithConfigBuilder;
 	public fun xexpect (Ljava/lang/String;Lkotlin/jvm/functions/Function2;)V
@@ -2181,6 +1923,7 @@ public final class io/kotest/core/spec/style/ExpectSpecTestFactoryConfiguration 
 	public fun context (Ljava/lang/String;Lkotlin/jvm/functions/Function2;)V
 	public fun expect (Ljava/lang/String;)Lio/kotest/core/spec/style/scopes/RootTestWithConfigBuilder;
 	public fun expect (Ljava/lang/String;Lkotlin/jvm/functions/Function2;)V
+	public fun xcontext (Ljava/lang/String;)Lio/kotest/core/spec/style/scopes/RootContainerWithConfigBuilder;
 	public fun xcontext (Ljava/lang/String;Lkotlin/jvm/functions/Function2;)V
 	public fun xexpect (Ljava/lang/String;)Lio/kotest/core/spec/style/scopes/RootTestWithConfigBuilder;
 	public fun xexpect (Ljava/lang/String;Lkotlin/jvm/functions/Function2;)V
@@ -2190,7 +1933,6 @@ public abstract class io/kotest/core/spec/style/FeatureSpec : io/kotest/core/spe
 	public fun <init> ()V
 	public fun <init> (Lkotlin/jvm/functions/Function1;)V
 	public synthetic fun <init> (Lkotlin/jvm/functions/Function1;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public fun addFeature (Ljava/lang/String;ZLkotlin/jvm/functions/Function2;)V
 	public fun feature (Ljava/lang/String;)Lio/kotest/core/spec/style/scopes/RootContainerWithConfigBuilder;
 	public fun feature (Ljava/lang/String;Lkotlin/jvm/functions/Function2;)V
 	public fun xfeature (Ljava/lang/String;)Lio/kotest/core/spec/style/scopes/RootContainerWithConfigBuilder;
@@ -2203,7 +1945,6 @@ public final class io/kotest/core/spec/style/FeatureSpecKt {
 
 public final class io/kotest/core/spec/style/FeatureSpecTestFactoryConfiguration : io/kotest/core/factory/TestFactoryConfiguration, io/kotest/core/spec/style/scopes/FeatureSpecRootScope {
 	public fun <init> ()V
-	public fun addFeature (Ljava/lang/String;ZLkotlin/jvm/functions/Function2;)V
 	public fun feature (Ljava/lang/String;)Lio/kotest/core/spec/style/scopes/RootContainerWithConfigBuilder;
 	public fun feature (Ljava/lang/String;Lkotlin/jvm/functions/Function2;)V
 	public fun xfeature (Ljava/lang/String;)Lio/kotest/core/spec/style/scopes/RootContainerWithConfigBuilder;
@@ -2216,7 +1957,7 @@ public abstract class io/kotest/core/spec/style/FreeSpec : io/kotest/core/spec/D
 	public synthetic fun <init> (Lkotlin/jvm/functions/Function1;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun config (Ljava/lang/String;Lio/kotest/core/test/config/TestConfig;)Lio/kotest/core/spec/style/scopes/FreeSpecContextConfigBuilder;
 	public fun config (Ljava/lang/String;Lio/kotest/core/test/config/TestConfig;Lkotlin/jvm/functions/Function2;)Lio/kotest/core/spec/style/scopes/FreeSpecContextConfigBuilder;
-	public fun config-rDtbm-Q (Ljava/lang/String;Ljava/lang/Boolean;Ljava/lang/Integer;Ljava/lang/Integer;Ljava/util/Set;Lkotlin/time/Duration;Ljava/util/List;Lkotlin/jvm/functions/Function1;Lkotlin/time/Duration;Lio/kotest/core/test/TestCaseSeverityLevel;Ljava/lang/Boolean;Ljava/lang/Boolean;Ljava/lang/Boolean;Lkotlin/jvm/functions/Function2;)V
+	public fun config-0Nu1UfI (Ljava/lang/String;Ljava/lang/Boolean;Ljava/lang/Integer;Ljava/util/Set;Lkotlin/time/Duration;Ljava/util/List;Lkotlin/jvm/functions/Function1;Lkotlin/time/Duration;Lio/kotest/core/test/TestCaseSeverityLevel;Ljava/lang/Boolean;Ljava/lang/Boolean;Ljava/lang/Boolean;Lkotlin/jvm/functions/Function2;)V
 	public fun config-s0vPEsQ (Ljava/lang/String;Ljava/lang/Boolean;Ljava/lang/Integer;Ljava/lang/Integer;Ljava/util/Set;Lkotlin/time/Duration;Ljava/util/List;Lkotlin/jvm/functions/Function1;Lkotlin/time/Duration;Lio/kotest/core/test/TestCaseSeverityLevel;Ljava/lang/Boolean;Ljava/lang/Boolean;Ljava/lang/Boolean;)Lio/kotest/core/spec/style/scopes/FreeSpecContextConfigBuilder;
 	public fun invoke (Ljava/lang/String;Lkotlin/jvm/functions/Function2;)V
 	public fun minus (Lio/kotest/core/spec/style/scopes/FreeSpecContextConfigBuilder;Lkotlin/jvm/functions/Function2;)V
@@ -2231,7 +1972,7 @@ public final class io/kotest/core/spec/style/FreeSpecTestFactoryConfiguration : 
 	public fun <init> ()V
 	public fun config (Ljava/lang/String;Lio/kotest/core/test/config/TestConfig;)Lio/kotest/core/spec/style/scopes/FreeSpecContextConfigBuilder;
 	public fun config (Ljava/lang/String;Lio/kotest/core/test/config/TestConfig;Lkotlin/jvm/functions/Function2;)Lio/kotest/core/spec/style/scopes/FreeSpecContextConfigBuilder;
-	public fun config-rDtbm-Q (Ljava/lang/String;Ljava/lang/Boolean;Ljava/lang/Integer;Ljava/lang/Integer;Ljava/util/Set;Lkotlin/time/Duration;Ljava/util/List;Lkotlin/jvm/functions/Function1;Lkotlin/time/Duration;Lio/kotest/core/test/TestCaseSeverityLevel;Ljava/lang/Boolean;Ljava/lang/Boolean;Ljava/lang/Boolean;Lkotlin/jvm/functions/Function2;)V
+	public fun config-0Nu1UfI (Ljava/lang/String;Ljava/lang/Boolean;Ljava/lang/Integer;Ljava/util/Set;Lkotlin/time/Duration;Ljava/util/List;Lkotlin/jvm/functions/Function1;Lkotlin/time/Duration;Lio/kotest/core/test/TestCaseSeverityLevel;Ljava/lang/Boolean;Ljava/lang/Boolean;Ljava/lang/Boolean;Lkotlin/jvm/functions/Function2;)V
 	public fun config-s0vPEsQ (Ljava/lang/String;Ljava/lang/Boolean;Ljava/lang/Integer;Ljava/lang/Integer;Ljava/util/Set;Lkotlin/time/Duration;Ljava/util/List;Lkotlin/jvm/functions/Function1;Lkotlin/time/Duration;Lio/kotest/core/test/TestCaseSeverityLevel;Ljava/lang/Boolean;Ljava/lang/Boolean;Ljava/lang/Boolean;)Lio/kotest/core/spec/style/scopes/FreeSpecContextConfigBuilder;
 	public fun invoke (Ljava/lang/String;Lkotlin/jvm/functions/Function2;)V
 	public fun minus (Lio/kotest/core/spec/style/scopes/FreeSpecContextConfigBuilder;Lkotlin/jvm/functions/Function2;)V
@@ -2328,7 +2069,9 @@ public abstract class io/kotest/core/spec/style/WordSpec : io/kotest/core/spec/D
 	public fun When (Ljava/lang/String;Lkotlin/jvm/functions/Function2;)V
 	public fun should (Ljava/lang/String;Lkotlin/jvm/functions/Function2;)V
 	public fun when (Ljava/lang/String;Lkotlin/jvm/functions/Function2;)V
+	public fun xWhen (Ljava/lang/String;Lkotlin/jvm/functions/Function2;)V
 	public fun xshould (Ljava/lang/String;Lkotlin/jvm/functions/Function2;)V
+	public fun xwhen (Ljava/lang/String;Lkotlin/jvm/functions/Function2;)V
 }
 
 public final class io/kotest/core/spec/style/WordSpecKt {
@@ -2340,10 +2083,12 @@ public final class io/kotest/core/spec/style/WordSpecTestFactoryConfiguration : 
 	public fun When (Ljava/lang/String;Lkotlin/jvm/functions/Function2;)V
 	public fun should (Ljava/lang/String;Lkotlin/jvm/functions/Function2;)V
 	public fun when (Ljava/lang/String;Lkotlin/jvm/functions/Function2;)V
+	public fun xWhen (Ljava/lang/String;Lkotlin/jvm/functions/Function2;)V
 	public fun xshould (Ljava/lang/String;Lkotlin/jvm/functions/Function2;)V
+	public fun xwhen (Ljava/lang/String;Lkotlin/jvm/functions/Function2;)V
 }
 
-public class io/kotest/core/spec/style/scopes/AbstractContainerScope : io/kotest/core/spec/style/scopes/ContainerScope {
+public abstract class io/kotest/core/spec/style/scopes/AbstractContainerScope : io/kotest/core/spec/style/scopes/ContainerScope {
 	public fun <init> (Lio/kotest/core/test/TestScope;)V
 	public fun afterAny (Lkotlin/jvm/functions/Function2;)V
 	public fun afterContainer (Lkotlin/jvm/functions/Function2;)V
@@ -2532,6 +2277,7 @@ public abstract interface class io/kotest/core/spec/style/scopes/ExpectSpecRootS
 	public abstract fun context (Ljava/lang/String;Lkotlin/jvm/functions/Function2;)V
 	public abstract fun expect (Ljava/lang/String;)Lio/kotest/core/spec/style/scopes/RootTestWithConfigBuilder;
 	public abstract fun expect (Ljava/lang/String;Lkotlin/jvm/functions/Function2;)V
+	public abstract fun xcontext (Ljava/lang/String;)Lio/kotest/core/spec/style/scopes/RootContainerWithConfigBuilder;
 	public abstract fun xcontext (Ljava/lang/String;Lkotlin/jvm/functions/Function2;)V
 	public abstract fun xexpect (Ljava/lang/String;)Lio/kotest/core/spec/style/scopes/RootTestWithConfigBuilder;
 	public abstract fun xexpect (Ljava/lang/String;Lkotlin/jvm/functions/Function2;)V
@@ -2542,6 +2288,7 @@ public final class io/kotest/core/spec/style/scopes/ExpectSpecRootScope$DefaultI
 	public static fun context (Lio/kotest/core/spec/style/scopes/ExpectSpecRootScope;Ljava/lang/String;Lkotlin/jvm/functions/Function2;)V
 	public static fun expect (Lio/kotest/core/spec/style/scopes/ExpectSpecRootScope;Ljava/lang/String;)Lio/kotest/core/spec/style/scopes/RootTestWithConfigBuilder;
 	public static fun expect (Lio/kotest/core/spec/style/scopes/ExpectSpecRootScope;Ljava/lang/String;Lkotlin/jvm/functions/Function2;)V
+	public static fun xcontext (Lio/kotest/core/spec/style/scopes/ExpectSpecRootScope;Ljava/lang/String;)Lio/kotest/core/spec/style/scopes/RootContainerWithConfigBuilder;
 	public static fun xcontext (Lio/kotest/core/spec/style/scopes/ExpectSpecRootScope;Ljava/lang/String;Lkotlin/jvm/functions/Function2;)V
 	public static fun xexpect (Lio/kotest/core/spec/style/scopes/ExpectSpecRootScope;Ljava/lang/String;)Lio/kotest/core/spec/style/scopes/RootTestWithConfigBuilder;
 	public static fun xexpect (Lio/kotest/core/spec/style/scopes/ExpectSpecRootScope;Ljava/lang/String;Lkotlin/jvm/functions/Function2;)V
@@ -2551,7 +2298,6 @@ public final class io/kotest/core/spec/style/scopes/FeatureSpecContainerScope : 
 	public fun <init> (Lio/kotest/core/test/TestScope;)V
 	public final fun feature (Ljava/lang/String;Lkotlin/jvm/functions/Function2;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 	public final fun getTestScope ()Lio/kotest/core/test/TestScope;
-	public fun registerTestCase (Lio/kotest/core/test/NestedTest;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 	public final fun scenario (Ljava/lang/String;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 	public final fun scenario (Ljava/lang/String;Lkotlin/jvm/functions/Function2;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 	public final fun xfeature (Ljava/lang/String;Lkotlin/jvm/functions/Function2;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
@@ -2560,7 +2306,6 @@ public final class io/kotest/core/spec/style/scopes/FeatureSpecContainerScope : 
 }
 
 public abstract interface class io/kotest/core/spec/style/scopes/FeatureSpecRootScope : io/kotest/core/spec/style/scopes/RootScope {
-	public abstract fun addFeature (Ljava/lang/String;ZLkotlin/jvm/functions/Function2;)V
 	public abstract fun feature (Ljava/lang/String;)Lio/kotest/core/spec/style/scopes/RootContainerWithConfigBuilder;
 	public abstract fun feature (Ljava/lang/String;Lkotlin/jvm/functions/Function2;)V
 	public abstract fun xfeature (Ljava/lang/String;)Lio/kotest/core/spec/style/scopes/RootContainerWithConfigBuilder;
@@ -2568,7 +2313,6 @@ public abstract interface class io/kotest/core/spec/style/scopes/FeatureSpecRoot
 }
 
 public final class io/kotest/core/spec/style/scopes/FeatureSpecRootScope$DefaultImpls {
-	public static fun addFeature (Lio/kotest/core/spec/style/scopes/FeatureSpecRootScope;Ljava/lang/String;ZLkotlin/jvm/functions/Function2;)V
 	public static fun feature (Lio/kotest/core/spec/style/scopes/FeatureSpecRootScope;Ljava/lang/String;)Lio/kotest/core/spec/style/scopes/RootContainerWithConfigBuilder;
 	public static fun feature (Lio/kotest/core/spec/style/scopes/FeatureSpecRootScope;Ljava/lang/String;Lkotlin/jvm/functions/Function2;)V
 	public static fun xfeature (Lio/kotest/core/spec/style/scopes/FeatureSpecRootScope;Ljava/lang/String;)Lio/kotest/core/spec/style/scopes/RootContainerWithConfigBuilder;
@@ -2578,10 +2322,10 @@ public final class io/kotest/core/spec/style/scopes/FeatureSpecRootScope$Default
 public final class io/kotest/core/spec/style/scopes/FreeSpecContainerScope : io/kotest/core/spec/style/scopes/AbstractContainerScope {
 	public fun <init> (Lio/kotest/core/test/TestScope;)V
 	public final fun config (Ljava/lang/String;Lio/kotest/core/test/config/TestConfig;Lkotlin/jvm/functions/Function2;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
-	public final fun config-rDtbm-Q (Ljava/lang/String;Ljava/lang/Boolean;Ljava/lang/Integer;Ljava/lang/Integer;Ljava/util/Set;Lkotlin/time/Duration;Ljava/util/List;Lkotlin/jvm/functions/Function1;Lkotlin/time/Duration;Lio/kotest/core/test/TestCaseSeverityLevel;Ljava/lang/Boolean;Ljava/lang/Boolean;Lkotlin/jvm/functions/Function2;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
-	public static synthetic fun config-rDtbm-Q$default (Lio/kotest/core/spec/style/scopes/FreeSpecContainerScope;Ljava/lang/String;Ljava/lang/Boolean;Ljava/lang/Integer;Ljava/lang/Integer;Ljava/util/Set;Lkotlin/time/Duration;Ljava/util/List;Lkotlin/jvm/functions/Function1;Lkotlin/time/Duration;Lio/kotest/core/test/TestCaseSeverityLevel;Ljava/lang/Boolean;Ljava/lang/Boolean;Lkotlin/jvm/functions/Function2;Lkotlin/coroutines/Continuation;ILjava/lang/Object;)Ljava/lang/Object;
-	public final fun config-xwBXJq0 (Ljava/lang/String;Ljava/lang/Boolean;Ljava/lang/Integer;Ljava/lang/Integer;Ljava/util/Set;Lkotlin/time/Duration;Ljava/util/List;Lkotlin/jvm/functions/Function1;Lkotlin/time/Duration;Lio/kotest/core/test/TestCaseSeverityLevel;Ljava/lang/Boolean;)Lio/kotest/core/spec/style/scopes/FreeSpecContextConfigBuilder;
-	public static synthetic fun config-xwBXJq0$default (Lio/kotest/core/spec/style/scopes/FreeSpecContainerScope;Ljava/lang/String;Ljava/lang/Boolean;Ljava/lang/Integer;Ljava/lang/Integer;Ljava/util/Set;Lkotlin/time/Duration;Ljava/util/List;Lkotlin/jvm/functions/Function1;Lkotlin/time/Duration;Lio/kotest/core/test/TestCaseSeverityLevel;Ljava/lang/Boolean;ILjava/lang/Object;)Lio/kotest/core/spec/style/scopes/FreeSpecContextConfigBuilder;
+	public final fun config-0Nu1UfI (Ljava/lang/String;Ljava/lang/Boolean;Ljava/lang/Integer;Ljava/util/Set;Lkotlin/time/Duration;Ljava/util/List;Lkotlin/jvm/functions/Function1;Lkotlin/time/Duration;Lio/kotest/core/test/TestCaseSeverityLevel;Ljava/lang/Boolean;Ljava/lang/Boolean;Lkotlin/jvm/functions/Function2;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public static synthetic fun config-0Nu1UfI$default (Lio/kotest/core/spec/style/scopes/FreeSpecContainerScope;Ljava/lang/String;Ljava/lang/Boolean;Ljava/lang/Integer;Ljava/util/Set;Lkotlin/time/Duration;Ljava/util/List;Lkotlin/jvm/functions/Function1;Lkotlin/time/Duration;Lio/kotest/core/test/TestCaseSeverityLevel;Ljava/lang/Boolean;Ljava/lang/Boolean;Lkotlin/jvm/functions/Function2;Lkotlin/coroutines/Continuation;ILjava/lang/Object;)Ljava/lang/Object;
+	public final fun config-KvdBJpM (Ljava/lang/String;Ljava/lang/Boolean;Ljava/lang/Integer;Ljava/util/Set;Lkotlin/time/Duration;Ljava/util/List;Lkotlin/jvm/functions/Function1;Lkotlin/time/Duration;Lio/kotest/core/test/TestCaseSeverityLevel;Ljava/lang/Boolean;)Lio/kotest/core/spec/style/scopes/FreeSpecContextConfigBuilder;
+	public static synthetic fun config-KvdBJpM$default (Lio/kotest/core/spec/style/scopes/FreeSpecContainerScope;Ljava/lang/String;Ljava/lang/Boolean;Ljava/lang/Integer;Ljava/util/Set;Lkotlin/time/Duration;Ljava/util/List;Lkotlin/jvm/functions/Function1;Lkotlin/time/Duration;Lio/kotest/core/test/TestCaseSeverityLevel;Ljava/lang/Boolean;ILjava/lang/Object;)Lio/kotest/core/spec/style/scopes/FreeSpecContextConfigBuilder;
 	public final fun getTestScope ()Lio/kotest/core/test/TestScope;
 	public final fun invoke (Ljava/lang/String;Lkotlin/jvm/functions/Function2;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 	public final fun minus (Lio/kotest/core/spec/style/scopes/FreeSpecContextConfigBuilder;Lkotlin/jvm/functions/Function2;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
@@ -2604,7 +2348,7 @@ public final class io/kotest/core/spec/style/scopes/FreeSpecContextConfigBuilder
 public abstract interface class io/kotest/core/spec/style/scopes/FreeSpecRootScope : io/kotest/core/spec/style/scopes/RootScope {
 	public abstract fun config (Ljava/lang/String;Lio/kotest/core/test/config/TestConfig;)Lio/kotest/core/spec/style/scopes/FreeSpecContextConfigBuilder;
 	public abstract fun config (Ljava/lang/String;Lio/kotest/core/test/config/TestConfig;Lkotlin/jvm/functions/Function2;)Lio/kotest/core/spec/style/scopes/FreeSpecContextConfigBuilder;
-	public abstract fun config-rDtbm-Q (Ljava/lang/String;Ljava/lang/Boolean;Ljava/lang/Integer;Ljava/lang/Integer;Ljava/util/Set;Lkotlin/time/Duration;Ljava/util/List;Lkotlin/jvm/functions/Function1;Lkotlin/time/Duration;Lio/kotest/core/test/TestCaseSeverityLevel;Ljava/lang/Boolean;Ljava/lang/Boolean;Ljava/lang/Boolean;Lkotlin/jvm/functions/Function2;)V
+	public abstract fun config-0Nu1UfI (Ljava/lang/String;Ljava/lang/Boolean;Ljava/lang/Integer;Ljava/util/Set;Lkotlin/time/Duration;Ljava/util/List;Lkotlin/jvm/functions/Function1;Lkotlin/time/Duration;Lio/kotest/core/test/TestCaseSeverityLevel;Ljava/lang/Boolean;Ljava/lang/Boolean;Ljava/lang/Boolean;Lkotlin/jvm/functions/Function2;)V
 	public abstract fun config-s0vPEsQ (Ljava/lang/String;Ljava/lang/Boolean;Ljava/lang/Integer;Ljava/lang/Integer;Ljava/util/Set;Lkotlin/time/Duration;Ljava/util/List;Lkotlin/jvm/functions/Function1;Lkotlin/time/Duration;Lio/kotest/core/test/TestCaseSeverityLevel;Ljava/lang/Boolean;Ljava/lang/Boolean;Ljava/lang/Boolean;)Lio/kotest/core/spec/style/scopes/FreeSpecContextConfigBuilder;
 	public abstract fun invoke (Ljava/lang/String;Lkotlin/jvm/functions/Function2;)V
 	public abstract fun minus (Lio/kotest/core/spec/style/scopes/FreeSpecContextConfigBuilder;Lkotlin/jvm/functions/Function2;)V
@@ -2614,8 +2358,8 @@ public abstract interface class io/kotest/core/spec/style/scopes/FreeSpecRootSco
 public final class io/kotest/core/spec/style/scopes/FreeSpecRootScope$DefaultImpls {
 	public static fun config (Lio/kotest/core/spec/style/scopes/FreeSpecRootScope;Ljava/lang/String;Lio/kotest/core/test/config/TestConfig;)Lio/kotest/core/spec/style/scopes/FreeSpecContextConfigBuilder;
 	public static fun config (Lio/kotest/core/spec/style/scopes/FreeSpecRootScope;Ljava/lang/String;Lio/kotest/core/test/config/TestConfig;Lkotlin/jvm/functions/Function2;)Lio/kotest/core/spec/style/scopes/FreeSpecContextConfigBuilder;
-	public static fun config-rDtbm-Q (Lio/kotest/core/spec/style/scopes/FreeSpecRootScope;Ljava/lang/String;Ljava/lang/Boolean;Ljava/lang/Integer;Ljava/lang/Integer;Ljava/util/Set;Lkotlin/time/Duration;Ljava/util/List;Lkotlin/jvm/functions/Function1;Lkotlin/time/Duration;Lio/kotest/core/test/TestCaseSeverityLevel;Ljava/lang/Boolean;Ljava/lang/Boolean;Ljava/lang/Boolean;Lkotlin/jvm/functions/Function2;)V
-	public static synthetic fun config-rDtbm-Q$default (Lio/kotest/core/spec/style/scopes/FreeSpecRootScope;Ljava/lang/String;Ljava/lang/Boolean;Ljava/lang/Integer;Ljava/lang/Integer;Ljava/util/Set;Lkotlin/time/Duration;Ljava/util/List;Lkotlin/jvm/functions/Function1;Lkotlin/time/Duration;Lio/kotest/core/test/TestCaseSeverityLevel;Ljava/lang/Boolean;Ljava/lang/Boolean;Ljava/lang/Boolean;Lkotlin/jvm/functions/Function2;ILjava/lang/Object;)V
+	public static fun config-0Nu1UfI (Lio/kotest/core/spec/style/scopes/FreeSpecRootScope;Ljava/lang/String;Ljava/lang/Boolean;Ljava/lang/Integer;Ljava/util/Set;Lkotlin/time/Duration;Ljava/util/List;Lkotlin/jvm/functions/Function1;Lkotlin/time/Duration;Lio/kotest/core/test/TestCaseSeverityLevel;Ljava/lang/Boolean;Ljava/lang/Boolean;Ljava/lang/Boolean;Lkotlin/jvm/functions/Function2;)V
+	public static synthetic fun config-0Nu1UfI$default (Lio/kotest/core/spec/style/scopes/FreeSpecRootScope;Ljava/lang/String;Ljava/lang/Boolean;Ljava/lang/Integer;Ljava/util/Set;Lkotlin/time/Duration;Ljava/util/List;Lkotlin/jvm/functions/Function1;Lkotlin/time/Duration;Lio/kotest/core/test/TestCaseSeverityLevel;Ljava/lang/Boolean;Ljava/lang/Boolean;Ljava/lang/Boolean;Lkotlin/jvm/functions/Function2;ILjava/lang/Object;)V
 	public static fun config-s0vPEsQ (Lio/kotest/core/spec/style/scopes/FreeSpecRootScope;Ljava/lang/String;Ljava/lang/Boolean;Ljava/lang/Integer;Ljava/lang/Integer;Ljava/util/Set;Lkotlin/time/Duration;Ljava/util/List;Lkotlin/jvm/functions/Function1;Lkotlin/time/Duration;Lio/kotest/core/test/TestCaseSeverityLevel;Ljava/lang/Boolean;Ljava/lang/Boolean;Ljava/lang/Boolean;)Lio/kotest/core/spec/style/scopes/FreeSpecContextConfigBuilder;
 	public static synthetic fun config-s0vPEsQ$default (Lio/kotest/core/spec/style/scopes/FreeSpecRootScope;Ljava/lang/String;Ljava/lang/Boolean;Ljava/lang/Integer;Ljava/lang/Integer;Ljava/util/Set;Lkotlin/time/Duration;Ljava/util/List;Lkotlin/jvm/functions/Function1;Lkotlin/time/Duration;Lio/kotest/core/test/TestCaseSeverityLevel;Ljava/lang/Boolean;Ljava/lang/Boolean;Ljava/lang/Boolean;ILjava/lang/Object;)Lio/kotest/core/spec/style/scopes/FreeSpecContextConfigBuilder;
 	public static fun invoke (Lio/kotest/core/spec/style/scopes/FreeSpecRootScope;Ljava/lang/String;Lkotlin/jvm/functions/Function2;)V
@@ -2679,14 +2423,13 @@ public abstract interface class io/kotest/core/spec/style/scopes/RootScope {
 
 public final class io/kotest/core/spec/style/scopes/RootScopeKt {
 	public static final fun addContainer (Lio/kotest/core/spec/style/scopes/RootScope;Lio/kotest/core/names/TestName;ZLio/kotest/core/test/config/TestConfig;Lkotlin/jvm/functions/Function2;)V
-	public static final fun addTest (Lio/kotest/core/spec/style/scopes/RootScope;Lio/kotest/core/names/TestName;ZLio/kotest/core/test/config/TestConfig;Lio/kotest/core/test/TestType;Lkotlin/jvm/functions/Function2;)V
 	public static final fun addTest (Lio/kotest/core/spec/style/scopes/RootScope;Lio/kotest/core/names/TestName;ZLio/kotest/core/test/config/TestConfig;Lkotlin/jvm/functions/Function2;)V
 }
 
 public final class io/kotest/core/spec/style/scopes/RootTestWithConfigBuilder {
 	public fun <init> (Lio/kotest/core/spec/style/scopes/RootScope;Lio/kotest/core/names/TestName;Z)V
-	public final fun config-WxxZXIc (Ljava/lang/Boolean;Ljava/lang/Integer;Ljava/lang/Integer;Ljava/util/Set;Lkotlin/time/Duration;Ljava/util/List;Lkotlin/jvm/functions/Function1;Lkotlin/time/Duration;Lio/kotest/core/test/TestCaseSeverityLevel;Lkotlin/jvm/functions/Function1;Ljava/lang/Boolean;Ljava/lang/Boolean;Ljava/lang/Boolean;Ljava/lang/Integer;Lkotlin/time/Duration;Lkotlin/jvm/functions/Function2;)V
-	public static synthetic fun config-WxxZXIc$default (Lio/kotest/core/spec/style/scopes/RootTestWithConfigBuilder;Ljava/lang/Boolean;Ljava/lang/Integer;Ljava/lang/Integer;Ljava/util/Set;Lkotlin/time/Duration;Ljava/util/List;Lkotlin/jvm/functions/Function1;Lkotlin/time/Duration;Lio/kotest/core/test/TestCaseSeverityLevel;Lkotlin/jvm/functions/Function1;Ljava/lang/Boolean;Ljava/lang/Boolean;Ljava/lang/Boolean;Ljava/lang/Integer;Lkotlin/time/Duration;Lkotlin/jvm/functions/Function2;ILjava/lang/Object;)V
+	public final fun config-n4j-3yA (Ljava/lang/Boolean;Ljava/lang/Integer;Ljava/util/Set;Lkotlin/time/Duration;Ljava/util/List;Lkotlin/jvm/functions/Function1;Lkotlin/time/Duration;Lio/kotest/core/test/TestCaseSeverityLevel;Lkotlin/jvm/functions/Function1;Ljava/lang/Boolean;Ljava/lang/Boolean;Ljava/lang/Boolean;Ljava/lang/Integer;Lkotlin/time/Duration;Lkotlin/jvm/functions/Function2;)V
+	public static synthetic fun config-n4j-3yA$default (Lio/kotest/core/spec/style/scopes/RootTestWithConfigBuilder;Ljava/lang/Boolean;Ljava/lang/Integer;Ljava/util/Set;Lkotlin/time/Duration;Ljava/util/List;Lkotlin/jvm/functions/Function1;Lkotlin/time/Duration;Lio/kotest/core/test/TestCaseSeverityLevel;Lkotlin/jvm/functions/Function1;Ljava/lang/Boolean;Ljava/lang/Boolean;Ljava/lang/Boolean;Ljava/lang/Integer;Lkotlin/time/Duration;Lkotlin/jvm/functions/Function2;ILjava/lang/Object;)V
 }
 
 public final class io/kotest/core/spec/style/scopes/ShouldSpecContainerScope : io/kotest/core/spec/style/scopes/AbstractContainerScope {
@@ -2749,39 +2492,42 @@ public abstract class io/kotest/core/spec/style/scopes/TerminalScope : io/kotest
 public final class io/kotest/core/spec/style/scopes/TestDslState {
 	public static final field INSTANCE Lio/kotest/core/spec/style/scopes/TestDslState;
 	public final fun checkState ()V
-	public final fun clear (Ljava/lang/String;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public final fun clear (Lio/kotest/core/names/TestName;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 	public final fun reset (Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
-	public final fun startTest (Ljava/lang/String;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public final fun startTest (Lio/kotest/core/names/TestName;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 }
 
 public final class io/kotest/core/spec/style/scopes/TestWithConfigBuilder {
 	public fun <init> (Lio/kotest/core/names/TestName;Lio/kotest/core/spec/style/scopes/ContainerScope;Z)V
 	public final fun config (Lio/kotest/core/test/config/TestConfig;Lkotlin/jvm/functions/Function2;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
-	public final fun config--XidU4I (Ljava/lang/Boolean;Ljava/lang/Integer;Ljava/lang/Integer;Ljava/util/Set;Lkotlin/time/Duration;Ljava/util/List;Lkotlin/jvm/functions/Function1;Lkotlin/time/Duration;Lio/kotest/core/test/TestCaseSeverityLevel;Lkotlin/jvm/functions/Function1;Ljava/lang/Boolean;Ljava/lang/Boolean;Lkotlin/jvm/functions/Function2;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
-	public static synthetic fun config--XidU4I$default (Lio/kotest/core/spec/style/scopes/TestWithConfigBuilder;Ljava/lang/Boolean;Ljava/lang/Integer;Ljava/lang/Integer;Ljava/util/Set;Lkotlin/time/Duration;Ljava/util/List;Lkotlin/jvm/functions/Function1;Lkotlin/time/Duration;Lio/kotest/core/test/TestCaseSeverityLevel;Lkotlin/jvm/functions/Function1;Ljava/lang/Boolean;Ljava/lang/Boolean;Lkotlin/jvm/functions/Function2;Lkotlin/coroutines/Continuation;ILjava/lang/Object;)Ljava/lang/Object;
+	public final fun config-ZKvTVp0 (Ljava/lang/Boolean;Ljava/lang/Integer;Ljava/util/Set;Lkotlin/time/Duration;Ljava/util/List;Lkotlin/jvm/functions/Function1;Lkotlin/time/Duration;Lio/kotest/core/test/TestCaseSeverityLevel;Lkotlin/jvm/functions/Function1;Ljava/lang/Boolean;Ljava/lang/Boolean;Lkotlin/jvm/functions/Function2;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public static synthetic fun config-ZKvTVp0$default (Lio/kotest/core/spec/style/scopes/TestWithConfigBuilder;Ljava/lang/Boolean;Ljava/lang/Integer;Ljava/util/Set;Lkotlin/time/Duration;Ljava/util/List;Lkotlin/jvm/functions/Function1;Lkotlin/time/Duration;Lio/kotest/core/test/TestCaseSeverityLevel;Lkotlin/jvm/functions/Function1;Ljava/lang/Boolean;Ljava/lang/Boolean;Lkotlin/jvm/functions/Function2;Lkotlin/coroutines/Continuation;ILjava/lang/Object;)Ljava/lang/Object;
 }
 
 public abstract interface class io/kotest/core/spec/style/scopes/WordSpecRootScope : io/kotest/core/spec/style/scopes/RootScope {
 	public abstract fun When (Ljava/lang/String;Lkotlin/jvm/functions/Function2;)V
 	public abstract fun should (Ljava/lang/String;Lkotlin/jvm/functions/Function2;)V
 	public abstract fun when (Ljava/lang/String;Lkotlin/jvm/functions/Function2;)V
+	public abstract fun xWhen (Ljava/lang/String;Lkotlin/jvm/functions/Function2;)V
 	public abstract fun xshould (Ljava/lang/String;Lkotlin/jvm/functions/Function2;)V
+	public abstract fun xwhen (Ljava/lang/String;Lkotlin/jvm/functions/Function2;)V
 }
 
 public final class io/kotest/core/spec/style/scopes/WordSpecRootScope$DefaultImpls {
 	public static fun When (Lio/kotest/core/spec/style/scopes/WordSpecRootScope;Ljava/lang/String;Lkotlin/jvm/functions/Function2;)V
 	public static fun should (Lio/kotest/core/spec/style/scopes/WordSpecRootScope;Ljava/lang/String;Lkotlin/jvm/functions/Function2;)V
 	public static fun when (Lio/kotest/core/spec/style/scopes/WordSpecRootScope;Ljava/lang/String;Lkotlin/jvm/functions/Function2;)V
+	public static fun xWhen (Lio/kotest/core/spec/style/scopes/WordSpecRootScope;Ljava/lang/String;Lkotlin/jvm/functions/Function2;)V
 	public static fun xshould (Lio/kotest/core/spec/style/scopes/WordSpecRootScope;Ljava/lang/String;Lkotlin/jvm/functions/Function2;)V
+	public static fun xwhen (Lio/kotest/core/spec/style/scopes/WordSpecRootScope;Ljava/lang/String;Lkotlin/jvm/functions/Function2;)V
 }
 
 public final class io/kotest/core/spec/style/scopes/WordSpecShouldContainerScope : io/kotest/core/spec/style/scopes/AbstractContainerScope {
 	public fun <init> (Lio/kotest/core/test/TestScope;)V
-	public final fun config-s0vPEsQ (Ljava/lang/String;Ljava/lang/Boolean;Ljava/lang/Integer;Ljava/lang/Integer;Ljava/util/Set;Lkotlin/time/Duration;Ljava/util/List;Lkotlin/jvm/functions/Function1;Lkotlin/time/Duration;Lio/kotest/core/test/TestCaseSeverityLevel;Ljava/lang/Boolean;Lkotlin/jvm/functions/Function2;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
-	public static synthetic fun config-s0vPEsQ$default (Lio/kotest/core/spec/style/scopes/WordSpecShouldContainerScope;Ljava/lang/String;Ljava/lang/Boolean;Ljava/lang/Integer;Ljava/lang/Integer;Ljava/util/Set;Lkotlin/time/Duration;Ljava/util/List;Lkotlin/jvm/functions/Function1;Lkotlin/time/Duration;Lio/kotest/core/test/TestCaseSeverityLevel;Ljava/lang/Boolean;Lkotlin/jvm/functions/Function2;Lkotlin/coroutines/Continuation;ILjava/lang/Object;)Ljava/lang/Object;
+	public final fun config-V--OhEU (Ljava/lang/String;Ljava/lang/Boolean;Ljava/lang/Integer;Ljava/util/Set;Lkotlin/time/Duration;Ljava/util/List;Lkotlin/jvm/functions/Function1;Lkotlin/time/Duration;Lio/kotest/core/test/TestCaseSeverityLevel;Ljava/lang/Boolean;Lkotlin/jvm/functions/Function2;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public static synthetic fun config-V--OhEU$default (Lio/kotest/core/spec/style/scopes/WordSpecShouldContainerScope;Ljava/lang/String;Ljava/lang/Boolean;Ljava/lang/Integer;Ljava/util/Set;Lkotlin/time/Duration;Ljava/util/List;Lkotlin/jvm/functions/Function1;Lkotlin/time/Duration;Lio/kotest/core/test/TestCaseSeverityLevel;Ljava/lang/Boolean;Lkotlin/jvm/functions/Function2;Lkotlin/coroutines/Continuation;ILjava/lang/Object;)Ljava/lang/Object;
 	public final fun getTestScope ()Lio/kotest/core/test/TestScope;
 	public final fun invoke (Ljava/lang/String;Lkotlin/jvm/functions/Function2;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
-	public final synthetic fun should (Ljava/lang/String;Lkotlin/jvm/functions/Function0;)V
 }
 
 public final class io/kotest/core/spec/style/scopes/WordSpecTerminalScope : io/kotest/core/spec/style/scopes/TerminalScope {
@@ -2795,9 +2541,13 @@ public final class io/kotest/core/spec/style/scopes/WordSpecTerminalScope : io/k
 public final class io/kotest/core/spec/style/scopes/WordSpecWhenContainerScope : io/kotest/core/spec/style/scopes/AbstractContainerScope {
 	public fun <init> (Lio/kotest/core/test/TestScope;)V
 	public final fun Should (Ljava/lang/String;Lkotlin/jvm/functions/Function2;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public final fun When (Ljava/lang/String;Lkotlin/jvm/functions/Function2;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 	public final fun getTestScope ()Lio/kotest/core/test/TestScope;
 	public final fun should (Ljava/lang/String;Lkotlin/jvm/functions/Function2;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public final fun when (Ljava/lang/String;Lkotlin/jvm/functions/Function2;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public final fun xWhen (Ljava/lang/String;Lkotlin/jvm/functions/Function2;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 	public final fun xshould (Ljava/lang/String;Lkotlin/jvm/functions/Function2;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public final fun xwhen (Ljava/lang/String;Lkotlin/jvm/functions/Function2;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 }
 
 public final class io/kotest/core/test/AssertionMode : java/lang/Enum {
@@ -2833,6 +2583,7 @@ public final class io/kotest/core/test/Enabled {
 public final class io/kotest/core/test/Enabled$Companion {
 	public final fun disabled (Ljava/lang/String;)Lio/kotest/core/test/Enabled;
 	public final fun getDisabled ()Lio/kotest/core/test/Enabled;
+	public final fun getDisabledByXMethod ()Lio/kotest/core/test/Enabled;
 	public final fun getEnabled ()Lio/kotest/core/test/Enabled;
 }
 
@@ -2866,21 +2617,21 @@ public final class io/kotest/core/test/NestedTest {
 }
 
 public final class io/kotest/core/test/TestCase {
-	public fun <init> (Lio/kotest/core/descriptors/Descriptor$TestDescriptor;Lio/kotest/core/names/TestName;Lio/kotest/core/spec/Spec;Lkotlin/jvm/functions/Function2;Lio/kotest/core/source/SourceRef;Lio/kotest/core/test/TestType;Lio/kotest/core/test/config/ResolvedTestConfig;Lio/kotest/core/factory/FactoryId;Lio/kotest/core/test/TestCase;)V
-	public synthetic fun <init> (Lio/kotest/core/descriptors/Descriptor$TestDescriptor;Lio/kotest/core/names/TestName;Lio/kotest/core/spec/Spec;Lkotlin/jvm/functions/Function2;Lio/kotest/core/source/SourceRef;Lio/kotest/core/test/TestType;Lio/kotest/core/test/config/ResolvedTestConfig;Lio/kotest/core/factory/FactoryId;Lio/kotest/core/test/TestCase;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun <init> (Lio/kotest/core/descriptors/Descriptor$TestDescriptor;Lio/kotest/core/names/TestName;Lio/kotest/core/spec/Spec;Lkotlin/jvm/functions/Function2;Lio/kotest/core/source/SourceRef;Lio/kotest/core/test/TestType;Lio/kotest/core/test/config/TestConfig;Lio/kotest/core/factory/FactoryId;Lio/kotest/core/test/TestCase;)V
+	public synthetic fun <init> (Lio/kotest/core/descriptors/Descriptor$TestDescriptor;Lio/kotest/core/names/TestName;Lio/kotest/core/spec/Spec;Lkotlin/jvm/functions/Function2;Lio/kotest/core/source/SourceRef;Lio/kotest/core/test/TestType;Lio/kotest/core/test/config/TestConfig;Lio/kotest/core/factory/FactoryId;Lio/kotest/core/test/TestCase;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun component1 ()Lio/kotest/core/descriptors/Descriptor$TestDescriptor;
 	public final fun component2 ()Lio/kotest/core/names/TestName;
 	public final fun component3 ()Lio/kotest/core/spec/Spec;
 	public final fun component4 ()Lkotlin/jvm/functions/Function2;
 	public final fun component5 ()Lio/kotest/core/source/SourceRef;
 	public final fun component6 ()Lio/kotest/core/test/TestType;
-	public final fun component7 ()Lio/kotest/core/test/config/ResolvedTestConfig;
+	public final fun component7 ()Lio/kotest/core/test/config/TestConfig;
 	public final fun component8 ()Lio/kotest/core/factory/FactoryId;
 	public final fun component9 ()Lio/kotest/core/test/TestCase;
-	public final fun copy (Lio/kotest/core/descriptors/Descriptor$TestDescriptor;Lio/kotest/core/names/TestName;Lio/kotest/core/spec/Spec;Lkotlin/jvm/functions/Function2;Lio/kotest/core/source/SourceRef;Lio/kotest/core/test/TestType;Lio/kotest/core/test/config/ResolvedTestConfig;Lio/kotest/core/factory/FactoryId;Lio/kotest/core/test/TestCase;)Lio/kotest/core/test/TestCase;
-	public static synthetic fun copy$default (Lio/kotest/core/test/TestCase;Lio/kotest/core/descriptors/Descriptor$TestDescriptor;Lio/kotest/core/names/TestName;Lio/kotest/core/spec/Spec;Lkotlin/jvm/functions/Function2;Lio/kotest/core/source/SourceRef;Lio/kotest/core/test/TestType;Lio/kotest/core/test/config/ResolvedTestConfig;Lio/kotest/core/factory/FactoryId;Lio/kotest/core/test/TestCase;ILjava/lang/Object;)Lio/kotest/core/test/TestCase;
+	public final fun copy (Lio/kotest/core/descriptors/Descriptor$TestDescriptor;Lio/kotest/core/names/TestName;Lio/kotest/core/spec/Spec;Lkotlin/jvm/functions/Function2;Lio/kotest/core/source/SourceRef;Lio/kotest/core/test/TestType;Lio/kotest/core/test/config/TestConfig;Lio/kotest/core/factory/FactoryId;Lio/kotest/core/test/TestCase;)Lio/kotest/core/test/TestCase;
+	public static synthetic fun copy$default (Lio/kotest/core/test/TestCase;Lio/kotest/core/descriptors/Descriptor$TestDescriptor;Lio/kotest/core/names/TestName;Lio/kotest/core/spec/Spec;Lkotlin/jvm/functions/Function2;Lio/kotest/core/source/SourceRef;Lio/kotest/core/test/TestType;Lio/kotest/core/test/config/TestConfig;Lio/kotest/core/factory/FactoryId;Lio/kotest/core/test/TestCase;ILjava/lang/Object;)Lio/kotest/core/test/TestCase;
 	public fun equals (Ljava/lang/Object;)Z
-	public final fun getConfig ()Lio/kotest/core/test/config/ResolvedTestConfig;
+	public final fun getConfig ()Lio/kotest/core/test/config/TestConfig;
 	public final fun getDescriptor ()Lio/kotest/core/descriptors/Descriptor$TestDescriptor;
 	public final fun getFactoryId ()Lio/kotest/core/factory/FactoryId;
 	public final fun getName ()Lio/kotest/core/names/TestName;
@@ -2894,8 +2645,6 @@ public final class io/kotest/core/test/TestCase {
 }
 
 public final class io/kotest/core/test/TestCaseKt {
-	public static final fun getTimeout (Lio/kotest/core/test/TestCase;)J
-	public static final fun isFocused (Lio/kotest/core/test/TestCase;)Z
 	public static final fun isRootTest (Lio/kotest/core/test/TestCase;)Z
 	public static final fun parents (Lio/kotest/core/test/TestCase;)Ljava/util/List;
 }
@@ -3044,7 +2793,6 @@ public final class io/kotest/core/test/TestStatus : java/lang/Enum {
 
 public final class io/kotest/core/test/TestType : java/lang/Enum {
 	public static final field Container Lio/kotest/core/test/TestType;
-	public static final field Dynamic Lio/kotest/core/test/TestType;
 	public static final field Test Lio/kotest/core/test/TestType;
 	public static fun getEntries ()Lkotlin/enums/EnumEntries;
 	public static fun valueOf (Ljava/lang/String;)Lio/kotest/core/test/TestType;
@@ -3052,8 +2800,8 @@ public final class io/kotest/core/test/TestType : java/lang/Enum {
 }
 
 public final class io/kotest/core/test/config/DefaultTestConfig {
-	public synthetic fun <init> (Lkotlin/time/Duration;Lkotlin/time/Duration;IILjava/util/Set;Lio/kotest/core/test/TestCaseSeverityLevel;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;Lio/kotest/core/test/AssertionMode;Lio/kotest/core/test/TestCaseOrder;Ljava/lang/Boolean;Ljava/lang/Boolean;Ljava/lang/Boolean;Lio/kotest/core/names/DuplicateTestNameMode;Ljava/lang/Boolean;Ljava/lang/Integer;Lkotlin/jvm/functions/Function1;Lkotlin/time/Duration;Lkotlin/jvm/functions/Function2;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public synthetic fun <init> (Lkotlin/time/Duration;Lkotlin/time/Duration;IILjava/util/Set;Lio/kotest/core/test/TestCaseSeverityLevel;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;Lio/kotest/core/test/AssertionMode;Lio/kotest/core/test/TestCaseOrder;Ljava/lang/Boolean;Ljava/lang/Boolean;Ljava/lang/Boolean;Lio/kotest/core/names/DuplicateTestNameMode;Ljava/lang/Boolean;Ljava/lang/Integer;Lkotlin/jvm/functions/Function1;Lkotlin/time/Duration;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Lkotlin/time/Duration;Lkotlin/time/Duration;Ljava/lang/Integer;Ljava/lang/Boolean;Ljava/util/Set;Lio/kotest/core/test/TestCaseSeverityLevel;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;Lio/kotest/core/test/AssertionMode;Lio/kotest/core/test/TestCaseOrder;Ljava/lang/Boolean;Ljava/lang/Boolean;Ljava/lang/Boolean;Lio/kotest/core/names/DuplicateTestNameMode;Ljava/lang/Boolean;Ljava/lang/Integer;Lkotlin/time/Duration;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Lkotlin/time/Duration;Lkotlin/time/Duration;Ljava/lang/Integer;Ljava/lang/Boolean;Ljava/util/Set;Lio/kotest/core/test/TestCaseSeverityLevel;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;Lio/kotest/core/test/AssertionMode;Lio/kotest/core/test/TestCaseOrder;Ljava/lang/Boolean;Ljava/lang/Boolean;Ljava/lang/Boolean;Lio/kotest/core/names/DuplicateTestNameMode;Ljava/lang/Boolean;Ljava/lang/Integer;Lkotlin/time/Duration;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun component1-FghU774 ()Lkotlin/time/Duration;
 	public final fun component10 ()Lio/kotest/core/test/TestCaseOrder;
 	public final fun component11 ()Ljava/lang/Boolean;
@@ -3062,20 +2810,19 @@ public final class io/kotest/core/test/config/DefaultTestConfig {
 	public final fun component14 ()Lio/kotest/core/names/DuplicateTestNameMode;
 	public final fun component15 ()Ljava/lang/Boolean;
 	public final fun component16 ()Ljava/lang/Integer;
-	public final fun component17 ()Lkotlin/jvm/functions/Function1;
-	public final fun component18-FghU774 ()Lkotlin/time/Duration;
-	public final fun component19 ()Lkotlin/jvm/functions/Function2;
+	public final fun component17-FghU774 ()Lkotlin/time/Duration;
 	public final fun component2-FghU774 ()Lkotlin/time/Duration;
-	public final fun component3 ()I
-	public final fun component4 ()I
+	public final fun component3 ()Ljava/lang/Integer;
+	public final fun component4 ()Ljava/lang/Boolean;
 	public final fun component5 ()Ljava/util/Set;
 	public final fun component6 ()Lio/kotest/core/test/TestCaseSeverityLevel;
 	public final fun component7 ()Lkotlin/jvm/functions/Function1;
 	public final fun component8 ()Lkotlin/jvm/functions/Function1;
 	public final fun component9 ()Lio/kotest/core/test/AssertionMode;
-	public final fun copy-Os03yK8 (Lkotlin/time/Duration;Lkotlin/time/Duration;IILjava/util/Set;Lio/kotest/core/test/TestCaseSeverityLevel;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;Lio/kotest/core/test/AssertionMode;Lio/kotest/core/test/TestCaseOrder;Ljava/lang/Boolean;Ljava/lang/Boolean;Ljava/lang/Boolean;Lio/kotest/core/names/DuplicateTestNameMode;Ljava/lang/Boolean;Ljava/lang/Integer;Lkotlin/jvm/functions/Function1;Lkotlin/time/Duration;Lkotlin/jvm/functions/Function2;)Lio/kotest/core/test/config/DefaultTestConfig;
-	public static synthetic fun copy-Os03yK8$default (Lio/kotest/core/test/config/DefaultTestConfig;Lkotlin/time/Duration;Lkotlin/time/Duration;IILjava/util/Set;Lio/kotest/core/test/TestCaseSeverityLevel;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;Lio/kotest/core/test/AssertionMode;Lio/kotest/core/test/TestCaseOrder;Ljava/lang/Boolean;Ljava/lang/Boolean;Ljava/lang/Boolean;Lio/kotest/core/names/DuplicateTestNameMode;Ljava/lang/Boolean;Ljava/lang/Integer;Lkotlin/jvm/functions/Function1;Lkotlin/time/Duration;Lkotlin/jvm/functions/Function2;ILjava/lang/Object;)Lio/kotest/core/test/config/DefaultTestConfig;
+	public final fun copy-xtJp52E (Lkotlin/time/Duration;Lkotlin/time/Duration;Ljava/lang/Integer;Ljava/lang/Boolean;Ljava/util/Set;Lio/kotest/core/test/TestCaseSeverityLevel;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;Lio/kotest/core/test/AssertionMode;Lio/kotest/core/test/TestCaseOrder;Ljava/lang/Boolean;Ljava/lang/Boolean;Ljava/lang/Boolean;Lio/kotest/core/names/DuplicateTestNameMode;Ljava/lang/Boolean;Ljava/lang/Integer;Lkotlin/time/Duration;)Lio/kotest/core/test/config/DefaultTestConfig;
+	public static synthetic fun copy-xtJp52E$default (Lio/kotest/core/test/config/DefaultTestConfig;Lkotlin/time/Duration;Lkotlin/time/Duration;Ljava/lang/Integer;Ljava/lang/Boolean;Ljava/util/Set;Lio/kotest/core/test/TestCaseSeverityLevel;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;Lio/kotest/core/test/AssertionMode;Lio/kotest/core/test/TestCaseOrder;Ljava/lang/Boolean;Ljava/lang/Boolean;Ljava/lang/Boolean;Lio/kotest/core/names/DuplicateTestNameMode;Ljava/lang/Boolean;Ljava/lang/Integer;Lkotlin/time/Duration;ILjava/lang/Object;)Lio/kotest/core/test/config/DefaultTestConfig;
 	public fun equals (Ljava/lang/Object;)Z
+	public final fun getAssertSoftly ()Ljava/lang/Boolean;
 	public final fun getAssertionMode ()Lio/kotest/core/test/AssertionMode;
 	public final fun getBlockingTest ()Ljava/lang/Boolean;
 	public final fun getCoroutineDebugProbes ()Ljava/lang/Boolean;
@@ -3085,21 +2832,16 @@ public final class io/kotest/core/test/config/DefaultTestConfig {
 	public final fun getEnabledOrReasonIf ()Lkotlin/jvm/functions/Function1;
 	public final fun getFailfast ()Ljava/lang/Boolean;
 	public final fun getInvocationTimeout-FghU774 ()Lkotlin/time/Duration;
-	public final fun getInvocations ()I
+	public final fun getInvocations ()Ljava/lang/Integer;
 	public final fun getRetries ()Ljava/lang/Integer;
 	public final fun getRetryDelay-FghU774 ()Lkotlin/time/Duration;
-	public final fun getRetryDelayFn ()Lkotlin/jvm/functions/Function2;
-	public final fun getRetryFn ()Lkotlin/jvm/functions/Function1;
 	public final fun getSeverity ()Lio/kotest/core/test/TestCaseSeverityLevel;
 	public final fun getTags ()Ljava/util/Set;
 	public final fun getTestOrder ()Lio/kotest/core/test/TestCaseOrder;
-	public final fun getThreads ()I
 	public final fun getTimeout-FghU774 ()Lkotlin/time/Duration;
 	public fun hashCode ()I
 	public final fun setRetries (Ljava/lang/Integer;)V
 	public final fun setRetryDelay-BwNAW2A (Lkotlin/time/Duration;)V
-	public final fun setRetryDelayFn (Lkotlin/jvm/functions/Function2;)V
-	public final fun setRetryFn (Lkotlin/jvm/functions/Function1;)V
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -3107,80 +2849,28 @@ public final class io/kotest/core/test/config/EnabledKt {
 	public static final fun enabledOrReasonIf (Ljava/lang/Boolean;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;)Lkotlin/jvm/functions/Function1;
 }
 
-public final class io/kotest/core/test/config/ResolvedTestConfig {
-	public static final field Companion Lio/kotest/core/test/config/ResolvedTestConfig$Companion;
-	public synthetic fun <init> (Lkotlin/jvm/functions/Function1;IIJJLjava/util/Set;Ljava/util/List;Lio/kotest/core/test/TestCaseSeverityLevel;ZLio/kotest/core/test/AssertionMode;ZZZZLjava/lang/Integer;Lkotlin/jvm/functions/Function1;Lkotlin/time/Duration;Lkotlin/jvm/functions/Function2;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public synthetic fun <init> (Lkotlin/jvm/functions/Function1;IIJJLjava/util/Set;Ljava/util/List;Lio/kotest/core/test/TestCaseSeverityLevel;ZLio/kotest/core/test/AssertionMode;ZZZZLjava/lang/Integer;Lkotlin/jvm/functions/Function1;Lkotlin/time/Duration;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public final fun component1 ()Lkotlin/jvm/functions/Function1;
-	public final fun component10 ()Lio/kotest/core/test/AssertionMode;
-	public final fun component11 ()Z
-	public final fun component12 ()Z
-	public final fun component13 ()Z
-	public final fun component14 ()Z
-	public final fun component15 ()Ljava/lang/Integer;
-	public final fun component16 ()Lkotlin/jvm/functions/Function1;
-	public final fun component17-FghU774 ()Lkotlin/time/Duration;
-	public final fun component18 ()Lkotlin/jvm/functions/Function2;
-	public final fun component2 ()I
-	public final fun component3 ()I
-	public final fun component4-UwyO8pc ()J
-	public final fun component5-UwyO8pc ()J
-	public final fun component6 ()Ljava/util/Set;
-	public final fun component7 ()Ljava/util/List;
-	public final fun component8 ()Lio/kotest/core/test/TestCaseSeverityLevel;
-	public final fun component9 ()Z
-	public final fun copy-2pvmGsY (Lkotlin/jvm/functions/Function1;IIJJLjava/util/Set;Ljava/util/List;Lio/kotest/core/test/TestCaseSeverityLevel;ZLio/kotest/core/test/AssertionMode;ZZZZLjava/lang/Integer;Lkotlin/jvm/functions/Function1;Lkotlin/time/Duration;Lkotlin/jvm/functions/Function2;)Lio/kotest/core/test/config/ResolvedTestConfig;
-	public static synthetic fun copy-2pvmGsY$default (Lio/kotest/core/test/config/ResolvedTestConfig;Lkotlin/jvm/functions/Function1;IIJJLjava/util/Set;Ljava/util/List;Lio/kotest/core/test/TestCaseSeverityLevel;ZLio/kotest/core/test/AssertionMode;ZZZZLjava/lang/Integer;Lkotlin/jvm/functions/Function1;Lkotlin/time/Duration;Lkotlin/jvm/functions/Function2;ILjava/lang/Object;)Lio/kotest/core/test/config/ResolvedTestConfig;
-	public fun equals (Ljava/lang/Object;)Z
-	public final fun getAssertSoftly ()Z
-	public final fun getAssertionMode ()Lio/kotest/core/test/AssertionMode;
-	public final fun getBlockingTest ()Z
-	public final fun getCoroutineDebugProbes ()Z
-	public final fun getCoroutineTestScope ()Z
-	public final fun getEnabled ()Lkotlin/jvm/functions/Function1;
-	public final fun getExtensions ()Ljava/util/List;
-	public final fun getFailfast ()Z
-	public final fun getInvocationTimeout-UwyO8pc ()J
-	public final fun getInvocations ()I
-	public final fun getRetries ()Ljava/lang/Integer;
-	public final fun getRetryDelay-FghU774 ()Lkotlin/time/Duration;
-	public final fun getRetryDelayFn ()Lkotlin/jvm/functions/Function2;
-	public final fun getRetryFn ()Lkotlin/jvm/functions/Function1;
-	public final fun getSeverity ()Lio/kotest/core/test/TestCaseSeverityLevel;
-	public final fun getTags ()Ljava/util/Set;
-	public final fun getThreads ()I
-	public final fun getTimeout-UwyO8pc ()J
-	public fun hashCode ()I
-	public fun toString ()Ljava/lang/String;
-}
-
-public final class io/kotest/core/test/config/ResolvedTestConfig$Companion {
-	public final fun getDefault ()Lio/kotest/core/test/config/ResolvedTestConfig;
-}
-
 public final class io/kotest/core/test/config/TestConfig {
-	public synthetic fun <init> (Ljava/lang/Boolean;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;Ljava/lang/Integer;Ljava/lang/Integer;Lkotlin/time/Duration;Lkotlin/time/Duration;Ljava/util/Set;Ljava/util/List;Lio/kotest/core/test/TestCaseSeverityLevel;Ljava/lang/Boolean;Lio/kotest/core/test/AssertionMode;Ljava/lang/Boolean;Ljava/lang/Boolean;Ljava/lang/Boolean;Ljava/lang/Boolean;Ljava/lang/Integer;Lkotlin/time/Duration;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public synthetic fun <init> (Ljava/lang/Boolean;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;Ljava/lang/Integer;Ljava/lang/Integer;Lkotlin/time/Duration;Lkotlin/time/Duration;Ljava/util/Set;Ljava/util/List;Lio/kotest/core/test/TestCaseSeverityLevel;Ljava/lang/Boolean;Lio/kotest/core/test/AssertionMode;Ljava/lang/Boolean;Ljava/lang/Boolean;Ljava/lang/Boolean;Ljava/lang/Boolean;Ljava/lang/Integer;Lkotlin/time/Duration;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Ljava/lang/Boolean;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;Ljava/lang/Integer;Lkotlin/time/Duration;Lkotlin/time/Duration;Ljava/util/Set;Ljava/util/List;Lio/kotest/core/test/TestCaseSeverityLevel;Ljava/lang/Boolean;Lio/kotest/core/test/AssertionMode;Ljava/lang/Boolean;Ljava/lang/Boolean;Ljava/lang/Boolean;Ljava/lang/Boolean;Ljava/lang/Integer;Lkotlin/time/Duration;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Ljava/lang/Boolean;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;Ljava/lang/Integer;Lkotlin/time/Duration;Lkotlin/time/Duration;Ljava/util/Set;Ljava/util/List;Lio/kotest/core/test/TestCaseSeverityLevel;Ljava/lang/Boolean;Lio/kotest/core/test/AssertionMode;Ljava/lang/Boolean;Ljava/lang/Boolean;Ljava/lang/Boolean;Ljava/lang/Boolean;Ljava/lang/Integer;Lkotlin/time/Duration;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun component1 ()Ljava/lang/Boolean;
-	public final fun component10 ()Lio/kotest/core/test/TestCaseSeverityLevel;
-	public final fun component11 ()Ljava/lang/Boolean;
-	public final fun component12 ()Lio/kotest/core/test/AssertionMode;
+	public final fun component10 ()Ljava/lang/Boolean;
+	public final fun component11 ()Lio/kotest/core/test/AssertionMode;
+	public final fun component12 ()Ljava/lang/Boolean;
 	public final fun component13 ()Ljava/lang/Boolean;
 	public final fun component14 ()Ljava/lang/Boolean;
 	public final fun component15 ()Ljava/lang/Boolean;
-	public final fun component16 ()Ljava/lang/Boolean;
-	public final fun component17 ()Ljava/lang/Integer;
-	public final fun component18-FghU774 ()Lkotlin/time/Duration;
+	public final fun component16 ()Ljava/lang/Integer;
+	public final fun component17-FghU774 ()Lkotlin/time/Duration;
 	public final fun component2 ()Lkotlin/jvm/functions/Function1;
 	public final fun component3 ()Lkotlin/jvm/functions/Function1;
 	public final fun component4 ()Ljava/lang/Integer;
-	public final fun component5 ()Ljava/lang/Integer;
+	public final fun component5-FghU774 ()Lkotlin/time/Duration;
 	public final fun component6-FghU774 ()Lkotlin/time/Duration;
-	public final fun component7-FghU774 ()Lkotlin/time/Duration;
-	public final fun component8 ()Ljava/util/Set;
-	public final fun component9 ()Ljava/util/List;
-	public final fun copy-IbJmyRE (Ljava/lang/Boolean;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;Ljava/lang/Integer;Ljava/lang/Integer;Lkotlin/time/Duration;Lkotlin/time/Duration;Ljava/util/Set;Ljava/util/List;Lio/kotest/core/test/TestCaseSeverityLevel;Ljava/lang/Boolean;Lio/kotest/core/test/AssertionMode;Ljava/lang/Boolean;Ljava/lang/Boolean;Ljava/lang/Boolean;Ljava/lang/Boolean;Ljava/lang/Integer;Lkotlin/time/Duration;)Lio/kotest/core/test/config/TestConfig;
-	public static synthetic fun copy-IbJmyRE$default (Lio/kotest/core/test/config/TestConfig;Ljava/lang/Boolean;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;Ljava/lang/Integer;Ljava/lang/Integer;Lkotlin/time/Duration;Lkotlin/time/Duration;Ljava/util/Set;Ljava/util/List;Lio/kotest/core/test/TestCaseSeverityLevel;Ljava/lang/Boolean;Lio/kotest/core/test/AssertionMode;Ljava/lang/Boolean;Ljava/lang/Boolean;Ljava/lang/Boolean;Ljava/lang/Boolean;Ljava/lang/Integer;Lkotlin/time/Duration;ILjava/lang/Object;)Lio/kotest/core/test/config/TestConfig;
+	public final fun component7 ()Ljava/util/Set;
+	public final fun component8 ()Ljava/util/List;
+	public final fun component9 ()Lio/kotest/core/test/TestCaseSeverityLevel;
+	public final fun copy-yFCnlmM (Ljava/lang/Boolean;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;Ljava/lang/Integer;Lkotlin/time/Duration;Lkotlin/time/Duration;Ljava/util/Set;Ljava/util/List;Lio/kotest/core/test/TestCaseSeverityLevel;Ljava/lang/Boolean;Lio/kotest/core/test/AssertionMode;Ljava/lang/Boolean;Ljava/lang/Boolean;Ljava/lang/Boolean;Ljava/lang/Boolean;Ljava/lang/Integer;Lkotlin/time/Duration;)Lio/kotest/core/test/config/TestConfig;
+	public static synthetic fun copy-yFCnlmM$default (Lio/kotest/core/test/config/TestConfig;Ljava/lang/Boolean;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;Ljava/lang/Integer;Lkotlin/time/Duration;Lkotlin/time/Duration;Ljava/util/Set;Ljava/util/List;Lio/kotest/core/test/TestCaseSeverityLevel;Ljava/lang/Boolean;Lio/kotest/core/test/AssertionMode;Ljava/lang/Boolean;Ljava/lang/Boolean;Ljava/lang/Boolean;Ljava/lang/Boolean;Ljava/lang/Integer;Lkotlin/time/Duration;ILjava/lang/Object;)Lio/kotest/core/test/config/TestConfig;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getAssertSoftly ()Ljava/lang/Boolean;
 	public final fun getAssertionMode ()Lio/kotest/core/test/AssertionMode;
@@ -3198,34 +2888,190 @@ public final class io/kotest/core/test/config/TestConfig {
 	public final fun getRetryDelay-FghU774 ()Lkotlin/time/Duration;
 	public final fun getSeverity ()Lio/kotest/core/test/TestCaseSeverityLevel;
 	public final fun getTags ()Ljava/util/Set;
-	public final fun getThreads ()Ljava/lang/Integer;
 	public final fun getTimeout-FghU774 ()Lkotlin/time/Duration;
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
+	public final fun withXDisabled ()Lio/kotest/core/test/config/TestConfig;
 }
 
-public final class io/kotest/datatest/ContainerKt {
-	public static final fun withData (Lio/kotest/core/spec/style/scopes/ContainerScope;Ljava/lang/Iterable;Lkotlin/jvm/functions/Function3;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
-	public static final fun withData (Lio/kotest/core/spec/style/scopes/ContainerScope;Ljava/lang/Object;Ljava/lang/Object;[Ljava/lang/Object;Lkotlin/jvm/functions/Function3;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
-	public static final fun withData (Lio/kotest/core/spec/style/scopes/ContainerScope;Lkotlin/jvm/functions/Function1;Ljava/lang/Iterable;Lkotlin/jvm/functions/Function3;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
-	public static final fun withData (Lio/kotest/core/spec/style/scopes/ContainerScope;Lkotlin/jvm/functions/Function1;Ljava/lang/Object;Ljava/lang/Object;[Ljava/lang/Object;Lkotlin/jvm/functions/Function3;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
-	public static final fun withData (Lio/kotest/core/spec/style/scopes/ContainerScope;Lkotlin/jvm/functions/Function1;Lkotlin/sequences/Sequence;Lkotlin/jvm/functions/Function3;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
-	public static final fun withData (Lio/kotest/core/spec/style/scopes/ContainerScope;Lkotlin/sequences/Sequence;Lkotlin/jvm/functions/Function3;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
-	public static final fun withDataMap (Lio/kotest/core/spec/style/scopes/ContainerScope;Ljava/util/Map;Lkotlin/jvm/functions/Function3;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+public final class io/kotest/datatest/BehaviorSpecContextContainerScopeKt {
+	public static final fun withData (Lio/kotest/core/spec/style/scopes/BehaviorSpecContextContainerScope;Ljava/lang/Iterable;Lkotlin/jvm/functions/Function3;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public static final fun withData (Lio/kotest/core/spec/style/scopes/BehaviorSpecContextContainerScope;Ljava/lang/Object;Ljava/lang/Object;[Ljava/lang/Object;Lkotlin/jvm/functions/Function3;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public static final fun withData (Lio/kotest/core/spec/style/scopes/BehaviorSpecContextContainerScope;Lkotlin/jvm/functions/Function1;Ljava/lang/Iterable;Lkotlin/jvm/functions/Function3;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public static final fun withData (Lio/kotest/core/spec/style/scopes/BehaviorSpecContextContainerScope;Lkotlin/jvm/functions/Function1;Ljava/lang/Object;Ljava/lang/Object;[Ljava/lang/Object;Lkotlin/jvm/functions/Function3;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public static final fun withData (Lio/kotest/core/spec/style/scopes/BehaviorSpecContextContainerScope;Lkotlin/jvm/functions/Function1;Lkotlin/sequences/Sequence;Lkotlin/jvm/functions/Function3;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public static final fun withData (Lio/kotest/core/spec/style/scopes/BehaviorSpecContextContainerScope;Lkotlin/sequences/Sequence;Lkotlin/jvm/functions/Function3;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public static final fun withDataMap (Lio/kotest/core/spec/style/scopes/BehaviorSpecContextContainerScope;Ljava/util/Map;Lkotlin/jvm/functions/Function3;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 }
 
-public final class io/kotest/datatest/RootKt {
-	public static final fun withData (Lio/kotest/core/spec/style/scopes/RootScope;Ljava/lang/Iterable;Lkotlin/jvm/functions/Function3;)V
-	public static final fun withData (Lio/kotest/core/spec/style/scopes/RootScope;Ljava/lang/Object;Ljava/lang/Object;[Ljava/lang/Object;Lkotlin/jvm/functions/Function3;)V
-	public static final fun withData (Lio/kotest/core/spec/style/scopes/RootScope;Lkotlin/jvm/functions/Function1;Ljava/lang/Iterable;Lkotlin/jvm/functions/Function3;)V
-	public static final fun withData (Lio/kotest/core/spec/style/scopes/RootScope;Lkotlin/jvm/functions/Function1;Ljava/lang/Object;Ljava/lang/Object;[Ljava/lang/Object;Lkotlin/jvm/functions/Function3;)V
-	public static final fun withData (Lio/kotest/core/spec/style/scopes/RootScope;Lkotlin/jvm/functions/Function1;Lkotlin/sequences/Sequence;Lkotlin/jvm/functions/Function3;)V
-	public static final fun withData (Lio/kotest/core/spec/style/scopes/RootScope;Lkotlin/sequences/Sequence;Lkotlin/jvm/functions/Function3;)V
-	public static final fun withDataMap (Lio/kotest/core/spec/style/scopes/RootScope;Ljava/util/Map;Lkotlin/jvm/functions/Function3;)V
+public final class io/kotest/datatest/BehaviorSpecGivenContainerScopeKt {
+	public static final fun withData (Lio/kotest/core/spec/style/scopes/BehaviorSpecGivenContainerScope;Ljava/lang/Iterable;Lkotlin/jvm/functions/Function3;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public static final fun withData (Lio/kotest/core/spec/style/scopes/BehaviorSpecGivenContainerScope;Ljava/lang/Object;Ljava/lang/Object;[Ljava/lang/Object;Lkotlin/jvm/functions/Function3;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public static final fun withData (Lio/kotest/core/spec/style/scopes/BehaviorSpecGivenContainerScope;Lkotlin/jvm/functions/Function1;Ljava/lang/Iterable;Lkotlin/jvm/functions/Function3;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public static final fun withData (Lio/kotest/core/spec/style/scopes/BehaviorSpecGivenContainerScope;Lkotlin/jvm/functions/Function1;Ljava/lang/Object;Ljava/lang/Object;[Ljava/lang/Object;Lkotlin/jvm/functions/Function3;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public static final fun withData (Lio/kotest/core/spec/style/scopes/BehaviorSpecGivenContainerScope;Lkotlin/jvm/functions/Function1;Lkotlin/sequences/Sequence;Lkotlin/jvm/functions/Function3;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public static final fun withData (Lio/kotest/core/spec/style/scopes/BehaviorSpecGivenContainerScope;Lkotlin/sequences/Sequence;Lkotlin/jvm/functions/Function3;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public static final fun withDataMap (Lio/kotest/core/spec/style/scopes/BehaviorSpecGivenContainerScope;Ljava/util/Map;Lkotlin/jvm/functions/Function3;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 }
 
-public abstract interface class io/kotest/datatest/WithDataTestName {
-	public abstract fun dataTestName ()Ljava/lang/String;
+public final class io/kotest/datatest/BehaviorSpecRootKt {
+	public static final fun withData (Lio/kotest/core/spec/style/scopes/BehaviorSpecRootScope;Ljava/lang/Iterable;Lkotlin/jvm/functions/Function3;)V
+	public static final fun withData (Lio/kotest/core/spec/style/scopes/BehaviorSpecRootScope;Ljava/lang/Object;Ljava/lang/Object;[Ljava/lang/Object;Lkotlin/jvm/functions/Function3;)V
+	public static final fun withData (Lio/kotest/core/spec/style/scopes/BehaviorSpecRootScope;Ljava/util/Map;Lkotlin/jvm/functions/Function3;)V
+	public static final fun withData (Lio/kotest/core/spec/style/scopes/BehaviorSpecRootScope;Lkotlin/jvm/functions/Function1;Ljava/lang/Iterable;Lkotlin/jvm/functions/Function3;)V
+	public static final fun withData (Lio/kotest/core/spec/style/scopes/BehaviorSpecRootScope;Lkotlin/jvm/functions/Function1;Ljava/lang/Object;Ljava/lang/Object;[Ljava/lang/Object;Lkotlin/jvm/functions/Function3;)V
+	public static final fun withData (Lio/kotest/core/spec/style/scopes/BehaviorSpecRootScope;Lkotlin/jvm/functions/Function1;Lkotlin/sequences/Sequence;Lkotlin/jvm/functions/Function3;)V
+	public static final fun withData (Lio/kotest/core/spec/style/scopes/BehaviorSpecRootScope;Lkotlin/sequences/Sequence;Lkotlin/jvm/functions/Function3;)V
+}
+
+public final class io/kotest/datatest/BehaviorSpecWhenContainerScopeKt {
+	public static final fun withData (Lio/kotest/core/spec/style/scopes/BehaviorSpecWhenContainerScope;Ljava/lang/Iterable;Lkotlin/jvm/functions/Function3;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public static final fun withData (Lio/kotest/core/spec/style/scopes/BehaviorSpecWhenContainerScope;Ljava/lang/Object;Ljava/lang/Object;[Ljava/lang/Object;Lkotlin/jvm/functions/Function3;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public static final fun withData (Lio/kotest/core/spec/style/scopes/BehaviorSpecWhenContainerScope;Lkotlin/jvm/functions/Function1;Ljava/lang/Iterable;Lkotlin/jvm/functions/Function3;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public static final fun withData (Lio/kotest/core/spec/style/scopes/BehaviorSpecWhenContainerScope;Lkotlin/jvm/functions/Function1;Ljava/lang/Object;Ljava/lang/Object;[Ljava/lang/Object;Lkotlin/jvm/functions/Function3;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public static final fun withData (Lio/kotest/core/spec/style/scopes/BehaviorSpecWhenContainerScope;Lkotlin/jvm/functions/Function1;Lkotlin/sequences/Sequence;Lkotlin/jvm/functions/Function3;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public static final fun withData (Lio/kotest/core/spec/style/scopes/BehaviorSpecWhenContainerScope;Lkotlin/sequences/Sequence;Lkotlin/jvm/functions/Function3;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public static final fun withDataMap (Lio/kotest/core/spec/style/scopes/BehaviorSpecWhenContainerScope;Ljava/util/Map;Lkotlin/jvm/functions/Function3;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+}
+
+public final class io/kotest/datatest/DescribeSpecContainerScopeKt {
+	public static final fun withData (Lio/kotest/core/spec/style/scopes/DescribeSpecContainerScope;Ljava/lang/Iterable;Lkotlin/jvm/functions/Function3;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public static final fun withData (Lio/kotest/core/spec/style/scopes/DescribeSpecContainerScope;Ljava/lang/Object;Ljava/lang/Object;[Ljava/lang/Object;Lkotlin/jvm/functions/Function3;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public static final fun withData (Lio/kotest/core/spec/style/scopes/DescribeSpecContainerScope;Lkotlin/jvm/functions/Function1;Ljava/lang/Iterable;Lkotlin/jvm/functions/Function3;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public static final fun withData (Lio/kotest/core/spec/style/scopes/DescribeSpecContainerScope;Lkotlin/jvm/functions/Function1;Ljava/lang/Object;Ljava/lang/Object;[Ljava/lang/Object;Lkotlin/jvm/functions/Function3;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public static final fun withData (Lio/kotest/core/spec/style/scopes/DescribeSpecContainerScope;Lkotlin/jvm/functions/Function1;Lkotlin/sequences/Sequence;Lkotlin/jvm/functions/Function3;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public static final fun withData (Lio/kotest/core/spec/style/scopes/DescribeSpecContainerScope;Lkotlin/sequences/Sequence;Lkotlin/jvm/functions/Function3;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public static final fun withDataMap (Lio/kotest/core/spec/style/scopes/DescribeSpecContainerScope;Ljava/util/Map;Lkotlin/jvm/functions/Function3;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+}
+
+public final class io/kotest/datatest/DescribeSpecRootKt {
+	public static final fun withData (Lio/kotest/core/spec/style/scopes/DescribeSpecRootScope;Ljava/lang/Iterable;Lkotlin/jvm/functions/Function3;)V
+	public static final fun withData (Lio/kotest/core/spec/style/scopes/DescribeSpecRootScope;Ljava/lang/Object;Ljava/lang/Object;[Ljava/lang/Object;Lkotlin/jvm/functions/Function3;)V
+	public static final fun withData (Lio/kotest/core/spec/style/scopes/DescribeSpecRootScope;Ljava/util/Map;Lkotlin/jvm/functions/Function3;)V
+	public static final fun withData (Lio/kotest/core/spec/style/scopes/DescribeSpecRootScope;Lkotlin/jvm/functions/Function1;Ljava/lang/Iterable;Lkotlin/jvm/functions/Function3;)V
+	public static final fun withData (Lio/kotest/core/spec/style/scopes/DescribeSpecRootScope;Lkotlin/jvm/functions/Function1;Ljava/lang/Object;Ljava/lang/Object;[Ljava/lang/Object;Lkotlin/jvm/functions/Function3;)V
+	public static final fun withData (Lio/kotest/core/spec/style/scopes/DescribeSpecRootScope;Lkotlin/jvm/functions/Function1;Lkotlin/sequences/Sequence;Lkotlin/jvm/functions/Function3;)V
+	public static final fun withData (Lio/kotest/core/spec/style/scopes/DescribeSpecRootScope;Lkotlin/sequences/Sequence;Lkotlin/jvm/functions/Function3;)V
+}
+
+public final class io/kotest/datatest/ExpectSpecContainerScopeKt {
+	public static final fun withData (Lio/kotest/core/spec/style/scopes/ExpectSpecContainerScope;Ljava/lang/Iterable;Lkotlin/jvm/functions/Function3;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public static final fun withData (Lio/kotest/core/spec/style/scopes/ExpectSpecContainerScope;Ljava/lang/Object;Ljava/lang/Object;[Ljava/lang/Object;Lkotlin/jvm/functions/Function3;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public static final fun withData (Lio/kotest/core/spec/style/scopes/ExpectSpecContainerScope;Lkotlin/jvm/functions/Function1;Ljava/lang/Iterable;Lkotlin/jvm/functions/Function3;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public static final fun withData (Lio/kotest/core/spec/style/scopes/ExpectSpecContainerScope;Lkotlin/jvm/functions/Function1;Ljava/lang/Object;Ljava/lang/Object;[Ljava/lang/Object;Lkotlin/jvm/functions/Function3;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public static final fun withData (Lio/kotest/core/spec/style/scopes/ExpectSpecContainerScope;Lkotlin/jvm/functions/Function1;Lkotlin/sequences/Sequence;Lkotlin/jvm/functions/Function3;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public static final fun withData (Lio/kotest/core/spec/style/scopes/ExpectSpecContainerScope;Lkotlin/sequences/Sequence;Lkotlin/jvm/functions/Function3;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public static final fun withDataMap (Lio/kotest/core/spec/style/scopes/ExpectSpecContainerScope;Ljava/util/Map;Lkotlin/jvm/functions/Function3;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+}
+
+public final class io/kotest/datatest/ExpectSpecRootKt {
+	public static final fun withData (Lio/kotest/core/spec/style/scopes/ExpectSpecRootScope;Ljava/lang/Iterable;Lkotlin/jvm/functions/Function3;)V
+	public static final fun withData (Lio/kotest/core/spec/style/scopes/ExpectSpecRootScope;Ljava/lang/Object;Ljava/lang/Object;[Ljava/lang/Object;Lkotlin/jvm/functions/Function3;)V
+	public static final fun withData (Lio/kotest/core/spec/style/scopes/ExpectSpecRootScope;Ljava/util/Map;Lkotlin/jvm/functions/Function3;)V
+	public static final fun withData (Lio/kotest/core/spec/style/scopes/ExpectSpecRootScope;Lkotlin/jvm/functions/Function1;Ljava/lang/Iterable;Lkotlin/jvm/functions/Function3;)V
+	public static final fun withData (Lio/kotest/core/spec/style/scopes/ExpectSpecRootScope;Lkotlin/jvm/functions/Function1;Ljava/lang/Object;Ljava/lang/Object;[Ljava/lang/Object;Lkotlin/jvm/functions/Function3;)V
+	public static final fun withData (Lio/kotest/core/spec/style/scopes/ExpectSpecRootScope;Lkotlin/jvm/functions/Function1;Lkotlin/sequences/Sequence;Lkotlin/jvm/functions/Function3;)V
+	public static final fun withData (Lio/kotest/core/spec/style/scopes/ExpectSpecRootScope;Lkotlin/sequences/Sequence;Lkotlin/jvm/functions/Function3;)V
+}
+
+public final class io/kotest/datatest/FeatureSpecContainerScopeKt {
+	public static final fun withData (Lio/kotest/core/spec/style/scopes/FeatureSpecContainerScope;Ljava/lang/Iterable;Lkotlin/jvm/functions/Function3;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public static final fun withData (Lio/kotest/core/spec/style/scopes/FeatureSpecContainerScope;Ljava/lang/Object;Ljava/lang/Object;[Ljava/lang/Object;Lkotlin/jvm/functions/Function3;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public static final fun withData (Lio/kotest/core/spec/style/scopes/FeatureSpecContainerScope;Lkotlin/jvm/functions/Function1;Ljava/lang/Iterable;Lkotlin/jvm/functions/Function3;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public static final fun withData (Lio/kotest/core/spec/style/scopes/FeatureSpecContainerScope;Lkotlin/jvm/functions/Function1;Ljava/lang/Object;Ljava/lang/Object;[Ljava/lang/Object;Lkotlin/jvm/functions/Function3;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public static final fun withData (Lio/kotest/core/spec/style/scopes/FeatureSpecContainerScope;Lkotlin/jvm/functions/Function1;Lkotlin/sequences/Sequence;Lkotlin/jvm/functions/Function3;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public static final fun withData (Lio/kotest/core/spec/style/scopes/FeatureSpecContainerScope;Lkotlin/sequences/Sequence;Lkotlin/jvm/functions/Function3;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public static final fun withDataMap (Lio/kotest/core/spec/style/scopes/FeatureSpecContainerScope;Ljava/util/Map;Lkotlin/jvm/functions/Function3;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+}
+
+public final class io/kotest/datatest/FeatureSpecRootKt {
+	public static final fun withData (Lio/kotest/core/spec/style/scopes/FeatureSpecRootScope;Ljava/lang/Iterable;Lkotlin/jvm/functions/Function3;)V
+	public static final fun withData (Lio/kotest/core/spec/style/scopes/FeatureSpecRootScope;Ljava/lang/Object;Ljava/lang/Object;[Ljava/lang/Object;Lkotlin/jvm/functions/Function3;)V
+	public static final fun withData (Lio/kotest/core/spec/style/scopes/FeatureSpecRootScope;Ljava/util/Map;Lkotlin/jvm/functions/Function3;)V
+	public static final fun withData (Lio/kotest/core/spec/style/scopes/FeatureSpecRootScope;Lkotlin/jvm/functions/Function1;Ljava/lang/Iterable;Lkotlin/jvm/functions/Function3;)V
+	public static final fun withData (Lio/kotest/core/spec/style/scopes/FeatureSpecRootScope;Lkotlin/jvm/functions/Function1;Ljava/lang/Object;Ljava/lang/Object;[Ljava/lang/Object;Lkotlin/jvm/functions/Function3;)V
+	public static final fun withData (Lio/kotest/core/spec/style/scopes/FeatureSpecRootScope;Lkotlin/jvm/functions/Function1;Lkotlin/sequences/Sequence;Lkotlin/jvm/functions/Function3;)V
+	public static final fun withData (Lio/kotest/core/spec/style/scopes/FeatureSpecRootScope;Lkotlin/sequences/Sequence;Lkotlin/jvm/functions/Function3;)V
+}
+
+public final class io/kotest/datatest/FreeSpecContainerScopeKt {
+	public static final fun withData (Lio/kotest/core/spec/style/scopes/FreeSpecContainerScope;Ljava/lang/Iterable;Lkotlin/jvm/functions/Function3;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public static final fun withData (Lio/kotest/core/spec/style/scopes/FreeSpecContainerScope;Ljava/lang/Object;Ljava/lang/Object;[Ljava/lang/Object;Lkotlin/jvm/functions/Function3;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public static final fun withData (Lio/kotest/core/spec/style/scopes/FreeSpecContainerScope;Lkotlin/jvm/functions/Function1;Ljava/lang/Iterable;Lkotlin/jvm/functions/Function3;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public static final fun withData (Lio/kotest/core/spec/style/scopes/FreeSpecContainerScope;Lkotlin/jvm/functions/Function1;Ljava/lang/Object;Ljava/lang/Object;[Ljava/lang/Object;Lkotlin/jvm/functions/Function3;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public static final fun withData (Lio/kotest/core/spec/style/scopes/FreeSpecContainerScope;Lkotlin/jvm/functions/Function1;Lkotlin/sequences/Sequence;Lkotlin/jvm/functions/Function3;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public static final fun withData (Lio/kotest/core/spec/style/scopes/FreeSpecContainerScope;Lkotlin/sequences/Sequence;Lkotlin/jvm/functions/Function3;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public static final fun withDataMap (Lio/kotest/core/spec/style/scopes/FreeSpecContainerScope;Ljava/util/Map;Lkotlin/jvm/functions/Function3;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+}
+
+public final class io/kotest/datatest/FreeSpecRootKt {
+	public static final fun withData (Lio/kotest/core/spec/style/scopes/FreeSpecRootScope;Ljava/lang/Iterable;Lkotlin/jvm/functions/Function3;)V
+	public static final fun withData (Lio/kotest/core/spec/style/scopes/FreeSpecRootScope;Ljava/lang/Object;Ljava/lang/Object;[Ljava/lang/Object;Lkotlin/jvm/functions/Function3;)V
+	public static final fun withData (Lio/kotest/core/spec/style/scopes/FreeSpecRootScope;Ljava/util/Map;Lkotlin/jvm/functions/Function3;)V
+	public static final fun withData (Lio/kotest/core/spec/style/scopes/FreeSpecRootScope;Lkotlin/jvm/functions/Function1;Ljava/lang/Iterable;Lkotlin/jvm/functions/Function3;)V
+	public static final fun withData (Lio/kotest/core/spec/style/scopes/FreeSpecRootScope;Lkotlin/jvm/functions/Function1;Ljava/lang/Object;Ljava/lang/Object;[Ljava/lang/Object;Lkotlin/jvm/functions/Function3;)V
+	public static final fun withData (Lio/kotest/core/spec/style/scopes/FreeSpecRootScope;Lkotlin/jvm/functions/Function1;Lkotlin/sequences/Sequence;Lkotlin/jvm/functions/Function3;)V
+	public static final fun withData (Lio/kotest/core/spec/style/scopes/FreeSpecRootScope;Lkotlin/sequences/Sequence;Lkotlin/jvm/functions/Function3;)V
+}
+
+public final class io/kotest/datatest/FunSpecContainerScopeKt {
+	public static final fun withData (Lio/kotest/core/spec/style/scopes/FunSpecContainerScope;Ljava/lang/Iterable;Lkotlin/jvm/functions/Function3;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public static final fun withData (Lio/kotest/core/spec/style/scopes/FunSpecContainerScope;Ljava/lang/Object;Ljava/lang/Object;[Ljava/lang/Object;Lkotlin/jvm/functions/Function3;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public static final fun withData (Lio/kotest/core/spec/style/scopes/FunSpecContainerScope;Lkotlin/jvm/functions/Function1;Ljava/lang/Iterable;Lkotlin/jvm/functions/Function3;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public static final fun withData (Lio/kotest/core/spec/style/scopes/FunSpecContainerScope;Lkotlin/jvm/functions/Function1;Ljava/lang/Object;Ljava/lang/Object;[Ljava/lang/Object;Lkotlin/jvm/functions/Function3;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public static final fun withData (Lio/kotest/core/spec/style/scopes/FunSpecContainerScope;Lkotlin/jvm/functions/Function1;Lkotlin/sequences/Sequence;Lkotlin/jvm/functions/Function3;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public static final fun withData (Lio/kotest/core/spec/style/scopes/FunSpecContainerScope;Lkotlin/sequences/Sequence;Lkotlin/jvm/functions/Function3;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public static final fun withDataMap (Lio/kotest/core/spec/style/scopes/FunSpecContainerScope;Ljava/util/Map;Lkotlin/jvm/functions/Function3;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+}
+
+public final class io/kotest/datatest/FunSpecRootKt {
+	public static final fun withData (Lio/kotest/core/spec/style/scopes/FunSpecRootScope;Ljava/lang/Iterable;Lkotlin/jvm/functions/Function3;)V
+	public static final fun withData (Lio/kotest/core/spec/style/scopes/FunSpecRootScope;Ljava/lang/Object;Ljava/lang/Object;[Ljava/lang/Object;Lkotlin/jvm/functions/Function3;)V
+	public static final fun withData (Lio/kotest/core/spec/style/scopes/FunSpecRootScope;Ljava/util/Map;Lkotlin/jvm/functions/Function3;)V
+	public static final fun withData (Lio/kotest/core/spec/style/scopes/FunSpecRootScope;Lkotlin/jvm/functions/Function1;Ljava/lang/Iterable;Lkotlin/jvm/functions/Function3;)V
+	public static final fun withData (Lio/kotest/core/spec/style/scopes/FunSpecRootScope;Lkotlin/jvm/functions/Function1;Ljava/lang/Object;Ljava/lang/Object;[Ljava/lang/Object;Lkotlin/jvm/functions/Function3;)V
+	public static final fun withData (Lio/kotest/core/spec/style/scopes/FunSpecRootScope;Lkotlin/jvm/functions/Function1;Lkotlin/sequences/Sequence;Lkotlin/jvm/functions/Function3;)V
+	public static final fun withData (Lio/kotest/core/spec/style/scopes/FunSpecRootScope;Lkotlin/sequences/Sequence;Lkotlin/jvm/functions/Function3;)V
+}
+
+public final class io/kotest/datatest/ShouldSpecContainerScopeKt {
+	public static final fun withData (Lio/kotest/core/spec/style/scopes/ShouldSpecContainerScope;Ljava/lang/Iterable;Lkotlin/jvm/functions/Function3;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public static final fun withData (Lio/kotest/core/spec/style/scopes/ShouldSpecContainerScope;Ljava/lang/Object;Ljava/lang/Object;[Ljava/lang/Object;Lkotlin/jvm/functions/Function3;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public static final fun withData (Lio/kotest/core/spec/style/scopes/ShouldSpecContainerScope;Lkotlin/jvm/functions/Function1;Ljava/lang/Iterable;Lkotlin/jvm/functions/Function3;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public static final fun withData (Lio/kotest/core/spec/style/scopes/ShouldSpecContainerScope;Lkotlin/jvm/functions/Function1;Ljava/lang/Object;Ljava/lang/Object;[Ljava/lang/Object;Lkotlin/jvm/functions/Function3;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public static final fun withData (Lio/kotest/core/spec/style/scopes/ShouldSpecContainerScope;Lkotlin/jvm/functions/Function1;Lkotlin/sequences/Sequence;Lkotlin/jvm/functions/Function3;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public static final fun withData (Lio/kotest/core/spec/style/scopes/ShouldSpecContainerScope;Lkotlin/sequences/Sequence;Lkotlin/jvm/functions/Function3;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public static final fun withDataMap (Lio/kotest/core/spec/style/scopes/ShouldSpecContainerScope;Ljava/util/Map;Lkotlin/jvm/functions/Function3;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+}
+
+public final class io/kotest/datatest/ShouldSpecRootKt {
+	public static final fun withData (Lio/kotest/core/spec/style/scopes/ShouldSpecRootScope;Ljava/lang/Iterable;Lkotlin/jvm/functions/Function3;)V
+	public static final fun withData (Lio/kotest/core/spec/style/scopes/ShouldSpecRootScope;Ljava/lang/Object;Ljava/lang/Object;[Ljava/lang/Object;Lkotlin/jvm/functions/Function3;)V
+	public static final fun withData (Lio/kotest/core/spec/style/scopes/ShouldSpecRootScope;Ljava/util/Map;Lkotlin/jvm/functions/Function3;)V
+	public static final fun withData (Lio/kotest/core/spec/style/scopes/ShouldSpecRootScope;Lkotlin/jvm/functions/Function1;Ljava/lang/Iterable;Lkotlin/jvm/functions/Function3;)V
+	public static final fun withData (Lio/kotest/core/spec/style/scopes/ShouldSpecRootScope;Lkotlin/jvm/functions/Function1;Ljava/lang/Object;Ljava/lang/Object;[Ljava/lang/Object;Lkotlin/jvm/functions/Function3;)V
+	public static final fun withData (Lio/kotest/core/spec/style/scopes/ShouldSpecRootScope;Lkotlin/jvm/functions/Function1;Lkotlin/sequences/Sequence;Lkotlin/jvm/functions/Function3;)V
+	public static final fun withData (Lio/kotest/core/spec/style/scopes/ShouldSpecRootScope;Lkotlin/sequences/Sequence;Lkotlin/jvm/functions/Function3;)V
+}
+
+public final class io/kotest/datatest/WordSpecRootKt {
+	public static final fun withData (Lio/kotest/core/spec/style/scopes/WordSpecRootScope;Ljava/lang/Iterable;Lkotlin/jvm/functions/Function3;)V
+	public static final fun withData (Lio/kotest/core/spec/style/scopes/WordSpecRootScope;Ljava/lang/Object;Ljava/lang/Object;[Ljava/lang/Object;Lkotlin/jvm/functions/Function3;)V
+	public static final fun withData (Lio/kotest/core/spec/style/scopes/WordSpecRootScope;Ljava/util/Map;Lkotlin/jvm/functions/Function3;)V
+	public static final fun withData (Lio/kotest/core/spec/style/scopes/WordSpecRootScope;Lkotlin/jvm/functions/Function1;Ljava/lang/Iterable;Lkotlin/jvm/functions/Function3;)V
+	public static final fun withData (Lio/kotest/core/spec/style/scopes/WordSpecRootScope;Lkotlin/jvm/functions/Function1;Ljava/lang/Object;Ljava/lang/Object;[Ljava/lang/Object;Lkotlin/jvm/functions/Function3;)V
+	public static final fun withData (Lio/kotest/core/spec/style/scopes/WordSpecRootScope;Lkotlin/jvm/functions/Function1;Lkotlin/sequences/Sequence;Lkotlin/jvm/functions/Function3;)V
+	public static final fun withData (Lio/kotest/core/spec/style/scopes/WordSpecRootScope;Lkotlin/sequences/Sequence;Lkotlin/jvm/functions/Function3;)V
+}
+
+public final class io/kotest/datatest/WordSpecWhenContainerScopeKt {
+	public static final fun withData (Lio/kotest/core/spec/style/scopes/WordSpecWhenContainerScope;Ljava/lang/Iterable;Lkotlin/jvm/functions/Function3;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public static final fun withData (Lio/kotest/core/spec/style/scopes/WordSpecWhenContainerScope;Ljava/lang/Object;Ljava/lang/Object;[Ljava/lang/Object;Lkotlin/jvm/functions/Function3;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public static final fun withData (Lio/kotest/core/spec/style/scopes/WordSpecWhenContainerScope;Lkotlin/jvm/functions/Function1;Ljava/lang/Iterable;Lkotlin/jvm/functions/Function3;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public static final fun withData (Lio/kotest/core/spec/style/scopes/WordSpecWhenContainerScope;Lkotlin/jvm/functions/Function1;Ljava/lang/Object;Ljava/lang/Object;[Ljava/lang/Object;Lkotlin/jvm/functions/Function3;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public static final fun withData (Lio/kotest/core/spec/style/scopes/WordSpecWhenContainerScope;Lkotlin/jvm/functions/Function1;Lkotlin/sequences/Sequence;Lkotlin/jvm/functions/Function3;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public static final fun withData (Lio/kotest/core/spec/style/scopes/WordSpecWhenContainerScope;Lkotlin/sequences/Sequence;Lkotlin/jvm/functions/Function3;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public static final fun withDataMap (Lio/kotest/core/spec/style/scopes/WordSpecWhenContainerScope;Ljava/util/Map;Lkotlin/jvm/functions/Function3;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 }
 
 public final class io/kotest/engine/EngineResult {
@@ -3249,38 +3095,6 @@ public final class io/kotest/engine/InterceptorsKt {
 	public static final fun testEngineInterceptors ()Ljava/util/List;
 }
 
-public final class io/kotest/engine/KotestEngineProperties {
-	public static final field INSTANCE Lio/kotest/engine/KotestEngineProperties;
-	public static final field allowMultilineTestName Ljava/lang/String;
-	public static final field assertionMode Ljava/lang/String;
-	public static final field concurrentSpecs Ljava/lang/String;
-	public static final field concurrentTests Ljava/lang/String;
-	public static final field configurationClassNames Ljava/lang/String;
-	public static final field disableBangPrefix Ljava/lang/String;
-	public static final field disableSourceRef Ljava/lang/String;
-	public static final field disableTestNestedJarScanning Ljava/lang/String;
-	public static final field discoveryClasspathFallbackEnabled Ljava/lang/String;
-	public static final field dumpConfig Ljava/lang/String;
-	public static final field duplicateTestNameMode Ljava/lang/String;
-	public static final field excludeTags Ljava/lang/String;
-	public static final field filterSpecs Ljava/lang/String;
-	public static final field filterTests Ljava/lang/String;
-	public static final field globalAssertSoftly Ljava/lang/String;
-	public static final field ignorePrivateClasses Ljava/lang/String;
-	public static final field includeTags Ljava/lang/String;
-	public static final field invocationTimeout Ljava/lang/String;
-	public static final field isolationMode Ljava/lang/String;
-	public static final field logLevel Ljava/lang/String;
-	public static final field parallelism Ljava/lang/String;
-	public static final field projectTimeout Ljava/lang/String;
-	public static final field propertiesFilename Ljava/lang/String;
-	public static final field tagExpression Ljava/lang/String;
-	public static final field tagInheritance Ljava/lang/String;
-	public static final field testNameAppendTags Ljava/lang/String;
-	public static final field testSeverity Ljava/lang/String;
-	public static final field timeout Ljava/lang/String;
-}
-
 public final class io/kotest/engine/ReflectionKt {
 	public static final fun newInstanceNoArgConstructor (Lkotlin/reflect/KClass;)Ljava/lang/Object;
 	public static final fun newInstanceNoArgConstructorOrObjectInstance (Lkotlin/reflect/KClass;)Ljava/lang/Object;
@@ -3302,47 +3116,47 @@ public final class io/kotest/engine/TestEngine {
 }
 
 public final class io/kotest/engine/TestEngineConfig {
-	public fun <init> (Lio/kotest/engine/listener/TestEngineListener;Ljava/util/List;Lio/kotest/core/config/ProjectConfiguration;Lio/kotest/core/TagExpression;Lio/kotest/core/Platform;)V
+	public fun <init> (Lio/kotest/engine/listener/TestEngineListener;Ljava/util/List;Lio/kotest/core/config/AbstractProjectConfig;Lio/kotest/engine/tags/TagExpression;Lio/kotest/core/Platform;Lio/kotest/engine/extensions/ExtensionRegistry;)V
 	public final fun component1 ()Lio/kotest/engine/listener/TestEngineListener;
 	public final fun component2 ()Ljava/util/List;
-	public final fun component3 ()Lio/kotest/core/config/ProjectConfiguration;
-	public final fun component4 ()Lio/kotest/core/TagExpression;
+	public final fun component3 ()Lio/kotest/core/config/AbstractProjectConfig;
+	public final fun component4 ()Lio/kotest/engine/tags/TagExpression;
 	public final fun component5 ()Lio/kotest/core/Platform;
-	public final fun copy (Lio/kotest/engine/listener/TestEngineListener;Ljava/util/List;Lio/kotest/core/config/ProjectConfiguration;Lio/kotest/core/TagExpression;Lio/kotest/core/Platform;)Lio/kotest/engine/TestEngineConfig;
-	public static synthetic fun copy$default (Lio/kotest/engine/TestEngineConfig;Lio/kotest/engine/listener/TestEngineListener;Ljava/util/List;Lio/kotest/core/config/ProjectConfiguration;Lio/kotest/core/TagExpression;Lio/kotest/core/Platform;ILjava/lang/Object;)Lio/kotest/engine/TestEngineConfig;
+	public final fun component6 ()Lio/kotest/engine/extensions/ExtensionRegistry;
+	public final fun copy (Lio/kotest/engine/listener/TestEngineListener;Ljava/util/List;Lio/kotest/core/config/AbstractProjectConfig;Lio/kotest/engine/tags/TagExpression;Lio/kotest/core/Platform;Lio/kotest/engine/extensions/ExtensionRegistry;)Lio/kotest/engine/TestEngineConfig;
+	public static synthetic fun copy$default (Lio/kotest/engine/TestEngineConfig;Lio/kotest/engine/listener/TestEngineListener;Ljava/util/List;Lio/kotest/core/config/AbstractProjectConfig;Lio/kotest/engine/tags/TagExpression;Lio/kotest/core/Platform;Lio/kotest/engine/extensions/ExtensionRegistry;ILjava/lang/Object;)Lio/kotest/engine/TestEngineConfig;
 	public fun equals (Ljava/lang/Object;)Z
-	public final fun getConfiguration ()Lio/kotest/core/config/ProjectConfiguration;
-	public final fun getExplicitTags ()Lio/kotest/core/TagExpression;
+	public final fun getExplicitTags ()Lio/kotest/engine/tags/TagExpression;
 	public final fun getInterceptors ()Ljava/util/List;
 	public final fun getListener ()Lio/kotest/engine/listener/TestEngineListener;
 	public final fun getPlatform ()Lio/kotest/core/Platform;
+	public final fun getProjectConfig ()Lio/kotest/core/config/AbstractProjectConfig;
+	public final fun getRegistry ()Lio/kotest/engine/extensions/ExtensionRegistry;
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
 }
 
 public final class io/kotest/engine/TestEngineLauncher {
 	public fun <init> ()V
-	public fun <init> (Lio/kotest/core/Platform;Lio/kotest/engine/listener/TestEngineListener;Lio/kotest/core/config/ProjectConfiguration;Ljava/util/List;Ljava/util/List;Lio/kotest/core/TagExpression;Z)V
+	public fun <init> (Lio/kotest/core/Platform;Lio/kotest/engine/listener/TestEngineListener;Lio/kotest/core/config/AbstractProjectConfig;Ljava/util/List;Lio/kotest/engine/tags/TagExpression;Lio/kotest/engine/extensions/ExtensionRegistry;)V
 	public fun <init> (Lio/kotest/engine/listener/TestEngineListener;)V
+	public final fun addExtension (Lio/kotest/core/extensions/Extension;)Lio/kotest/engine/TestEngineLauncher;
+	public final fun addExtensions (Ljava/util/List;)Lio/kotest/engine/TestEngineLauncher;
+	public final fun addExtensions ([Lio/kotest/core/extensions/Extension;)Lio/kotest/engine/TestEngineLauncher;
 	public final fun async (Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 	public final fun launch ()Lio/kotest/engine/EngineResult;
 	public final fun promise ()V
-	public final fun testSuite ()Lio/kotest/core/project/TestSuite;
-	public final fun toConfig ()Lio/kotest/engine/TestEngineConfig;
 	public final fun withClasses (Ljava/util/List;)Lio/kotest/engine/TestEngineLauncher;
 	public final fun withClasses ([Lkotlin/reflect/KClass;)Lio/kotest/engine/TestEngineLauncher;
-	public final fun withConfiguration (Lio/kotest/core/config/ProjectConfiguration;)Lio/kotest/engine/TestEngineLauncher;
-	public final fun withExtensions (Ljava/util/List;)Lio/kotest/engine/TestEngineLauncher;
-	public final fun withExtensions ([Lio/kotest/core/extensions/Extension;)Lio/kotest/engine/TestEngineLauncher;
-	public final fun withInitializedConfiguration (Lio/kotest/core/config/ProjectConfiguration;)Lio/kotest/engine/TestEngineLauncher;
+	public final fun withDetectedProjectConfig ()Lio/kotest/engine/TestEngineLauncher;
 	public final fun withJs ()Lio/kotest/engine/TestEngineLauncher;
 	public final fun withJvm ()Lio/kotest/engine/TestEngineLauncher;
 	public final fun withListener (Lio/kotest/engine/listener/TestEngineListener;)Lio/kotest/engine/TestEngineLauncher;
 	public final fun withNative ()Lio/kotest/engine/TestEngineLauncher;
 	public final fun withPlatform (Lio/kotest/core/Platform;)Lio/kotest/engine/TestEngineLauncher;
-	public final fun withProjectConfig ([Lio/kotest/core/config/AbstractProjectConfig;)Lio/kotest/engine/TestEngineLauncher;
+	public final fun withProjectConfig (Lio/kotest/core/config/AbstractProjectConfig;)Lio/kotest/engine/TestEngineLauncher;
 	public final fun withSpecs ([Lio/kotest/core/spec/Spec;)Lio/kotest/engine/TestEngineLauncher;
-	public final fun withTagExpression (Lio/kotest/core/TagExpression;)Lio/kotest/engine/TestEngineLauncher;
+	public final fun withTagExpression (Lio/kotest/engine/tags/TagExpression;)Lio/kotest/engine/TestEngineLauncher;
 	public final fun withTeamCityListener ()Lio/kotest/engine/TestEngineLauncher;
 	public final fun withWasmJs ()Lio/kotest/engine/TestEngineLauncher;
 }
@@ -3356,68 +3170,287 @@ public final class io/kotest/engine/atomic/AtomicBoolean_jvmKt {
 	public static final fun createAtomicBoolean (Z)Lio/kotest/engine/atomic/AtomicBoolean;
 }
 
-public final class io/kotest/engine/concurrency/DedicatedThreadCoroutineDispatcherFactory : io/kotest/core/concurrency/CoroutineDispatcherFactory {
-	public static final field INSTANCE Lio/kotest/engine/concurrency/DedicatedThreadCoroutineDispatcherFactory;
-	public fun close ()V
-	public fun withDispatcher (Lio/kotest/core/test/TestCase;Lkotlin/jvm/functions/Function1;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+public abstract class io/kotest/engine/concurrency/SpecExecutionMode {
+	public synthetic fun <init> (ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun getConcurrency ()I
 }
 
-public final class io/kotest/engine/concurrency/FixedThreadCoroutineDispatcherFactory : io/kotest/core/concurrency/CoroutineDispatcherFactory, java/io/Closeable {
-	public fun <init> (IZ)V
-	public fun close ()V
-	public fun withDispatcher (Lio/kotest/core/test/TestCase;Lkotlin/jvm/functions/Function1;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
-}
-
-public final class io/kotest/engine/concurrency/NoopCoroutineDispatcherFactory : io/kotest/core/concurrency/CoroutineDispatcherFactory {
-	public static final field INSTANCE Lio/kotest/engine/concurrency/NoopCoroutineDispatcherFactory;
-	public fun close ()V
-	public fun withDispatcher (Lio/kotest/core/test/TestCase;Lkotlin/jvm/functions/Function1;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
-}
-
-public final class io/kotest/engine/concurrency/ReplayKt {
-	public static final fun replay (IILkotlin/jvm/functions/Function2;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
-}
-
-public final class io/kotest/engine/config/ConfigManager {
-	public static final field INSTANCE Lio/kotest/engine/config/ConfigManager;
-	public final fun compile-gIAlu-s (Lio/kotest/core/config/ProjectConfiguration;Lkotlin/jvm/functions/Function0;)Ljava/lang/Object;
-	public final fun initialize (Lio/kotest/core/config/ProjectConfiguration;Lkotlin/jvm/functions/Function0;)Lio/kotest/core/config/ProjectConfiguration;
-}
-
-public final class io/kotest/engine/config/ConfigurationContextElement : kotlin/coroutines/AbstractCoroutineContextElement {
-	public static final field Key Lio/kotest/engine/config/ConfigurationContextElement$Key;
-	public fun <init> (Lio/kotest/core/config/ProjectConfiguration;)V
-	public final fun component1 ()Lio/kotest/core/config/ProjectConfiguration;
-	public final fun copy (Lio/kotest/core/config/ProjectConfiguration;)Lio/kotest/engine/config/ConfigurationContextElement;
-	public static synthetic fun copy$default (Lio/kotest/engine/config/ConfigurationContextElement;Lio/kotest/core/config/ProjectConfiguration;ILjava/lang/Object;)Lio/kotest/engine/config/ConfigurationContextElement;
+public final class io/kotest/engine/concurrency/SpecExecutionMode$Concurrent : io/kotest/engine/concurrency/SpecExecutionMode {
+	public static final field INSTANCE Lio/kotest/engine/concurrency/SpecExecutionMode$Concurrent;
 	public fun equals (Ljava/lang/Object;)Z
-	public final fun getConfiguration ()Lio/kotest/core/config/ProjectConfiguration;
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class io/kotest/engine/config/ConfigurationContextElement$Key : kotlin/coroutines/CoroutineContext$Key {
+public final class io/kotest/engine/concurrency/SpecExecutionMode$LimitedConcurrency : io/kotest/engine/concurrency/SpecExecutionMode {
+	public fun <init> (I)V
+	public final fun component1 ()I
+	public final fun copy (I)Lio/kotest/engine/concurrency/SpecExecutionMode$LimitedConcurrency;
+	public static synthetic fun copy$default (Lio/kotest/engine/concurrency/SpecExecutionMode$LimitedConcurrency;IILjava/lang/Object;)Lio/kotest/engine/concurrency/SpecExecutionMode$LimitedConcurrency;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getMax ()I
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
 }
 
-public final class io/kotest/engine/config/ConfigurationContextElementKt {
-	public static final fun getConfiguration (Lio/kotest/core/test/TestScope;)Lio/kotest/core/config/ProjectConfiguration;
-	public static final fun getConfiguration (Lkotlin/coroutines/CoroutineContext;)Lio/kotest/core/config/ProjectConfiguration;
+public final class io/kotest/engine/concurrency/SpecExecutionMode$Sequential : io/kotest/engine/concurrency/SpecExecutionMode {
+	public static final field INSTANCE Lio/kotest/engine/concurrency/SpecExecutionMode$Sequential;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
 }
 
-public final class io/kotest/engine/config/ConfigurationException : java/lang/Exception {
-	public fun <init> (Ljava/lang/Throwable;)V
+public abstract class io/kotest/engine/concurrency/TestExecutionMode {
+	public synthetic fun <init> (ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun getConcurrency ()I
 }
 
-public final class io/kotest/engine/config/DumpKt {
-	public static final fun dumpProjectConfig (Lio/kotest/core/config/ProjectConfiguration;)V
+public final class io/kotest/engine/concurrency/TestExecutionMode$Concurrent : io/kotest/engine/concurrency/TestExecutionMode {
+	public static final field INSTANCE Lio/kotest/engine/concurrency/TestExecutionMode$Concurrent;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
 }
 
-public final class io/kotest/engine/config/LoadProjectConfigFromClassnameKt {
-	public static final fun loadProjectConfigsJVM ()Ljava/util/List;
+public final class io/kotest/engine/concurrency/TestExecutionMode$LimitedConcurrency : io/kotest/engine/concurrency/TestExecutionMode {
+	public fun <init> (I)V
+	public final fun component1 ()I
+	public final fun copy (I)Lio/kotest/engine/concurrency/TestExecutionMode$LimitedConcurrency;
+	public static synthetic fun copy$default (Lio/kotest/engine/concurrency/TestExecutionMode$LimitedConcurrency;IILjava/lang/Object;)Lio/kotest/engine/concurrency/TestExecutionMode$LimitedConcurrency;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getMax ()I
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/kotest/engine/concurrency/TestExecutionMode$Sequential : io/kotest/engine/concurrency/TestExecutionMode {
+	public static final field INSTANCE Lio/kotest/engine/concurrency/TestExecutionMode$Sequential;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/kotest/engine/config/Defaults {
+	public static final field ALLOW_OUT_OF_ORDER_CALLBACKS Z
+	public static final field BLOCKING_TEST Z
+	public static final field COROUTINE_DEBUG_PROBES Z
+	public static final field COROUTINE_TEST_SCOPE Z
+	public static final field DISPLAY_FULL_TEST_PATH Z
+	public static final field DISPLAY_SPEC_IF_NO_ACTIVE_TESTS Z
+	public static final field DUMP_CONFIG Z
+	public static final field FAILFAST Z
+	public static final field FAIL_ON_EMPTY_TEST_SUITE Z
+	public static final field FAIL_ON_IGNORED_TESTS Z
+	public static final field GLOBAL_ASSERT_SOFTLY Z
+	public static final field IGNORE_PRIVATE_CLASSES Z
+	public static final field INSTANCE Lio/kotest/engine/config/Defaults;
+	public static final field INVOCATIONS I
+	public static final field PROJECT_WIDE_FAIL_FAST Z
+	public static final field SPEC_FAILURE_FILE_PATH Ljava/lang/String;
+	public static final field TAG_INHERITANCE Z
+	public static final field TEST_NAME_APPEND_TAGS Z
+	public static final field WRITE_SPEC_FAILURE_FILE Z
+	public final fun getASSERTION_MODE ()Lio/kotest/core/test/AssertionMode;
+	public final fun getDEFAULT_INCLUDE_TEST_SCOPE_AFFIXES ()Lio/kotest/engine/config/IncludeTestScopeAffixes;
+	public final fun getDEFAULT_INVOCATION_TIMEOUT_MILLIS-UwyO8pc ()J
+	public final fun getDEFAULT_RETRIES ()Ljava/lang/Integer;
+	public final fun getDEFAULT_TIMEOUT-UwyO8pc ()J
+	public final fun getDUPLICATE_TEST_NAME_MODE ()Lio/kotest/core/names/DuplicateTestNameMode;
+	public final fun getDefaultRetryDelay-FghU774 ()Lkotlin/time/Duration;
+	public final fun getISOLATION_MODE ()Lio/kotest/core/spec/IsolationMode;
+	public final fun getLOG_LEVEL ()Lio/kotest/core/config/LogLevel$Off;
+	public final fun getSPEC_EXECUTION_MODE ()Lio/kotest/engine/concurrency/SpecExecutionMode$Sequential;
+	public final fun getSPEC_EXECUTION_ORDER ()Lio/kotest/core/spec/SpecExecutionOrder;
+	public final fun getTEST_CASE_ORDER ()Lio/kotest/core/test/TestCaseOrder;
+	public final fun getTEST_CASE_SEVERITY_LEVEL ()Lio/kotest/core/test/TestCaseSeverityLevel;
+	public final fun getTEST_EXECUTION_MODE ()Lio/kotest/engine/concurrency/TestExecutionMode$Sequential;
+	public final fun getTEST_NAME_CASE ()Lio/kotest/core/names/TestNameCase;
+}
+
+public final class io/kotest/engine/config/IncludeTestScopeAffixes : java/lang/Enum {
+	public static final field ALWAYS Lio/kotest/engine/config/IncludeTestScopeAffixes;
+	public static final field NEVER Lio/kotest/engine/config/IncludeTestScopeAffixes;
+	public static final field STYLE_DEFAULT Lio/kotest/engine/config/IncludeTestScopeAffixes;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
+	public static fun valueOf (Ljava/lang/String;)Lio/kotest/engine/config/IncludeTestScopeAffixes;
+	public static fun values ()[Lio/kotest/engine/config/IncludeTestScopeAffixes;
+}
+
+public final class io/kotest/engine/config/KotestEngineProperties {
+	public static final field INSTANCE Lio/kotest/engine/config/KotestEngineProperties;
+	public static final field INVOCATION_TIMEOUT Ljava/lang/String;
+	public static final field PROJECT_TIMEOUT Ljava/lang/String;
+	public static final field TIMEOUT Ljava/lang/String;
+	public static final field allowMultilineTestName Ljava/lang/String;
+	public static final field assertionMode Ljava/lang/String;
+	public static final field configurationClassNames Ljava/lang/String;
+	public static final field coroutineDebugProbes Ljava/lang/String;
+	public static final field disableBangPrefix Ljava/lang/String;
+	public static final field disableSourceRef Ljava/lang/String;
+	public static final field disableTestNestedJarScanning Ljava/lang/String;
+	public static final field discoveryClasspathFallbackEnabled Ljava/lang/String;
+	public static final field displayFullTestPath Ljava/lang/String;
+	public static final field dumpConfig Ljava/lang/String;
+	public static final field duplicateTestNameMode Ljava/lang/String;
+	public static final field excludeTags Ljava/lang/String;
+	public static final field filterSpecs Ljava/lang/String;
+	public static final field filterTests Ljava/lang/String;
+	public static final field globalAssertSoftly Ljava/lang/String;
+	public static final field ignorePrivateClasses Ljava/lang/String;
+	public static final field includeTags Ljava/lang/String;
+	public static final field isolationMode Ljava/lang/String;
+	public static final field logLevel Ljava/lang/String;
+	public static final field propertiesFilename Ljava/lang/String;
+	public static final field tagExpression Ljava/lang/String;
+	public static final field tagInheritance Ljava/lang/String;
+	public static final field testNameAppendTags Ljava/lang/String;
+	public static final field testSeverity Ljava/lang/String;
+}
+
+public final class io/kotest/engine/config/NoopSystemPropertyConfiguration : io/kotest/engine/config/SystemPropertyConfiguration {
+	public static final field INSTANCE Lio/kotest/engine/config/NoopSystemPropertyConfiguration;
+	public fun allowMultilineTestName ()Ljava/lang/Boolean;
+	public fun assertionMode ()Lio/kotest/core/test/AssertionMode;
+	public fun coroutineDebugProbes ()Ljava/lang/Boolean;
+	public fun disableTestNestedJarScanning ()Ljava/lang/Boolean;
+	public fun discoveryClasspathScanningEnabled ()Ljava/lang/Boolean;
+	public fun displayFullTestPath ()Ljava/lang/Boolean;
+	public fun dumpConfig ()Ljava/lang/Boolean;
+	public fun duplicateTestNameMode ()Lio/kotest/core/names/DuplicateTestNameMode;
+	public fun globalAssertSoftly ()Ljava/lang/Boolean;
+	public fun ignorePrivateClasses ()Ljava/lang/Boolean;
+	public fun invocationTimeout-FghU774 ()Lkotlin/time/Duration;
+	public fun isolationMode ()Lio/kotest/core/spec/IsolationMode;
+	public fun logLevel ()Lio/kotest/core/config/LogLevel;
+	public fun minimumRuntimeTestCaseSeverityLevel ()Lio/kotest/core/test/TestCaseSeverityLevel;
+	public fun projectTimeout-FghU774 ()Lkotlin/time/Duration;
+	public fun tagInheritance ()Ljava/lang/Boolean;
+	public fun testNameAppendTags ()Ljava/lang/Boolean;
+	public fun timeout-FghU774 ()Lkotlin/time/Duration;
+}
+
+public final class io/kotest/engine/config/ProjectConfigLoader {
+	public static final field DEFAULT_CONFIG_FQN Ljava/lang/String;
+	public static final field INSTANCE Lio/kotest/engine/config/ProjectConfigLoader;
+	public final fun detect ()Lio/kotest/core/config/AbstractProjectConfig;
+}
+
+public final class io/kotest/engine/config/ProjectConfigResolver {
+	public fun <init> ()V
+	public fun <init> (Lio/kotest/core/config/AbstractProjectConfig;)V
+	public fun <init> (Lio/kotest/core/config/AbstractProjectConfig;Lio/kotest/engine/extensions/ExtensionRegistry;)V
+	public final fun allowOutOfOrderCallbacks ()Z
+	public final fun displayFullTestPath ()Z
+	public final fun dumpConfig ()Z
+	public final fun extensions ()Ljava/util/List;
+	public final fun failOnEmptyTestSuite ()Z
+	public final fun failOnIgnoredTests ()Z
+	public final fun ignorePrivateClasses ()Z
+	public final fun includeTestScopeAffixes (Lio/kotest/core/test/TestCase;)Z
+	public final fun logLevel ()Lio/kotest/core/config/LogLevel;
+	public final fun minimumRuntimeTestSeverityLevel ()Lio/kotest/core/test/TestCaseSeverityLevel;
+	public final fun projectTimeout-FghU774 ()Lkotlin/time/Duration;
+	public final fun projectWideFailFast ()Z
+	public final fun randomOrderSeed ()Ljava/lang/Long;
+	public final fun specExecutionMode ()Lio/kotest/engine/concurrency/SpecExecutionMode;
+	public final fun specExecutionOrder ()Lio/kotest/core/spec/SpecExecutionOrder;
+	public final fun specFailureFilePath ()Ljava/lang/String;
+	public final fun tagInheritance ()Z
+	public final fun testNameAppendTags ()Z
+	public final fun testNameCase ()Lio/kotest/core/names/TestNameCase;
+	public final fun writeSpecFailureFile ()Z
+}
+
+public final class io/kotest/engine/config/ProjectConfigResolverContextElement : kotlin/coroutines/AbstractCoroutineContextElement {
+	public static final field Key Lio/kotest/engine/config/ProjectConfigResolverContextElement$Key;
+	public fun <init> (Lio/kotest/engine/config/ProjectConfigResolver;)V
+	public final fun component1 ()Lio/kotest/engine/config/ProjectConfigResolver;
+	public final fun copy (Lio/kotest/engine/config/ProjectConfigResolver;)Lio/kotest/engine/config/ProjectConfigResolverContextElement;
+	public static synthetic fun copy$default (Lio/kotest/engine/config/ProjectConfigResolverContextElement;Lio/kotest/engine/config/ProjectConfigResolver;ILjava/lang/Object;)Lio/kotest/engine/config/ProjectConfigResolverContextElement;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getProjectConfigResolver ()Lio/kotest/engine/config/ProjectConfigResolver;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/kotest/engine/config/ProjectConfigResolverContextElement$Key : kotlin/coroutines/CoroutineContext$Key {
+}
+
+public final class io/kotest/engine/config/ProjectConfigResolverContextElementKt {
+	public static final fun getProjectConfigResolver (Lio/kotest/core/test/TestScope;)Lio/kotest/engine/config/ProjectConfigResolver;
+	public static final fun getProjectConfigResolver (Lkotlin/coroutines/CoroutineContext;)Lio/kotest/engine/config/ProjectConfigResolver;
+}
+
+public final class io/kotest/engine/config/SpecConfigResolver {
+	public fun <init> ()V
+	public fun <init> (Lio/kotest/core/config/AbstractProjectConfig;)V
+	public fun <init> (Lio/kotest/core/config/AbstractProjectConfig;Lio/kotest/engine/extensions/ExtensionRegistry;)V
+	public final fun coroutineDispatcherFactory (Lio/kotest/core/spec/Spec;)Lio/kotest/engine/coroutines/CoroutineDispatcherFactory;
+	public final fun duplicateTestNameMode (Lio/kotest/core/spec/Spec;)Lio/kotest/core/names/DuplicateTestNameMode;
+	public final fun extensions (Lio/kotest/core/spec/Spec;)Ljava/util/List;
+	public final fun isolationMode (Lio/kotest/core/spec/Spec;)Lio/kotest/core/spec/IsolationMode;
+	public final fun testCaseOrder (Lio/kotest/core/spec/Spec;)Lio/kotest/core/test/TestCaseOrder;
+	public final fun testExecutionMode (Lio/kotest/core/spec/Spec;)Lio/kotest/engine/concurrency/TestExecutionMode;
+}
+
+public abstract interface class io/kotest/engine/config/SystemPropertyConfiguration {
+	public abstract fun allowMultilineTestName ()Ljava/lang/Boolean;
+	public abstract fun assertionMode ()Lio/kotest/core/test/AssertionMode;
+	public abstract fun coroutineDebugProbes ()Ljava/lang/Boolean;
+	public abstract fun disableTestNestedJarScanning ()Ljava/lang/Boolean;
+	public abstract fun discoveryClasspathScanningEnabled ()Ljava/lang/Boolean;
+	public abstract fun displayFullTestPath ()Ljava/lang/Boolean;
+	public abstract fun dumpConfig ()Ljava/lang/Boolean;
+	public abstract fun duplicateTestNameMode ()Lio/kotest/core/names/DuplicateTestNameMode;
+	public abstract fun globalAssertSoftly ()Ljava/lang/Boolean;
+	public abstract fun ignorePrivateClasses ()Ljava/lang/Boolean;
+	public abstract fun invocationTimeout-FghU774 ()Lkotlin/time/Duration;
+	public abstract fun isolationMode ()Lio/kotest/core/spec/IsolationMode;
+	public abstract fun logLevel ()Lio/kotest/core/config/LogLevel;
+	public abstract fun minimumRuntimeTestCaseSeverityLevel ()Lio/kotest/core/test/TestCaseSeverityLevel;
+	public abstract fun projectTimeout-FghU774 ()Lkotlin/time/Duration;
+	public abstract fun tagInheritance ()Ljava/lang/Boolean;
+	public abstract fun testNameAppendTags ()Ljava/lang/Boolean;
+	public abstract fun timeout-FghU774 ()Lkotlin/time/Duration;
+}
+
+public final class io/kotest/engine/config/TestConfigResolver {
+	public fun <init> ()V
+	public fun <init> (Lio/kotest/core/config/AbstractProjectConfig;)V
+	public fun <init> (Lio/kotest/core/config/AbstractProjectConfig;Lio/kotest/engine/extensions/ExtensionRegistry;)V
+	public final fun assertSoftly (Lio/kotest/core/test/TestCase;)Z
+	public final fun assertionMode (Lio/kotest/core/test/TestCase;)Lio/kotest/core/test/AssertionMode;
+	public final fun blockingTest (Lio/kotest/core/test/TestCase;)Z
+	public final fun coroutineDebugProbes (Lio/kotest/core/test/TestCase;)Z
+	public final fun coroutineTestScope (Lio/kotest/core/test/TestCase;)Z
+	public final fun enabled (Lio/kotest/core/test/TestCase;)Lkotlin/jvm/functions/Function1;
+	public final fun extensions (Lio/kotest/core/test/TestCase;)Ljava/util/List;
+	public final fun failfast (Lio/kotest/core/test/TestCase;)Z
+	public final fun invocationTimeout-5sfh64U (Lio/kotest/core/test/TestCase;)J
+	public final fun invocations (Lio/kotest/core/test/TestCase;)I
+	public final fun retries (Lio/kotest/core/test/TestCase;)Ljava/lang/Integer;
+	public final fun retryDelay-LV8wdWc (Lio/kotest/core/test/TestCase;)Lkotlin/time/Duration;
+	public final fun severity (Lio/kotest/core/test/TestCase;)Lio/kotest/core/test/TestCaseSeverityLevel;
+	public final fun tags (Lio/kotest/core/test/TestCase;)Ljava/util/Set;
+	public final fun timeout-5sfh64U (Lio/kotest/core/test/TestCase;)J
 }
 
 public final class io/kotest/engine/coroutines/BackgroundScopeKt {
 	public static final fun getBackgroundScope (Lio/kotest/core/test/TestScope;)Lkotlinx/coroutines/CoroutineScope;
+}
+
+public abstract interface class io/kotest/engine/coroutines/CoroutineDispatcherFactory {
+	public abstract fun close ()V
+	public abstract fun withDispatcher (Lio/kotest/core/spec/Spec;Lkotlin/jvm/functions/Function1;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public abstract fun withDispatcher (Lio/kotest/core/test/TestCase;Lkotlin/jvm/functions/Function1;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+}
+
+public final class io/kotest/engine/coroutines/CoroutineDispatcherFactory$DefaultImpls {
+	public static fun close (Lio/kotest/engine/coroutines/CoroutineDispatcherFactory;)V
+}
+
+public final class io/kotest/engine/coroutines/CoroutineDispatcherFactoryKt {
+	public static final fun use (Lio/kotest/engine/coroutines/CoroutineDispatcherFactory;Lkotlin/jvm/functions/Function1;)Ljava/lang/Object;
 }
 
 public final class io/kotest/engine/coroutines/TestScopeElement : kotlin/coroutines/CoroutineContext$Element {
@@ -3438,6 +3471,13 @@ public final class io/kotest/engine/coroutines/TestScopeElementKt {
 	public static final fun getCoroutineTestScope (Lio/kotest/core/test/TestScope;)Lkotlinx/coroutines/test/TestScope;
 }
 
+public final class io/kotest/engine/coroutines/ThreadPerSpecCoroutineContextFactory : io/kotest/engine/coroutines/CoroutineDispatcherFactory {
+	public static final field INSTANCE Lio/kotest/engine/coroutines/ThreadPerSpecCoroutineContextFactory;
+	public fun close ()V
+	public fun withDispatcher (Lio/kotest/core/spec/Spec;Lkotlin/jvm/functions/Function1;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public fun withDispatcher (Lio/kotest/core/test/TestCase;Lkotlin/jvm/functions/Function1;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+}
+
 public final class io/kotest/engine/descriptors/KclassesKt {
 	public static final fun toDescriptor (Lkotlin/reflect/KClass;)Lio/kotest/core/descriptors/Descriptor$SpecDescriptor;
 }
@@ -3445,6 +3485,51 @@ public final class io/kotest/engine/descriptors/KclassesKt {
 public final class io/kotest/engine/errors/ExtensionExceptionExtractor {
 	public static final field INSTANCE Lio/kotest/engine/errors/ExtensionExceptionExtractor;
 	public final fun resolve (Ljava/lang/Throwable;)Lkotlin/Pair;
+}
+
+public final class io/kotest/engine/extensions/DefaultExtensionRegistry : io/kotest/engine/extensions/ExtensionRegistry {
+	public fun <init> ()V
+	public fun add (Lio/kotest/core/extensions/Extension;)V
+	public fun all ()Ljava/util/List;
+	public fun clear ()V
+	public fun isEmpty ()Z
+	public fun isNotEmpty ()Z
+	public fun remove (Lio/kotest/core/extensions/Extension;)V
+}
+
+public abstract interface class io/kotest/engine/extensions/DescriptorFilter : io/kotest/core/extensions/Extension {
+	public abstract fun filter (Lio/kotest/core/descriptors/Descriptor;)Lio/kotest/engine/extensions/DescriptorFilterResult;
+}
+
+public abstract interface class io/kotest/engine/extensions/DescriptorFilterResult {
+}
+
+public final class io/kotest/engine/extensions/DescriptorFilterResult$Exclude : io/kotest/engine/extensions/DescriptorFilterResult {
+	public fun <init> (Ljava/lang/String;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun copy (Ljava/lang/String;)Lio/kotest/engine/extensions/DescriptorFilterResult$Exclude;
+	public static synthetic fun copy$default (Lio/kotest/engine/extensions/DescriptorFilterResult$Exclude;Ljava/lang/String;ILjava/lang/Object;)Lio/kotest/engine/extensions/DescriptorFilterResult$Exclude;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getReason ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/kotest/engine/extensions/DescriptorFilterResult$Include : io/kotest/engine/extensions/DescriptorFilterResult {
+	public static final field INSTANCE Lio/kotest/engine/extensions/DescriptorFilterResult$Include;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/kotest/engine/extensions/EmptyExtensionRegistry : io/kotest/engine/extensions/ExtensionRegistry {
+	public static final field INSTANCE Lio/kotest/engine/extensions/EmptyExtensionRegistry;
+	public fun add (Lio/kotest/core/extensions/Extension;)V
+	public fun all ()Ljava/util/List;
+	public fun clear ()V
+	public fun isEmpty ()Z
+	public fun isNotEmpty ()Z
+	public fun remove (Lio/kotest/core/extensions/Extension;)V
 }
 
 public abstract class io/kotest/engine/extensions/ExtensionException : java/lang/Exception {
@@ -3469,7 +3554,8 @@ public final class io/kotest/engine/extensions/ExtensionException$AfterInvocatio
 }
 
 public final class io/kotest/engine/extensions/ExtensionException$AfterProjectException : io/kotest/engine/extensions/ExtensionException {
-	public fun <init> (Ljava/lang/Throwable;)V
+	public fun <init> (Ljava/lang/Throwable;Lio/kotest/core/listeners/AfterProjectListener;)V
+	public final fun getListener ()Lio/kotest/core/listeners/AfterProjectListener;
 }
 
 public final class io/kotest/engine/extensions/ExtensionException$AfterSpecException : io/kotest/engine/extensions/ExtensionException {
@@ -3493,7 +3579,8 @@ public final class io/kotest/engine/extensions/ExtensionException$BeforeInvocati
 }
 
 public final class io/kotest/engine/extensions/ExtensionException$BeforeProjectException : io/kotest/engine/extensions/ExtensionException {
-	public fun <init> (Ljava/lang/Throwable;)V
+	public fun <init> (Ljava/lang/Throwable;Lio/kotest/core/listeners/BeforeProjectListener;)V
+	public final fun getListener ()Lio/kotest/core/listeners/BeforeProjectListener;
 }
 
 public final class io/kotest/engine/extensions/ExtensionException$BeforeSpecException : io/kotest/engine/extensions/ExtensionException {
@@ -3512,19 +3599,28 @@ public final class io/kotest/engine/extensions/ExtensionException$PrepareSpecExc
 	public fun <init> (Ljava/lang/Throwable;)V
 }
 
+public abstract interface class io/kotest/engine/extensions/ExtensionRegistry {
+	public abstract fun add (Lio/kotest/core/extensions/Extension;)V
+	public abstract fun all ()Ljava/util/List;
+	public abstract fun clear ()V
+	public abstract fun isEmpty ()Z
+	public abstract fun isNotEmpty ()Z
+	public abstract fun remove (Lio/kotest/core/extensions/Extension;)V
+}
+
 public final class io/kotest/engine/extensions/MultipleExceptions : java/lang/Exception {
 	public fun <init> (Ljava/util/List;)V
 	public final fun getCauses ()Ljava/util/List;
 }
 
-public final class io/kotest/engine/extensions/SpecifiedTagsTagExtension : io/kotest/core/extensions/TagExtension {
-	public fun <init> (Lio/kotest/core/TagExpression;)V
-	public fun tags ()Lio/kotest/core/TagExpression;
+public final class io/kotest/engine/extensions/ProvidedDescriptorFilter : io/kotest/engine/extensions/DescriptorFilter {
+	public fun <init> ([Lio/kotest/core/descriptors/Descriptor;)V
+	public fun filter (Lio/kotest/core/descriptors/Descriptor;)Lio/kotest/engine/extensions/DescriptorFilterResult;
 }
 
 public final class io/kotest/engine/extensions/SystemPropertyTagExtension : io/kotest/core/extensions/TagExtension {
 	public static final field INSTANCE Lio/kotest/engine/extensions/SystemPropertyTagExtension;
-	public fun tags ()Lio/kotest/core/TagExpression;
+	public fun tags ()Lio/kotest/engine/tags/TagExpression;
 }
 
 public final class io/kotest/engine/interceptors/EmptyTestSuiteException : java/lang/Exception {
@@ -3533,34 +3629,43 @@ public final class io/kotest/engine/interceptors/EmptyTestSuiteException : java/
 
 public final class io/kotest/engine/interceptors/EngineContext {
 	public static final field Companion Lio/kotest/engine/interceptors/EngineContext$Companion;
-	public fun <init> (Lio/kotest/core/config/ProjectConfiguration;Lio/kotest/core/Platform;)V
-	public fun <init> (Lio/kotest/core/project/TestSuite;Lio/kotest/engine/listener/TestEngineListener;Lio/kotest/core/TagExpression;Lio/kotest/core/config/ProjectConfiguration;Lio/kotest/core/Platform;Ljava/util/Map;)V
+	public fun <init> (Lio/kotest/core/project/TestSuite;Lio/kotest/engine/listener/TestEngineListener;Lio/kotest/engine/tags/TagExpression;Lio/kotest/engine/extensions/ExtensionRegistry;Lio/kotest/core/config/AbstractProjectConfig;Lio/kotest/engine/config/ProjectConfigResolver;Lio/kotest/engine/config/SpecConfigResolver;Lio/kotest/engine/config/TestConfigResolver;Lio/kotest/core/Platform;Ljava/util/Map;)V
 	public final fun component1 ()Lio/kotest/core/project/TestSuite;
+	public final fun component10 ()Ljava/util/Map;
 	public final fun component2 ()Lio/kotest/engine/listener/TestEngineListener;
-	public final fun component3 ()Lio/kotest/core/TagExpression;
-	public final fun component4 ()Lio/kotest/core/config/ProjectConfiguration;
-	public final fun component5 ()Lio/kotest/core/Platform;
-	public final fun component6 ()Ljava/util/Map;
-	public final fun copy (Lio/kotest/core/project/TestSuite;Lio/kotest/engine/listener/TestEngineListener;Lio/kotest/core/TagExpression;Lio/kotest/core/config/ProjectConfiguration;Lio/kotest/core/Platform;Ljava/util/Map;)Lio/kotest/engine/interceptors/EngineContext;
-	public static synthetic fun copy$default (Lio/kotest/engine/interceptors/EngineContext;Lio/kotest/core/project/TestSuite;Lio/kotest/engine/listener/TestEngineListener;Lio/kotest/core/TagExpression;Lio/kotest/core/config/ProjectConfiguration;Lio/kotest/core/Platform;Ljava/util/Map;ILjava/lang/Object;)Lio/kotest/engine/interceptors/EngineContext;
+	public final fun component3 ()Lio/kotest/engine/tags/TagExpression;
+	public final fun component4 ()Lio/kotest/engine/extensions/ExtensionRegistry;
+	public final fun component5 ()Lio/kotest/core/config/AbstractProjectConfig;
+	public final fun component6 ()Lio/kotest/engine/config/ProjectConfigResolver;
+	public final fun component7 ()Lio/kotest/engine/config/SpecConfigResolver;
+	public final fun component8 ()Lio/kotest/engine/config/TestConfigResolver;
+	public final fun component9 ()Lio/kotest/core/Platform;
+	public final fun copy (Lio/kotest/core/project/TestSuite;Lio/kotest/engine/listener/TestEngineListener;Lio/kotest/engine/tags/TagExpression;Lio/kotest/engine/extensions/ExtensionRegistry;Lio/kotest/core/config/AbstractProjectConfig;Lio/kotest/engine/config/ProjectConfigResolver;Lio/kotest/engine/config/SpecConfigResolver;Lio/kotest/engine/config/TestConfigResolver;Lio/kotest/core/Platform;Ljava/util/Map;)Lio/kotest/engine/interceptors/EngineContext;
+	public static synthetic fun copy$default (Lio/kotest/engine/interceptors/EngineContext;Lio/kotest/core/project/TestSuite;Lio/kotest/engine/listener/TestEngineListener;Lio/kotest/engine/tags/TagExpression;Lio/kotest/engine/extensions/ExtensionRegistry;Lio/kotest/core/config/AbstractProjectConfig;Lio/kotest/engine/config/ProjectConfigResolver;Lio/kotest/engine/config/SpecConfigResolver;Lio/kotest/engine/config/TestConfigResolver;Lio/kotest/core/Platform;Ljava/util/Map;ILjava/lang/Object;)Lio/kotest/engine/interceptors/EngineContext;
 	public fun equals (Ljava/lang/Object;)Z
-	public final fun getConfiguration ()Lio/kotest/core/config/ProjectConfiguration;
 	public final fun getListener ()Lio/kotest/engine/listener/TestEngineListener;
 	public final fun getPlatform ()Lio/kotest/core/Platform;
+	public final fun getProjectConfig ()Lio/kotest/core/config/AbstractProjectConfig;
+	public final fun getProjectConfigResolver ()Lio/kotest/engine/config/ProjectConfigResolver;
+	public final fun getRegistry ()Lio/kotest/engine/extensions/ExtensionRegistry;
+	public final fun getSpecConfigResolver ()Lio/kotest/engine/config/SpecConfigResolver;
 	public final fun getState ()Ljava/util/Map;
 	public final fun getSuite ()Lio/kotest/core/project/TestSuite;
-	public final fun getTags ()Lio/kotest/core/TagExpression;
+	public final fun getTags ()Lio/kotest/engine/tags/TagExpression;
+	public final fun getTestConfigResolver ()Lio/kotest/engine/config/TestConfigResolver;
 	public fun hashCode ()I
 	public final fun mergeListener (Lio/kotest/engine/listener/TestEngineListener;)Lio/kotest/engine/interceptors/EngineContext;
 	public fun toString ()Ljava/lang/String;
-	public final fun withConfiguration (Lio/kotest/core/config/ProjectConfiguration;)Lio/kotest/engine/interceptors/EngineContext;
 	public final fun withListener (Lio/kotest/engine/listener/TestEngineListener;)Lio/kotest/engine/interceptors/EngineContext;
-	public final fun withTags (Lio/kotest/core/TagExpression;)Lio/kotest/engine/interceptors/EngineContext;
+	public final fun withProjectConfig (Lio/kotest/core/config/AbstractProjectConfig;)Lio/kotest/engine/interceptors/EngineContext;
+	public final fun withTags (Lio/kotest/engine/tags/TagExpression;)Lio/kotest/engine/interceptors/EngineContext;
 	public final fun withTestSuite (Lio/kotest/core/project/TestSuite;)Lio/kotest/engine/interceptors/EngineContext;
 }
 
 public final class io/kotest/engine/interceptors/EngineContext$Companion {
 	public final fun getEmpty ()Lio/kotest/engine/interceptors/EngineContext;
+	public final fun invoke (Lio/kotest/core/config/AbstractProjectConfig;Lio/kotest/core/Platform;)Lio/kotest/engine/interceptors/EngineContext;
+	public final fun invoke (Lio/kotest/core/project/TestSuite;Lio/kotest/engine/listener/TestEngineListener;Lio/kotest/engine/tags/TagExpression;Lio/kotest/core/config/AbstractProjectConfig;Lio/kotest/core/Platform;Lio/kotest/engine/extensions/ExtensionRegistry;)Lio/kotest/engine/interceptors/EngineContext;
 }
 
 public abstract interface class io/kotest/engine/interceptors/EngineInterceptor {
@@ -3576,40 +3681,69 @@ public final class io/kotest/engine/interceptors/ProjectTimeoutException : java/
 	public final fun getTimeout-UwyO8pc ()J
 }
 
+public final class io/kotest/engine/interceptors/SystemPropertiesEngineInterceptor : io/kotest/engine/interceptors/EngineInterceptor {
+	public static final field INSTANCE Lio/kotest/engine/interceptors/SystemPropertiesEngineInterceptor;
+	public fun intercept (Lio/kotest/engine/interceptors/EngineContext;Lio/kotest/engine/interceptors/NextEngineInterceptor;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+}
+
 public final class io/kotest/engine/launcher/LauncherArgs {
-	public fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V
-	public final fun component1 ()Ljava/lang/String;
-	public final fun component2 ()Ljava/lang/String;
-	public final fun component3 ()Ljava/lang/String;
-	public final fun component4 ()Ljava/lang/String;
-	public final fun component5 ()Ljava/lang/String;
-	public final fun component6 ()Ljava/lang/String;
-	public final fun copy (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)Lio/kotest/engine/launcher/LauncherArgs;
-	public static synthetic fun copy$default (Lio/kotest/engine/launcher/LauncherArgs;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;ILjava/lang/Object;)Lio/kotest/engine/launcher/LauncherArgs;
-	public fun equals (Ljava/lang/Object;)Z
-	public final fun getListener ()Ljava/lang/String;
-	public final fun getPackageName ()Ljava/lang/String;
-	public final fun getSpec ()Ljava/lang/String;
-	public final fun getTagExpression ()Ljava/lang/String;
-	public final fun getTermcolor ()Ljava/lang/String;
-	public final fun getTestpath ()Ljava/lang/String;
-	public fun hashCode ()I
-	public fun toString ()Ljava/lang/String;
+	public static final field CANDIDATES Ljava/lang/String;
+	public static final field DESCRIPTOR Ljava/lang/String;
+	public static final field INSTANCE Lio/kotest/engine/launcher/LauncherArgs;
+	public static final field LISTENER Ljava/lang/String;
+	public static final field SPEC Ljava/lang/String;
+	public static final field TERMCOLORS Ljava/lang/String;
+	public static final field TESTPATH Ljava/lang/String;
 }
 
 public final class io/kotest/engine/launcher/MainKt {
 	public static final fun main ([Ljava/lang/String;)V
 }
 
-public final class io/kotest/engine/launcher/ParseLauncherArgsKt {
-	public static final fun parseLauncherArgs (Ljava/util/List;)Lio/kotest/engine/launcher/LauncherArgs;
+public final class io/kotest/engine/launcher/TestEngineLauncherBuilder {
+	public static final field Companion Lio/kotest/engine/launcher/TestEngineLauncherBuilder$Companion;
+	public fun <init> (Ljava/util/List;ZLjava/util/List;)V
+	public final fun addListener (Lio/kotest/engine/listener/TestEngineListener;)Lio/kotest/engine/launcher/TestEngineLauncherBuilder;
+	public final fun build ()Lio/kotest/engine/TestEngineLauncher;
+	public final fun component1 ()Ljava/util/List;
+	public final fun component2 ()Z
+	public final fun component3 ()Ljava/util/List;
+	public final fun copy (Ljava/util/List;ZLjava/util/List;)Lio/kotest/engine/launcher/TestEngineLauncherBuilder;
+	public static synthetic fun copy$default (Lio/kotest/engine/launcher/TestEngineLauncherBuilder;Ljava/util/List;ZLjava/util/List;ILjava/lang/Object;)Lio/kotest/engine/launcher/TestEngineLauncherBuilder;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getClasses ()Ljava/util/List;
+	public final fun getListeners ()Ljava/util/List;
+	public final fun getLogging ()Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+	public final fun withClasses (Ljava/util/List;)Lio/kotest/engine/launcher/TestEngineLauncherBuilder;
 }
 
-public final class io/kotest/engine/launcher/TestPathTestCaseFilter : io/kotest/core/filter/TestFilter {
-	public fun <init> (Ljava/lang/String;Lkotlin/reflect/KClass;)V
-	public fun filter (Lio/kotest/core/descriptors/Descriptor;)Lio/kotest/core/filter/TestFilterResult;
-	public final fun getShould ()Z
-	public final fun setShould (Z)V
+public final class io/kotest/engine/launcher/TestEngineLauncherBuilder$Companion {
+	public final fun builder ()Lio/kotest/engine/launcher/TestEngineLauncherBuilder;
+}
+
+public final class io/kotest/engine/launcher/TestEngineListenerBuilder {
+	public static final field ANSI16 Ljava/lang/String;
+	public static final field ANSI256 Ljava/lang/String;
+	public static final field Companion Lio/kotest/engine/launcher/TestEngineListenerBuilder$Companion;
+	public static final field DEFAULT Ljava/lang/String;
+	public static final field ENHANCED Ljava/lang/String;
+	public static final field TEAMCITY Ljava/lang/String;
+	public static final field TRUECOLOR Ljava/lang/String;
+	public fun <init> (Ljava/lang/String;Ljava/lang/String;)V
+	public final fun build ()Lio/kotest/engine/listener/TestEngineListener;
+	public final fun copy (Ljava/lang/String;Ljava/lang/String;)Lio/kotest/engine/launcher/TestEngineListenerBuilder;
+	public static synthetic fun copy$default (Lio/kotest/engine/launcher/TestEngineListenerBuilder;Ljava/lang/String;Ljava/lang/String;ILjava/lang/Object;)Lio/kotest/engine/launcher/TestEngineListenerBuilder;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+	public final fun withTermColors (Ljava/lang/String;)Lio/kotest/engine/launcher/TestEngineListenerBuilder;
+	public final fun withType (Ljava/lang/String;)Lio/kotest/engine/launcher/TestEngineListenerBuilder;
+}
+
+public final class io/kotest/engine/launcher/TestEngineListenerBuilder$Companion {
+	public final fun builder ()Lio/kotest/engine/launcher/TestEngineListenerBuilder;
 }
 
 public abstract class io/kotest/engine/listener/AbstractTestEngineListener : io/kotest/engine/listener/TestEngineListener {
@@ -3765,25 +3899,24 @@ public final class io/kotest/engine/names/UniqueNames {
 	public static synthetic fun unique$default (Lio/kotest/engine/names/UniqueNames;Ljava/lang/String;Ljava/util/Set;Lkotlin/jvm/functions/Function2;ILjava/lang/Object;)Ljava/lang/String;
 }
 
-public final class io/kotest/engine/project/ProjectExtensions {
-	public fun <init> (Lio/kotest/core/config/ExtensionRegistry;)V
-	public final fun afterProject (Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
-	public final fun beforeProject (Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
-}
-
-public final class io/kotest/engine/spec/InstantiateSpecKt {
-	public static final fun createAndInitializeSpec (Lkotlin/reflect/KClass;Lio/kotest/core/config/ExtensionRegistry;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+public abstract interface class io/kotest/engine/names/WithDataTestName {
+	public abstract fun dataTestName ()Ljava/lang/String;
 }
 
 public final class io/kotest/engine/spec/Materializer {
-	public fun <init> (Lio/kotest/core/config/ProjectConfiguration;)V
+	public fun <init> ()V
+	public fun <init> (Lio/kotest/engine/config/SpecConfigResolver;)V
 	public final fun materialize (Lio/kotest/core/spec/Spec;)Ljava/util/List;
 	public final fun materialize (Lio/kotest/core/test/NestedTest;Lio/kotest/core/test/TestCase;)Lio/kotest/core/test/TestCase;
 }
 
+public final class io/kotest/engine/spec/NoopSpecSorter : io/kotest/engine/spec/SpecSorter {
+	public static final field INSTANCE Lio/kotest/engine/spec/NoopSpecSorter;
+	public fun sort (Ljava/util/List;)Ljava/util/List;
+}
+
 public final class io/kotest/engine/spec/RandomSpecSorter : io/kotest/engine/spec/SpecSorter {
 	public fun <init> (Lkotlin/random/Random;)V
-	public fun compare (Lkotlin/reflect/KClass;Lkotlin/reflect/KClass;)I
 	public fun sort (Ljava/util/List;)Ljava/util/List;
 }
 
@@ -3793,20 +3926,20 @@ public final class io/kotest/engine/spec/Sorters_jvmKt {
 }
 
 public final class io/kotest/engine/spec/SpecExecutorKt {
-	public static final fun testSpecExecutor (Lio/kotest/engine/concurrency/NoopCoroutineDispatcherFactory;Lio/kotest/engine/interceptors/EngineContext;Lio/kotest/core/spec/SpecRef$Reference;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public static final fun testSpecExecutor (Lio/kotest/engine/interceptors/EngineContext;Lio/kotest/core/spec/SpecRef$Reference;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 }
 
 public final class io/kotest/engine/spec/SpecInstantiationException : java/lang/RuntimeException {
 	public fun <init> (Ljava/lang/String;Ljava/lang/Throwable;)V
 }
 
-public abstract interface class io/kotest/engine/spec/SpecSorter {
-	public abstract fun compare (Lkotlin/reflect/KClass;Lkotlin/reflect/KClass;)I
-	public abstract fun sort (Ljava/util/List;)Ljava/util/List;
+public final class io/kotest/engine/spec/SpecInstantiator {
+	public fun <init> (Lio/kotest/engine/extensions/ExtensionRegistry;Lio/kotest/engine/config/ProjectConfigResolver;)V
+	public final fun createAndInitializeSpec-gIAlu-s (Lkotlin/reflect/KClass;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 }
 
-public final class io/kotest/engine/spec/SpecSorter$DefaultImpls {
-	public static fun sort (Lio/kotest/engine/spec/SpecSorter;Ljava/util/List;)Ljava/util/List;
+public abstract interface class io/kotest/engine/spec/SpecSorter {
+	public abstract fun sort (Ljava/util/List;)Ljava/util/List;
 }
 
 public final class io/kotest/engine/spec/TempDirDeletionException : java/lang/Exception {
@@ -3827,6 +3960,19 @@ public final class io/kotest/engine/spec/TempdirKt {
 public final class io/kotest/engine/spec/TempfileKt {
 	public static final fun tempfile (Lio/kotest/core/TestConfiguration;Ljava/lang/String;Ljava/lang/String;)Ljava/io/File;
 	public static synthetic fun tempfile$default (Lio/kotest/core/TestConfiguration;Ljava/lang/String;Ljava/lang/String;ILjava/lang/Object;)Ljava/io/File;
+}
+
+public final class io/kotest/engine/spec/TestResults {
+	public fun <init> ()V
+	public final fun children (Lio/kotest/core/test/TestCase;)Ljava/util/Set;
+	public final fun completed (Lio/kotest/core/test/TestCase;Lio/kotest/core/test/TestResult;)V
+	public final fun hasErrorOrFailure ()Z
+	public final fun isStarted (Lio/kotest/core/test/TestCase;)Z
+	public final fun isSubtreeComplete (Lio/kotest/core/test/TestCase;)Z
+	public final fun roots ()Ljava/util/Map;
+	public final fun rootsCompleted ()Z
+	public final fun started (Lio/kotest/core/test/TestCase;)V
+	public final fun toMap ()Ljava/util/Map;
 }
 
 public final class io/kotest/engine/spec/interceptor/SpecContext {
@@ -3859,7 +4005,7 @@ public final class io/kotest/engine/stable/Platform_jvmKt {
 public final class io/kotest/engine/tags/ActiveKt {
 	public static final fun isActive (Lio/kotest/engine/tags/Expression;Lio/kotest/core/Tag;)Z
 	public static final fun isActive (Lio/kotest/engine/tags/Expression;Ljava/util/Set;)Z
-	public static final fun isPotentiallyActive (Lio/kotest/engine/tags/Expression;Lkotlin/reflect/KClass;Lio/kotest/core/config/ProjectConfiguration;)Lio/kotest/engine/tags/TagExpressionResult;
+	public static final fun isPotentiallyActive (Lio/kotest/engine/tags/Expression;Lkotlin/reflect/KClass;Lio/kotest/engine/config/ProjectConfigResolver;)Lio/kotest/engine/tags/TagExpressionResult;
 }
 
 public abstract class io/kotest/engine/tags/Expression {
@@ -3918,36 +4064,32 @@ public final class io/kotest/engine/tags/Lexer {
 	public final fun lex ()Ljava/util/List;
 }
 
-public final class io/kotest/engine/tags/Parser {
-	public static final field Companion Lio/kotest/engine/tags/Parser$Companion;
-	public fun <init> (Ljava/util/List;)V
-	public final fun consume ()Lio/kotest/engine/tags/Token;
-	public final fun consume (Lio/kotest/engine/tags/TokenType;)Lio/kotest/engine/tags/Token;
-	public final fun peek ()Lio/kotest/engine/tags/Token;
-	public final fun skip ()V
-	public final fun skip (Lio/kotest/engine/tags/TokenType;)V
-	public final fun skipIf (Lio/kotest/engine/tags/TokenType;)Z
-}
-
-public final class io/kotest/engine/tags/Parser$Companion {
-	public final fun from (Ljava/lang/String;)Lio/kotest/engine/tags/Parser;
-}
-
-public final class io/kotest/engine/tags/ParserKt {
-	public static final fun parse (Lio/kotest/core/TagExpression;)Lio/kotest/engine/tags/Expression;
-}
-
 public final class io/kotest/engine/tags/RulesKt {
-	public static final fun and (Lio/kotest/engine/tags/Parser;)Lio/kotest/engine/tags/Expression;
 	public static final fun asString (Lio/kotest/engine/tags/Expression;)Ljava/lang/String;
-	public static final fun expression (Lio/kotest/engine/tags/Parser;)Lio/kotest/engine/tags/Expression;
-	public static final fun not (Lio/kotest/engine/tags/Parser;)Lio/kotest/engine/tags/Expression;
-	public static final fun or (Lio/kotest/engine/tags/Parser;)Lio/kotest/engine/tags/Expression;
-	public static final fun primary (Lio/kotest/engine/tags/Parser;)Lio/kotest/engine/tags/Expression;
 }
 
-public final class io/kotest/engine/tags/RuntimeKt {
-	public static final fun runtimeTagExpression (Lio/kotest/core/config/ProjectConfiguration;)Lio/kotest/core/TagExpression;
+public final class io/kotest/engine/tags/TagExpression {
+	public static final field Companion Lio/kotest/engine/tags/TagExpression$Companion;
+	public fun <init> (Ljava/lang/String;)V
+	public final fun combine (Lio/kotest/engine/tags/TagExpression;)Lio/kotest/engine/tags/TagExpression;
+	public final fun component1 ()Ljava/lang/String;
+	public final fun copy (Ljava/lang/String;)Lio/kotest/engine/tags/TagExpression;
+	public static synthetic fun copy$default (Lio/kotest/engine/tags/TagExpression;Ljava/lang/String;ILjava/lang/Object;)Lio/kotest/engine/tags/TagExpression;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun exclude (Lio/kotest/core/Tag;)Lio/kotest/engine/tags/TagExpression;
+	public final fun exclude (Ljava/lang/String;)Lio/kotest/engine/tags/TagExpression;
+	public final fun getExpression ()Ljava/lang/String;
+	public fun hashCode ()I
+	public final fun include (Lio/kotest/core/Tag;)Lio/kotest/engine/tags/TagExpression;
+	public final fun include (Ljava/lang/String;)Lio/kotest/engine/tags/TagExpression;
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/kotest/engine/tags/TagExpression$Companion {
+	public final fun exclude (Lio/kotest/core/Tag;)Lio/kotest/engine/tags/TagExpression;
+	public final fun getEmpty ()Lio/kotest/engine/tags/TagExpression;
+	public final fun include (Lio/kotest/core/Tag;)Lio/kotest/engine/tags/TagExpression;
+	public final fun invoke (Ljava/util/Set;Ljava/util/Set;)Lio/kotest/engine/tags/TagExpression;
 }
 
 public final class io/kotest/engine/tags/TagExpressionResult : java/lang/Enum {
@@ -4163,13 +4305,9 @@ public final class io/kotest/engine/test/logging/TestLogger {
 
 public final class io/kotest/engine/test/names/DefaultDisplayNameFormatter : io/kotest/engine/names/DisplayNameFormatter {
 	public fun <init> ()V
-	public fun <init> (Lio/kotest/core/config/ProjectConfiguration;)V
+	public fun <init> (Lio/kotest/engine/config/ProjectConfigResolver;Lio/kotest/engine/config/TestConfigResolver;)V
 	public fun format (Lio/kotest/core/test/TestCase;)Ljava/lang/String;
 	public fun format (Lkotlin/reflect/KClass;)Ljava/lang/String;
-}
-
-public final class io/kotest/engine/test/names/DefaultDisplayNameFormatterKt {
-	public static final fun appendTagsInDisplayName (Lio/kotest/core/test/TestCase;Ljava/lang/String;)Ljava/lang/String;
 }
 
 public final class io/kotest/engine/test/names/DuplicateTestNameException : java/lang/RuntimeException {
@@ -4186,11 +4324,11 @@ public final class io/kotest/engine/test/names/FallbackDisplayNameFormatter {
 
 public final class io/kotest/engine/test/names/FallbackDisplayNameFormatter$Companion {
 	public final fun default ()Lio/kotest/engine/test/names/FallbackDisplayNameFormatter;
-	public final fun default (Lio/kotest/core/config/ProjectConfiguration;)Lio/kotest/engine/test/names/FallbackDisplayNameFormatter;
+	public final fun default (Lio/kotest/core/config/AbstractProjectConfig;)Lio/kotest/engine/test/names/FallbackDisplayNameFormatter;
 }
 
 public final class io/kotest/engine/test/names/GetDisplayNameFormatterKt {
-	public static final fun getFallbackDisplayNameFormatter (Lio/kotest/core/config/ExtensionRegistry;Lio/kotest/core/config/ProjectConfiguration;)Lio/kotest/engine/test/names/FallbackDisplayNameFormatter;
+	public static final fun getFallbackDisplayNameFormatter (Lio/kotest/engine/config/ProjectConfigResolver;Lio/kotest/engine/config/TestConfigResolver;)Lio/kotest/engine/test/names/FallbackDisplayNameFormatter;
 }
 
 public final class io/kotest/engine/test/names/PathsKt {
@@ -4235,7 +4373,7 @@ public final class io/kotest/engine/test/scopes/RegistrationKt {
 }
 
 public final class io/kotest/engine/test/scopes/ScopesKt {
-	public static final fun createSingleInstanceTestScope (Lio/kotest/core/test/TestCase;Lio/kotest/engine/spec/interceptor/SpecContext;Lkotlin/coroutines/CoroutineContext;Lio/kotest/core/names/DuplicateTestNameMode;Lio/kotest/core/concurrency/CoroutineDispatcherFactory;Lio/kotest/engine/interceptors/EngineContext;)Lio/kotest/core/test/TestScope;
+	public static final fun createSingleInstanceTestScope (Lio/kotest/core/test/TestCase;Lio/kotest/engine/spec/interceptor/SpecContext;Lkotlin/coroutines/CoroutineContext;Lio/kotest/core/names/DuplicateTestNameMode;Lio/kotest/engine/interceptors/EngineContext;)Lio/kotest/core/test/TestScope;
 }
 
 public final class io/kotest/engine/test/scopes/TerminalTestScope : io/kotest/core/test/TestScope {
@@ -4243,9 +4381,5 @@ public final class io/kotest/engine/test/scopes/TerminalTestScope : io/kotest/co
 	public fun getCoroutineContext ()Lkotlin/coroutines/CoroutineContext;
 	public fun getTestCase ()Lio/kotest/core/test/TestCase;
 	public fun registerTestCase (Lio/kotest/core/test/NestedTest;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
-}
-
-public final class io/kotest/engine/test/status/EnabledKt {
-	public static final fun isEnabled (Lio/kotest/core/test/TestCase;Lio/kotest/core/config/ProjectConfiguration;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 }
 

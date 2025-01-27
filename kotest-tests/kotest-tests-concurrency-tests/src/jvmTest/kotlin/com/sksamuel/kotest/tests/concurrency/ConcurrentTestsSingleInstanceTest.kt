@@ -2,13 +2,13 @@ package com.sksamuel.kotest.tests.concurrency
 
 import io.kotest.core.annotation.EnabledIf
 import io.kotest.core.annotation.enabledif.LinuxCondition
-import io.kotest.core.config.ProjectConfiguration
 import io.kotest.core.spec.IsolationMode
 import io.kotest.core.spec.Spec
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.core.test.TestCase
 import io.kotest.core.test.TestCaseOrder
 import io.kotest.core.test.TestResult
+import io.kotest.engine.concurrency.TestExecutionMode
 import io.kotest.matchers.comparables.shouldBeLessThan
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.string.shouldHaveLength
@@ -26,15 +26,15 @@ class ConcurrentTestsSingleInstanceTest : FunSpec() {
    private lateinit var start: TimeMark
 
    override fun isolationMode() = IsolationMode.SingleInstance
-   override fun concurrency(): Int = ProjectConfiguration.MaxConcurrency
+   override fun testExecutionMode(): TestExecutionMode? = TestExecutionMode.Concurrent
    override fun testCaseOrder() = TestCaseOrder.Sequential
 
    override suspend fun beforeTest(testCase: TestCase) {
-      befores += testCase.name.testName
+      befores += testCase.name.name
    }
 
    override suspend fun afterTest(testCase: TestCase, result: TestResult) {
-      afters += testCase.name.testName
+      afters += testCase.name.name
    }
 
    override suspend fun beforeSpec(spec: Spec) {

@@ -2,7 +2,7 @@ package io.kotest.engine.stable
 
 import io.kotest.core.Platform
 import io.kotest.core.platform
-import io.kotest.datatest.WithDataTestName
+import io.kotest.engine.names.WithDataTestName
 import io.kotest.mpp.bestName
 import io.kotest.mpp.hasAnnotation
 import io.kotest.mpp.reflection
@@ -27,7 +27,7 @@ import kotlin.reflect.KType
  *
  * class MyTest: FunSpec() {
  *    init {
- *       isolationMode = IsolationMode.InstancePerLeaf
+ *       isolationMode = IsolationMode.InstancePerRoot
  *
  *       context("my data test") {
  *           withData(

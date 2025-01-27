@@ -3,16 +3,13 @@ package com.sksamuel.kotest.engine.test.timeout
 import io.kotest.core.Platform
 import io.kotest.core.annotation.EnabledIf
 import io.kotest.core.annotation.enabledif.LinuxCondition
-import io.kotest.core.config.ProjectConfiguration
-import io.kotest.core.descriptors.append
-import io.kotest.engine.descriptors.toDescriptor
-import io.kotest.core.names.TestName
-import io.kotest.core.source.sourceRef
+import io.kotest.core.names.TestNameBuilder
+import io.kotest.core.source.SourceRef
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.core.test.TestCase
 import io.kotest.core.test.TestType
-import io.kotest.core.test.config.ResolvedTestConfig
-import io.kotest.engine.concurrency.NoopCoroutineDispatcherFactory
+import io.kotest.core.test.config.TestConfig
+import io.kotest.engine.descriptors.toDescriptor
 import io.kotest.engine.interceptors.EngineContext
 import io.kotest.engine.spec.interceptor.SpecContext
 import io.kotest.engine.test.NoopTestCaseExecutionListener
@@ -34,13 +31,13 @@ class TestTimeoutTest : FunSpec() {
       ) {
          val tc = TestCase(
             descriptor = TestTimeoutTest::class.toDescriptor().append("wibble"),
-            name = TestName("wibble"),
+            name = TestNameBuilder.builder("wibble").build(),
             spec = this@TestTimeoutTest,
             test = { Thread.sleep(10000000) },
-            source = sourceRef(),
+            source = SourceRef.None,
             type = TestType.Container,
             parent = null,
-            config = ResolvedTestConfig.default.copy(
+            config = TestConfig(
                timeout = 1.milliseconds,
                blockingTest = true
             ),
@@ -48,8 +45,7 @@ class TestTimeoutTest : FunSpec() {
 
          val executor = TestCaseExecutor(
             NoopTestCaseExecutionListener,
-            NoopCoroutineDispatcherFactory,
-            EngineContext(ProjectConfiguration(), Platform.JVM),
+            EngineContext(null, Platform.JVM),
          )
          // needs to run on a separate thread, so we don't interrupt our own thread
          withContext(Dispatchers.IO) {
@@ -62,21 +58,20 @@ class TestTimeoutTest : FunSpec() {
       ) {
          val tc = TestCase(
             descriptor = TestTimeoutTest::class.toDescriptor().append("wobble"),
-            name = TestName("wobble"),
+            name = TestNameBuilder.builder("wobble").build(),
             spec = this@TestTimeoutTest,
             test = { delay(1000000) },
-            source = sourceRef(),
+            source = SourceRef.None,
             type = TestType.Container,
             parent = null,
-            config = ResolvedTestConfig.default.copy(
+            config = TestConfig(
                timeout = 1.milliseconds,
             ),
          )
 
          val executor = TestCaseExecutor(
             NoopTestCaseExecutionListener,
-            NoopCoroutineDispatcherFactory,
-            EngineContext(ProjectConfiguration(), Platform.JVM),
+            EngineContext(null, Platform.JVM),
          )
          // needs to run on a separate thread, so we don't interrupt our own thread
          withContext(Dispatchers.IO) {

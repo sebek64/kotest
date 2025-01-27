@@ -3,7 +3,7 @@ package io.kotest.engine.timeout
 import io.kotest.core.annotation.EnabledIf
 import io.kotest.core.annotation.enabledif.LinuxCondition
 import io.kotest.core.spec.style.FunSpec
-import io.kotest.engine.KotestEngineProperties
+import io.kotest.engine.config.KotestEngineProperties
 import io.kotest.engine.TestEngineLauncher
 import io.kotest.engine.listener.CollectingTestEngineListener
 import io.kotest.extensions.system.withSystemProperty
@@ -15,22 +15,22 @@ class SystemPropertyTimeoutTest : FunSpec() {
    init {
 
       test("system properties can be used for test timeouts") {
-         withSystemProperty(KotestEngineProperties.timeout, "500") {
+         withSystemProperty(KotestEngineProperties.TIMEOUT, "500") {
             val collector = CollectingTestEngineListener()
             TestEngineLauncher(collector)
                .withClasses(TimeoutTest::class)
                .launch()
-            collector.tests.mapKeys { it.key.name.testName }["a"]?.isError shouldBe true
+            collector.tests.mapKeys { it.key.name.name }["a"]?.isError shouldBe true
          }
       }
 
       test("system properties can be used for invocation timeouts") {
-         withSystemProperty(KotestEngineProperties.invocationTimeout, "10") {
+         withSystemProperty(KotestEngineProperties.INVOCATION_TIMEOUT, "10") {
             val collector = CollectingTestEngineListener()
             TestEngineLauncher(collector)
                .withClasses(TimeoutTest::class)
                .launch()
-            collector.tests.mapKeys { it.key.name.testName }["a"]?.isError shouldBe true
+            collector.tests.mapKeys { it.key.name.name }["a"]?.isError shouldBe true
          }
       }
    }

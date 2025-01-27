@@ -2,7 +2,7 @@ package io.kotest.core.spec.style.scopes
 
 import io.kotest.core.Tag
 import io.kotest.core.extensions.TestCaseExtension
-import io.kotest.core.names.TestName
+import io.kotest.core.names.TestNameBuilder
 import io.kotest.core.test.EnabledIf
 import io.kotest.core.test.TestCaseSeverityLevel
 import io.kotest.core.test.TestScope
@@ -15,12 +15,12 @@ interface FreeSpecRootScope : RootScope {
 
    // eg, "this test" - { } // adds a container test
    infix operator fun String.minus(test: suspend FreeSpecContainerScope.() -> Unit) {
-      addContainer(TestName(this), false, null) { FreeSpecContainerScope(this).test() }
+      addContainer(TestNameBuilder.builder(this).build(), false, null) { FreeSpecContainerScope(this).test() }
    }
 
    // "this test" { } // adds a leaf test
    infix operator fun String.invoke(test: suspend FreeSpecTerminalScope.() -> Unit) {
-      addTest(TestName(this), false, null) { FreeSpecTerminalScope(this).test() }
+      addTest(TestNameBuilder.builder(this).build(), false, null) { FreeSpecTerminalScope(this).test() }
    }
 
    /**
@@ -48,13 +48,12 @@ interface FreeSpecRootScope : RootScope {
    ): FreeSpecContextConfigBuilder {
       val config = TestConfig(
          enabled = enabled,
-         tags = tags,
+         tags = tags ?: emptySet(),
          extensions = extensions,
          timeout = timeout,
          invocationTimeout = invocationTimeout,
          enabledIf = enabledIf,
          invocations = invocations,
-         threads = threads,
          severity = severity,
          failfast = failfast,
          blockingTest = blockingTest,
@@ -87,7 +86,7 @@ interface FreeSpecRootScope : RootScope {
     * ```
     */
    infix operator fun FreeSpecContextConfigBuilder.minus(test: suspend FreeSpecContainerScope.() -> Unit) {
-      addContainer(TestName(name), false, config) { FreeSpecContainerScope(this).test() }
+      addContainer(TestNameBuilder.builder(name).build(), false, config) { FreeSpecContainerScope(this).test() }
    }
 
    /**
@@ -101,7 +100,6 @@ interface FreeSpecRootScope : RootScope {
    fun String.config(
       enabled: Boolean? = null,
       invocations: Int? = null,
-      threads: Int? = null,
       tags: Set<Tag>? = null,
       timeout: Duration? = null,
       extensions: List<TestCaseExtension>? = null,
@@ -115,19 +113,18 @@ interface FreeSpecRootScope : RootScope {
    ) {
       val config = TestConfig(
          enabled = enabled,
-         tags = tags,
+         tags = tags ?: emptySet(),
          extensions = extensions,
          timeout = timeout,
          invocationTimeout = invocationTimeout,
          enabledIf = enabledIf,
          invocations = invocations,
-         threads = threads,
          severity = severity,
          failfast = failfast,
          blockingTest = blockingTest,
          coroutineTestScope = coroutineTestScope,
       )
-      addTest(TestName(this), false, config, test)
+      addTest(TestNameBuilder.builder(this).build(), false, config, test)
    }
 
    fun String.config(config: TestConfig, test: suspend TestScope.() -> Unit): FreeSpecContextConfigBuilder {

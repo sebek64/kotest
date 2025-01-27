@@ -1,7 +1,6 @@
 package io.kotest.core.spec.style.scopes
 
-import io.kotest.common.ExperimentalKotest
-import io.kotest.core.names.TestName
+import io.kotest.core.names.TestNameBuilder
 import io.kotest.core.test.TestScope
 
 /**
@@ -10,33 +9,70 @@ import io.kotest.core.test.TestScope
 interface ExpectSpecRootScope : RootScope {
 
    fun context(name: String, test: suspend ExpectSpecContainerScope.() -> Unit) {
-      addContainer(TestName("Context: ", name, false), false, null) { ExpectSpecContainerScope(this).test() }
+      addContext(name = name, test = test, disabled = false)
+   }
+
+   fun xcontext(name: String, test: suspend ExpectSpecContainerScope.() -> Unit) {
+      addContext(name = name, test = test, disabled = true)
    }
 
    /**
     * Adds a container test to this spec expecting config.
     */
-   @ExperimentalKotest
    fun context(name: String): RootContainerWithConfigBuilder<ExpectSpecContainerScope> =
-      RootContainerWithConfigBuilder(TestName("Context: ", name, false), false, this) { ExpectSpecContainerScope(it) }
+      RootContainerWithConfigBuilder(
+         name = TestNameBuilder.builder(name).withPrefix("Context: ").build(),
+         xdisabled = false,
+         context = this
+      ) { ExpectSpecContainerScope(it) }
 
-   fun xcontext(name: String, test: suspend ExpectSpecContainerScope.() -> Unit) {
-      addContainer(TestName("Context: ", name, false), true, null) { ExpectSpecContainerScope(this).test() }
-   }
+   /**
+    * Adds a disabled container test to this spec expecting config.
+    */
+   fun xcontext(name: String): RootContainerWithConfigBuilder<ExpectSpecContainerScope> =
+      RootContainerWithConfigBuilder(
+         name = TestNameBuilder.builder(name).withPrefix("Context: ").build(),
+         xdisabled = false,
+         context = this
+      ) { ExpectSpecContainerScope(it) }
 
    fun expect(name: String, test: suspend TestScope.() -> Unit) {
-      addTest(TestName("Expect: ", name, false), false, null) { ExpectSpecContainerScope(this).test() }
+      addExpect(name = name, test = test, disabled = false)
    }
 
    fun xexpect(name: String, test: suspend TestScope.() -> Unit) {
-      addTest(TestName("Expect: ", name, false), true, null) { ExpectSpecContainerScope(this).test() }
+      addExpect(name = name, test = test, disabled = true)
    }
 
    fun expect(name: String): RootTestWithConfigBuilder {
-      return RootTestWithConfigBuilder(this, TestName("Expect: ", name, null, false), false)
+      return RootTestWithConfigBuilder(
+         context = this,
+         name = TestNameBuilder.builder(name).withPrefix("Expect: ").build(),
+         xdisabled = false
+      )
    }
 
    fun xexpect(name: String): RootTestWithConfigBuilder {
-      return RootTestWithConfigBuilder(this, TestName("Expect: ", name, null, false), true)
+      return RootTestWithConfigBuilder(
+         context = this,
+         name = TestNameBuilder.builder(name).withPrefix("Expect: ").build(),
+         xdisabled = true
+      )
+   }
+
+   private fun addContext(name: String, test: suspend ExpectSpecContainerScope.() -> Unit, disabled: Boolean) {
+      addContainer(
+         testName = TestNameBuilder.builder(name).withPrefix("Context: ").build(),
+         disabled = disabled,
+         config = null
+      ) { ExpectSpecContainerScope(this).test() }
+   }
+
+   private fun addExpect(name: String, test: suspend ExpectSpecContainerScope.() -> Unit, disabled: Boolean) {
+      addTest(
+         testName = TestNameBuilder.builder(name).withPrefix("Expect: ").build(),
+         disabled = disabled,
+         config = null
+      ) { ExpectSpecContainerScope(this).test() }
    }
 }

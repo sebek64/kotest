@@ -1,10 +1,11 @@
 package io.kotest.extensions.allure
 
-import io.kotest.core.config.ProjectConfiguration
+import io.kotest.common.DescriptorPath
 import io.kotest.core.descriptors.Descriptor
-import io.kotest.core.descriptors.TestPath
 import io.kotest.core.test.TestCase
 import io.kotest.core.test.TestResult
+import io.kotest.engine.config.ProjectConfigResolver
+import io.kotest.engine.config.TestConfigResolver
 import io.kotest.engine.test.names.DefaultDisplayNameFormatter
 import io.kotest.engine.test.names.FallbackDisplayNameFormatter
 import io.kotest.engine.test.names.formatTestPath
@@ -27,9 +28,10 @@ class AllureWriter {
    }
 
    private val formatter = FallbackDisplayNameFormatter(
-      DefaultDisplayNameFormatter(ProjectConfiguration().apply {
-         includeTestScopeAffixes = true
-      })
+      fallback = DefaultDisplayNameFormatter(
+         projectConfigResolver = ProjectConfigResolver(),
+         testConfigResolver = TestConfigResolver()
+      )
    )
 
    /**
@@ -42,7 +44,7 @@ class AllureWriter {
       throw t
    }
 
-   private val uuids = ConcurrentHashMap<TestPath, String>()
+   private val uuids = ConcurrentHashMap<DescriptorPath, String>()
 
    fun id(testCase: TestCase) = uuids[testCase.descriptor.path()]
 
@@ -89,7 +91,7 @@ class AllureWriter {
          is TestResult.Success -> Status.PASSED
       }
 
-      val uuid = uuids[testCase.descriptor.path()] ?: "Unknown test ${testCase.descriptor}"
+      val uuid = uuids[testCase.descriptor.path()] ?: "Unknown test ${testCase.descriptor.path().value}"
       val details = ResultsUtils.getStatusDetails(result.errorOrNull)
 
       allure.stopTestCase(uuid)
@@ -170,5 +172,5 @@ class AllureWriter {
    }
 
    // returns an id that's acceptable in format for allure
-   private fun safeId(descriptor: Descriptor.TestDescriptor): String = descriptor.path(true).value
+   private fun safeId(descriptor: Descriptor.TestDescriptor): String = descriptor.path().value
 }

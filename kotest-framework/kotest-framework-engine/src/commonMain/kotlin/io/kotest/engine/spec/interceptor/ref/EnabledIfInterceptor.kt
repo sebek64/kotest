@@ -1,7 +1,6 @@
 package io.kotest.engine.spec.interceptor.ref
 
 import io.kotest.core.annotation.EnabledIf
-import io.kotest.core.config.ExtensionRegistry
 import io.kotest.core.spec.SpecRef
 import io.kotest.core.test.TestCase
 import io.kotest.core.test.TestResult
@@ -22,25 +21,25 @@ import io.kotest.mpp.annotation
  * Note: annotations are only available on the JVM.
  */
 internal class EnabledIfInterceptor(
-  private val listener: TestEngineListener,
-  registry: ExtensionRegistry,
+   private val listener: TestEngineListener,
+   private val specExtensions: SpecExtensions,
 ) : SpecRefInterceptor {
-
-   private val extensions = SpecExtensions(registry)
 
    override suspend fun intercept(ref: SpecRef, next: NextSpecRefInterceptor): Result<Map<TestCase, TestResult>> {
 
-      val enabled = ref.kclass
+      val annotation = ref.kclass
          .annotation<EnabledIf>(IncludingAnnotations, IncludingSuperclasses)
          ?.enabledIf
          ?.newInstanceNoArgConstructor()
-         ?.enabled(ref.kclass) ?: true
+
+      val enabled = annotation?.enabled(ref.kclass) != false
 
       return if (enabled) {
          next.invoke(ref)
       } else {
-         runCatching { listener.specIgnored(ref.kclass, "Disabled by @EnabledIf") }
-            .flatMap { extensions.ignored(ref.kclass, "Disabled by @EnabledIf") }
+         val message = "Disabled by @EnabledIf ($annotation)"
+         runCatching { listener.specIgnored(ref.kclass, message) }
+            .flatMap { specExtensions.ignored(ref.kclass, message) }
             .map { emptyMap() }
       }
    }

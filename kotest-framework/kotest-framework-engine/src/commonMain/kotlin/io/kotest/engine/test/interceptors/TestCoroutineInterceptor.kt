@@ -6,7 +6,7 @@ import io.kotest.core.Logger
 import io.kotest.core.test.TestCase
 import io.kotest.core.test.TestResult
 import io.kotest.core.test.TestScope
-import io.kotest.core.test.timeout
+import io.kotest.engine.config.TestConfigResolver
 import io.kotest.engine.coroutines.TestScopeElement
 import io.kotest.engine.test.scopes.withCoroutineContext
 import kotlinx.coroutines.test.runTest
@@ -20,7 +20,7 @@ import kotlin.coroutines.EmptyCoroutineContext
  *
  * This setting cannot be nested.
  */
-internal class TestCoroutineInterceptor : TestExecutionInterceptor {
+internal class TestCoroutineInterceptor(private val testConfigResolver: TestConfigResolver) : TestExecutionInterceptor {
 
    private val logger = Logger(TestCoroutineInterceptor::class)
 
@@ -30,12 +30,12 @@ internal class TestCoroutineInterceptor : TestExecutionInterceptor {
       test: NextTestExecutionInterceptor
    ): TestResult {
       var result: TestResult = TestResult.Ignored()
-      logger.log { Pair(testCase.name.testName, "Switching context to coroutines runTest") }
+      logger.log { Pair(testCase.name.name, "Switching context to coroutines runTest") }
 
       // Handle timeouts here to avoid the influence of the default timeout set inside runTest
       runTest(
          context = scope.coroutineContext.testCoroutineSchedulerOrNull ?: EmptyCoroutineContext,
-         timeout = testCase.timeout
+         timeout = testConfigResolver.timeout(testCase)
       ) {
          var additionalContext: CoroutineContext = TestScopeElement(this)
          if (testCase.spec.nonDeterministicTestVirtualTimeEnabled) {

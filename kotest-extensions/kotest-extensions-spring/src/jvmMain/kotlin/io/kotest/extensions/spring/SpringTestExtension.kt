@@ -82,7 +82,7 @@ class SpringTestExtension(private val mode: SpringTestLifecycleMode = SpringTest
     * Returns true if this test case should have the spring lifecycle methods applied
     */
    private fun TestCase.isApplicable() = (mode == SpringTestLifecycleMode.Root && isRootTest()) ||
-      (mode == SpringTestLifecycleMode.Test && type in arrayOf(TestType.Test, TestType.Dynamic))
+      (mode == SpringTestLifecycleMode.Test && type == TestType.Test)
 
    /**
     * Generates a fake [Method] for the given [TestCase].
@@ -125,7 +125,7 @@ class SpringTestExtension(private val mode: SpringTestLifecycleMode = SpringTest
     * Generates a fake method name for the given [TestCase].
     * The method name is taken from the test case name with a random element.
     */
-   internal fun methodName(testCase: TestCase): String = (testCase.name.testName + "_" + UUID.randomUUID().toString())
+   internal fun methodName(testCase: TestCase): String = (testCase.name.name + "_" + UUID.randomUUID().toString())
       .replace(methodNameRegex, "_")
       .let {
          if (it.first().isLetter()) it else "_$it"

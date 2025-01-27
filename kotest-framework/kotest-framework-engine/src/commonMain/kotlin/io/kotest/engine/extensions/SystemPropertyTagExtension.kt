@@ -2,9 +2,9 @@ package io.kotest.engine.extensions
 
 import io.kotest.core.NamedTag
 import io.kotest.core.Tag
-import io.kotest.core.TagExpression
+import io.kotest.engine.tags.TagExpression
 import io.kotest.core.extensions.TagExtension
-import io.kotest.engine.KotestEngineProperties
+import io.kotest.engine.config.KotestEngineProperties
 import io.kotest.mpp.syspropOrEnv
 
 /**
@@ -27,6 +27,8 @@ object SystemPropertyTagExtension : TagExtension {
       val excludedTags = readTagsProperty(KotestEngineProperties.excludeTags)
       val expression = syspropOrEnv(KotestEngineProperties.tagExpression)
 
-      return if (expression == null) TagExpression(includedTags.toSet(), excludedTags.toSet()) else TagExpression(expression)
+      return if (expression == null) TagExpression(includedTags.toSet(), excludedTags.toSet()) else TagExpression(
+         expression
+      )
    }
 }

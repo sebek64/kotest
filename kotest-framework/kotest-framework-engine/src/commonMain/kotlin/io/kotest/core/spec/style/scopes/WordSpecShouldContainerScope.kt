@@ -2,7 +2,7 @@ package io.kotest.core.spec.style.scopes
 
 import io.kotest.core.Tag
 import io.kotest.core.extensions.TestCaseExtension
-import io.kotest.core.names.TestName
+import io.kotest.core.names.TestNameBuilder
 import io.kotest.core.spec.KotestTestScope
 import io.kotest.core.test.EnabledIf
 import io.kotest.core.test.TestCaseSeverityLevel
@@ -31,7 +31,6 @@ class WordSpecShouldContainerScope(
    suspend fun String.config(
       enabled: Boolean? = null,
       invocations: Int? = null,
-      threads: Int? = null,
       tags: Set<Tag>? = null,
       timeout: Duration? = null,
       extensions: List<TestCaseExtension>? = null,
@@ -42,13 +41,12 @@ class WordSpecShouldContainerScope(
       test: suspend TestScope.() -> Unit
    ) {
       TestWithConfigBuilder(
-         TestName(this),
+         TestNameBuilder.builder(this).build(),
          context = this@WordSpecShouldContainerScope,
          xdisabled = false,
       ).config(
          enabled = enabled,
          invocations = invocations,
-         threads = threads,
          tags = tags,
          timeout = timeout,
          extensions = extensions,
@@ -61,11 +59,6 @@ class WordSpecShouldContainerScope(
    }
 
    suspend infix operator fun String.invoke(test: suspend WordSpecTerminalScope.() -> Unit) {
-      registerTest(TestName(this), false, null) { WordSpecTerminalScope(this).test() }
+      registerTest(TestNameBuilder.builder(this).build(), false, null) { WordSpecTerminalScope(this).test() }
    }
-
-   // we need to override the should method to stop people nesting a should inside a should
-   @Suppress("UNUSED_PARAMETER")
-   @Deprecated("A should block can only be used at the top level", ReplaceWith("{}"), level = DeprecationLevel.HIDDEN)
-   infix fun String.should(init: () -> Unit) = Unit
 }

@@ -19,7 +19,6 @@ class RootTestWithConfigBuilder(
    fun config(
       enabled: Boolean? = null,
       invocations: Int? = null,
-      threads: Int? = null,
       tags: Set<Tag>? = null,
       timeout: Duration? = null,
       extensions: List<TestCaseExtension>? = null,
@@ -36,13 +35,12 @@ class RootTestWithConfigBuilder(
    ) {
       val config = TestConfig(
          enabled = enabled,
-         tags = tags,
+         tags = tags ?: emptySet(),
          extensions = extensions,
          timeout = timeout,
          invocationTimeout = invocationTimeout,
          enabledIf = enabledIf,
          invocations = invocations,
-         threads = threads,
          severity = severity,
          enabledOrReasonIf = enabledOrReasonIf,
          coroutineDebugProbes = coroutineDebugProbes,

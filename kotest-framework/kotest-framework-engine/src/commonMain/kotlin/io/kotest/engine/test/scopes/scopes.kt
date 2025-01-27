@@ -1,6 +1,5 @@
 package io.kotest.engine.test.scopes
 
-import io.kotest.core.concurrency.CoroutineDispatcherFactory
 import io.kotest.core.names.DuplicateTestNameMode
 import io.kotest.core.test.TestCase
 import io.kotest.core.test.TestScope
@@ -33,17 +32,15 @@ fun createSingleInstanceTestScope(
    specContext: SpecContext,
    coroutineContext: CoroutineContext,
    mode: DuplicateTestNameMode,
-   dispatcherFactory: CoroutineDispatcherFactory,
    context: EngineContext,
 ): TestScope {
    return DuplicateNameHandlingTestScope(
-      testCase.spec.duplicateTestNameMode ?: context.configuration.duplicateTestNameMode,
+      context.specConfigResolver.duplicateTestNameMode(testCase.spec),
       InOrderTestScope(
          specContext,
          testCase,
          coroutineContext,
          mode,
-         dispatcherFactory,
          context,
       )
    )

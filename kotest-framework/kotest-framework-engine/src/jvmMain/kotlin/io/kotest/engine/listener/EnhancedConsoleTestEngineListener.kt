@@ -1,12 +1,11 @@
 package io.kotest.engine.listener
 
 import com.github.ajalt.mordant.TermColors
-import io.kotest.core.config.ProjectConfiguration
 import io.kotest.core.descriptors.Descriptor
-import io.kotest.engine.descriptors.toDescriptor
 import io.kotest.core.test.TestCase
 import io.kotest.core.test.TestResult
 import io.kotest.core.test.TestType
+import io.kotest.engine.descriptors.toDescriptor
 import io.kotest.engine.interceptors.EngineContext
 import io.kotest.engine.test.names.FallbackDisplayNameFormatter
 import io.kotest.engine.test.names.formatTestPath
@@ -17,7 +16,7 @@ import kotlin.time.Duration.Companion.milliseconds
 import kotlin.time.TimeSource
 
 /**
- * Generates test output to the console in an enhanced, formatted, coloured, way.
+ * A [TestEngineListener] that outputs in a more colourful rich way.
  */
 class EnhancedConsoleTestEngineListener(private val term: TermColors) : AbstractTestEngineListener() {
 
@@ -31,7 +30,7 @@ class EnhancedConsoleTestEngineListener(private val term: TermColors) : Abstract
    private var slow = 500.milliseconds
    private var verySlow = 5000.milliseconds
 
-   private var formatter = FallbackDisplayNameFormatter.default(ProjectConfiguration())
+   private var formatter = FallbackDisplayNameFormatter.default()
 
    private fun green(str: String) = term.green(str)
    private fun greenBold(str: String) = term.green.plus(term.bold).invoke(str)
@@ -49,7 +48,7 @@ class EnhancedConsoleTestEngineListener(private val term: TermColors) : Abstract
       "Feeding the kotest engine with freshly harvested tests",
       "Engaging kotest engine at warp factor 9",
       "Harvesting the test fields",
-      "Preparing to sacrifice your code to the demi-god of test",
+      "Preparing to sacrifice your code to the gods of testing",
       "Hamsters are turning the wheels of kotest",
       "Battle commanders are ready to declare war on bugs",
       "Be afraid - be very afraid - of failing tests",
@@ -74,7 +73,7 @@ class EnhancedConsoleTestEngineListener(private val term: TermColors) : Abstract
 
    override suspend fun engineInitialized(context: EngineContext) {
 
-      formatter = getFallbackDisplayNameFormatter(context.configuration.registry, context.configuration)
+      formatter = getFallbackDisplayNameFormatter(context.projectConfigResolver, context.testConfigResolver)
 
       println(bold(">> Kotest"))
       println("- " + intros.shuffled().first())
@@ -85,7 +84,6 @@ class EnhancedConsoleTestEngineListener(private val term: TermColors) : Abstract
    }
 
    override suspend fun engineFinished(t: List<Throwable>) {
-
       if (specsSeen.isEmpty()) return
 
       if (t.isNotEmpty()) {
@@ -103,7 +101,7 @@ class EnhancedConsoleTestEngineListener(private val term: TermColors) : Abstract
          println(redBold(">> There were test failures"))
          println()
          specsFailed.distinct().forEach { spec ->
-            println(brightRedBold(" ${formatter.format(spec.kclass)}"))
+            println(brightRedBold(" ${formatter.format(this::class)}"))
             testsFailed.filter { it.first.spec::class.toDescriptor() == spec }.forEach { (testCase, _) ->
                println(brightRed(" - ${formatter.formatTestPath(testCase, " -- ")}"))
             }
@@ -114,7 +112,10 @@ class EnhancedConsoleTestEngineListener(private val term: TermColors) : Abstract
       printSpecCounts()
       printTestsCounts()
       print("Time:    ")
-      println(bold("$duration"))
+      if (duration.inWholeSeconds > 60)
+         println(bold("${duration.inWholeMinutes}m ${duration.div(60).inWholeSeconds}s"))
+      else
+         println(bold("${duration.inWholeSeconds}s"))
    }
 
    private fun printThrowable(error: Throwable?, padding: Int) {
@@ -176,6 +177,7 @@ class EnhancedConsoleTestEngineListener(private val term: TermColors) : Abstract
 
    override suspend fun specFinished(kclass: KClass<*>, result: TestResult) {
       if (result.isErrorOrFailure) {
+         println("$kclass $result")
          errors++
          specsFailed = specsFailed + kclass.toDescriptor()
          printThrowable(result.errorOrNull, 4)

@@ -61,6 +61,9 @@ include(
    // a fat jar that includes everything needed to execute the engine as a standalone program
    ":kotest-framework:kotest-framework-standalone",
 
+   // gradle plugin to run tests outside of gradle's test task
+   ":kotest-framework:kotest-framework-plugin-gradle",
+
    // compiler plugins to integrate tests with the engine
    ":kotest-framework:kotest-framework-multiplatform-plugin-embeddable-compiler",
    ":kotest-framework:kotest-framework-multiplatform-plugin-legacy-native",
@@ -112,8 +115,8 @@ include(
 
    ":kotest-tests:kotest-tests-concurrency-tests",
    ":kotest-tests:kotest-tests-concurrency-specs",
-
    ":kotest-tests:kotest-tests-config-classname",
+   ":kotest-tests:kotest-tests-config-packages",
    ":kotest-tests:kotest-tests-htmlreporter",
    ":kotest-tests:kotest-tests-junitxml",
    ":kotest-tests:kotest-tests-multiname-test-name-sysprop",

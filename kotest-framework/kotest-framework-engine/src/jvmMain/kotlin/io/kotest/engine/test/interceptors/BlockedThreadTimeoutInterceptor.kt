@@ -2,10 +2,10 @@ package io.kotest.engine.test.interceptors
 
 import io.kotest.common.JVMOnly
 import io.kotest.core.Logger
-import io.kotest.core.config.ProjectConfiguration
 import io.kotest.core.test.TestCase
 import io.kotest.core.test.TestResult
 import io.kotest.core.test.TestScope
+import io.kotest.engine.config.TestConfigResolver
 import io.kotest.engine.test.scopes.withCoroutineContext
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.DelicateCoroutinesApi
@@ -26,17 +26,18 @@ import kotlin.time.TimeMark
 private val timeoutDispatcher = newSingleThreadContext("blocking-thread-timeout")
 
 /**
- * If [io.kotest.core.test.config.ResolvedTestConfig.blockingTest] is enabled, then switches the execution
+ * If [blockingTest] is enabled, then switches the execution
  * to a new thread, so it can be interrupted if the test times out.
  */
 @JVMOnly
 internal actual fun blockedThreadTimeoutInterceptor(
-   configuration: ProjectConfiguration,
    start: TimeMark,
-): TestExecutionInterceptor = BlockedThreadTimeoutInterceptor(start)
+   testConfigResolver: TestConfigResolver,
+): TestExecutionInterceptor = BlockedThreadTimeoutInterceptor(start, testConfigResolver)
 
 internal class BlockedThreadTimeoutInterceptor(
    private val start: TimeMark,
+   private val testConfigResolver: TestConfigResolver,
 ) : TestExecutionInterceptor {
 
    private val logger = Logger(this::class)
@@ -46,18 +47,18 @@ internal class BlockedThreadTimeoutInterceptor(
       scope: TestScope,
       test: NextTestExecutionInterceptor
    ): TestResult {
-      return if (testCase.config.blockingTest) {
+      return if (testConfigResolver.blockingTest(testCase)) {
          // we must switch execution onto a throwaway thread so an interruption
          // doesn't play havoc with a thread in use elsewhere
          val executor = Executors.newSingleThreadExecutor()
 
-         val timeout = testCase.config.timeout
-         logger.log { Pair(testCase.name.testName, "this test will time out in $timeout") }
+         val timeout = testConfigResolver.timeout(testCase)
+         logger.log { Pair(testCase.name.name, "this test will time out in $timeout") }
 
          @OptIn(ExperimentalCoroutinesApi::class)
          val timeoutJob = CoroutineScope(coroutineContext).launch(timeoutDispatcher) {
             delay(timeout)
-            logger.log { Pair(testCase.name.testName, "Scheduled timeout has hit") }
+            logger.log { Pair(testCase.name.name, "Scheduled timeout has hit") }
             executor.shutdownNow()
          }
 
@@ -72,10 +73,10 @@ internal class BlockedThreadTimeoutInterceptor(
                }
             }
          } catch (t: InterruptedException) {
-            logger.log { Pair(testCase.name.testName, "Caught InterruptedException ${t.message}") }
+            logger.log { Pair(testCase.name.name, "Caught InterruptedException ${t.message}") }
             TestResult.Error(
                start.elapsedNow(),
-               BlockedThreadTestTimeoutException(testCase.config.timeout, testCase.name.testName, t)
+               BlockedThreadTestTimeoutException(testConfigResolver.timeout(testCase), testCase.name.name, t)
             )
          }
       } else {
